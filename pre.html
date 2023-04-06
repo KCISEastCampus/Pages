@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>昆山康桥学校学生论坛官网</title>
+	<style>
+		/* 设置标签页外观 */
+		.tab {
+			overflow: hidden;
+			border: 1px solid #ccc;
+			background-color: #f1f1f1;
+		}
+
+		/* 设置标签按钮外观 */
+		.tab button {
+			background-color: inherit;
+			float: left;
+			border: none;
+			outline: none;
+			cursor: pointer;
+			padding: 14px 16px;
+			transition: 0.3s;
+			font-size: 17px;
+		}
+
+		/* 设置激活状态下的标签按钮 */
+		.tab button.active {
+			background-color: #ccc;
+		}
+
+		/* 设置标签内容外观 */
+		.tabcontent {
+			display: none;
+			padding: 6px 12px;
+			border: 1px solid #ccc;
+			border-top: none;
+			background-color: white;
+		}
+	</style>
+</head>
+
+<body>
+	<div
+		style="background-image: url('https://kcisec.site/files/987926059046633.jpg'); height: 600px; background-size: cover;">
+		<h1 style="color:black; font-size: 60px; font-weight: bold; text-align: center; padding-top: 100px;">
+			欢迎来到昆山康桥学校学生论坛官网</h1>
+	</div>
+	<div class="tab">
+		<button class="tablink" onclick="openPage('校园公报')">校园公报</button>
+		<button class="tablink" onclick="openPage('母班界面')">母班界面</button>
+	</div>
+	<div id="校园公报" class="tabcontent"
+		style="background-image: url('https://kcisec.site/files/984817860051247.jpg'); height: 800px; background-size: cover;">
+		<iframe src="https://kcisec.site/portal/index.html" style="width:100%; height:100%;"></iframe>
+	</div>
+	<div id="母班界面" class="tabcontent"
+		style="background-image: url('https://kcisec.site/files/984817904067601.jpg'); height: 800px; background-size: cover;">
+		<iframe src="https://kcisec.site/HomeroomUnited/index.html" style="width:100%; height:100%;"></iframe>
+	</div>
+
+	<script>
+		// 获取所有具有 class="tablink" 的元素
+		const tablinks = document.querySelectorAll(".tablink");
+
+		// 获取所有具有 class="tabcontent" 的元素
+		const tabcontents = document.querySelectorAll(".tabcontent");
+
+		// 定义一个函数来显示对应标签页的内容
+		function showTabContent(tabIndex) {
+			// 首先将所有的 tabcontent 隐藏
+			tabcontents.forEach((tabcontent) => {
+				tabcontent.style.display = "none";
+			});
+
+			// 将所有的 tablink 样式取消激活状态
+			tablinks.forEach((tablink) => {
+				tablink.classList.remove("active");
+			});
+
+			// 显示对应索引的 tabcontent
+			tabcontents[tabIndex].style.display = "block";
+
+			// 将对应索引的 tablink 添加激活状态
+			tablinks[tabIndex].classList.add("active");
+		}
+
+		// 给每个 tablink 添加点击事件
+		tablinks.forEach((tablink, index) => {
+			tablink.addEventListener("click", () => {
+				showTabContent(index);
+			});
+		});
+
+		// 默认显示第一个 tabcontent
+		showTabContent(0);
+	</script>
+</body>
+
+</html>
