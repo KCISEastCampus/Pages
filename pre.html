@@ -1,101 +1,115 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="zh">
 <head>
-	<meta charset="UTF-8">
-	<title>昆山康桥学校学生论坛官网</title>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="昆山康桥，康桥学校，双语学校...">
+    <meta name="description" content="昆山康桥学校，规划从幼儿园、小学及初高中的十五年一贯制...">
+    <title>KCISEC校园网站</title>
+    <link rel="shortcut icon" href="./files/favicon.ico">
+    <style>
+        body {
+            background-image: url('./files/new_background_image.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;  
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav {
+            background-color: #444;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            margin: 0 10px;
+            font-size: 18px;
+        }
+
+        nav a:hover {
+            background-color: #555;
+        }
+
+        section {
+            padding: 20px;
+            color: #333;
+        }
+
+        .convenient-links {
+            background-color: #f0f0f0;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .about-us {
+            background-color: #f0f0f0;
+            padding: 20px;
+            margin: 20px 0;
+        }
+    </style>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<style>
-		/* 设置标签页外观 */
-		.tab {
-			overflow: hidden;
-			border: 1px solid #ccc;
-			background-color: #f1f1f1;
-		}
-
-		/* 设置标签按钮外观 */
-		.tab button {
-			background-color: inherit;
-			float: left;
-			border: none;
-			outline: none;
-			cursor: pointer;
-			padding: 14px 16px;
-			transition: 0.3s;
-			font-size: 17px;
-		}
-
-		/* 设置激活状态下的标签按钮 */
-		.tab button.active {
-			background-color: #ccc;
-		}
-
-		/* 设置标签内容外观 */
-		.tabcontent {
-			display: none;
-			padding: 6px 12px;
-			border: 1px solid #ccc;
-			border-top: none;
-			background-color: white;
-		}
-	</style>
 </head>
 <body>
-	<a href="https://kcisec.site/"><button type="button"><font size="3">返回主页</font></button></a>
-	<div
-		style="background-image: url('https://kcisec.site/files/987926059046633.jpg'); height: 600px; background-size: cover;">
-		<h1 style="color:black; font-size: 60px; font-weight: bold; text-align: center; padding-top: 100px;">
-			欢迎来到昆山康桥学校学生论坛官网</h1>
-	</div>
-	<div class="tab">
-		<button class="tablink" onclick="openPage('校园公报')">校园公报</button>
-		<button class="tablink" onclick="openPage('母班界面')">母班界面</button>
-	</div>
-	<div id="校园公报" class="tabcontent"
-		style="background-image: url('https://kcisec.site/files/984817860051247.jpg'); height: 800px; background-size: cover;">
-		<iframe src="https://kcisec.site/portal/index.html" style="width:100%; height:100%;"></iframe>
-	</div>
-	<div id="母班界面" class="tabcontent"
-		style="background-image: url('https://kcisec.site/files/984817904067601.jpg'); height: 800px; background-size: cover;">
-		<iframe src="https://kcisec.site/HomeroomUnited/index.html" style="width:100%; height:100%;"></iframe>
-	</div>
+    <header>
+        <a href="http://kunshan.kcis.org.cn" target="_blank"><img src="https://kcisec.site/files/white_logo.png" title="KangChiao International School East Campus Logo"></a>
+        <h1>KCISEC校园网站</h1>
+    </header>
 
-	<script>
-		// 获取所有具有 class="tablink" 的元素
-		const tablinks = document.querySelectorAll(".tablink");
+    <nav>
+        <a href="./portal/index.html">校园公报</a>
+        <a href="./HomeroomUnited/index.html">母班界面</a>
+        <a href="https://ksvg.kcisec.site/">KSVG</a>
+        <a href="./App/index.html">APP下载</a>
+    </nav>
 
-		// 获取所有具有 class="tabcontent" 的元素
-		const tabcontents = document.querySelectorAll(".tabcontent");
+    <section>
+        <!-- 网站内容保持不变 -->
 
-		// 定义一个函数来显示对应标签页的内容
-		function showTabContent(tabIndex) {
-			// 首先将所有的 tabcontent 隐藏
-			tabcontents.forEach((tabcontent) => {
-				tabcontent.style.display = "none";
-			});
+        <div class="convenient-links">
+            <p><mark>便民链接：</mark></p>
+            <a href="http://portal.kcistz.org.cn/China/Account/LogIn?returnUrl=%2FChina%2F" target="_blank">校务系统</a>
+            <a href="http://ordering.kcisec.com/chaxun.asp" target="_blank">查餐系统（校内）</a>
+            <a href="http://ordering.kcisec.com/index.asp" target="_blank">订餐系统（校内）</a>
+            <a href="http://portal.kcistz.org.cn/login/Account/LogHC" target="_blank">肺结核自我筛查系统（校内）</a>
+            <br><a href="https://kcisec.managebac.cn" target="_blank">ManageBac</a>
+            <a href="https://powerschool.kcisec.org.cn/public/" target="_blank">PowerSchool</a>
+            <br><a href="https://192.168.80.60/" target="_blank">校园云打印（校内）</a>
+        </div>
+    </section>
 
-			// 将所有的 tablink 样式取消激活状态
-			tablinks.forEach((tablink) => {
-				tablink.classList.remove("active");
-			});
+    <footer>
+        ©HomeroomUnited × GSDU Coding Group 2022-2024. All Right Reserved.
+    </footer>
 
-			// 显示对应索引的 tabcontent
-			tabcontents[tabIndex].style.display = "block";
-
-			// 将对应索引的 tablink 添加激活状态
-			tablinks[tabIndex].classList.add("active");
-		}
-
-		// 给每个 tablink 添加点击事件
-		tablinks.forEach((tablink, index) => {
-			tablink.addEventListener("click", () => {
-				showTabContent(index);
-			});
-		});
-
-		// 默认显示第一个 tabcontent
-		showTabContent(0);
-	</script>
+    <div class="about-us">
+        <h2>关于我们</h2>
+        <p>
+            网站制作人：HR9L石洪斌 <a href="https://github.com/EricStoneChina" target="_blank">查看他的GitHub主页</a><br>
+            <a href="https://www.github.com/KCISEastCampus" target="_blank">查看本组织的GitHub官网</a>
+            <br>想要加入本网站制作的，请联系<a href="mailto:EricStone2009@outlook.com" class="__cf_email__">EricStone2009@outlook.com</a>。（你至少得有一个GitHub账号哦！）
+        </p>
+    </div>
 </body>
-
 </html>
