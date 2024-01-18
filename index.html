@@ -2,19 +2,20 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <meta name="keywords" content="昆山康桥，康桥学校，双语学校...">
-    <meta name="description" content="昆山康桥学校，规划从幼儿园、小学及初高中的十五年一贯制...">
     <title>KCISEC校园网站</title>
     <link rel="shortcut icon" href="./files/favicon.ico">
+    <!--适配移动端!-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
             background-image: url('./files/new_background_image.jpg');
             background-repeat: no-repeat;
             background-attachment: fixed;  
             background-size: cover;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
+            color: #333;
         }
 
         header {
@@ -28,18 +29,29 @@
             background-color: #444;
             padding: 10px;
             text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
-        nav a {
+        nav a, .button-link {
             color: white;
             text-decoration: none;
             padding: 10px;
-            margin: 0 10px;
-            font-size: 18px;
+            margin: 0 10px 10px 10px;
+            font-size: 14px;
+            white-space: nowrap;
+            cursor: pointer;
+            display: inline-block;
+            background-color: #333;
+            border: 2px solid #333;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        nav a:hover {
+        nav a:hover, .button-link:hover {
             background-color: #555;
+            color: #fff;
         }
 
         section {
@@ -51,6 +63,10 @@
             background-color: #f0f0f0;
             padding: 20px;
             margin: 20px 0;
+        }
+
+        .button-link {
+            border: none;
         }
 
         footer {
@@ -68,8 +84,18 @@
             padding: 20px;
             margin: 20px 0;
         }
+
+        /* Mobile Styles */
+        @media screen and (max-width: 600px) {
+            nav {
+                flex-direction: column;
+            }
+
+            nav a, .button-link {
+                margin: 5px 0 10px 0;
+            }
+        }
     </style>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
     <header>
@@ -78,10 +104,11 @@
     </header>
 
     <nav>
-        <a href="./portal/index.html">校园公报</a>
-        <a href="./HomeroomUnited/index.html">母班界面</a>
-        <a href="https://ksvg.kcisec.site/">KSVG</a>
-        <a href="./App/index.html">APP下载</a>
+        <div class="button-link" onclick="window.location.href='./portal/index.html'">校园公报</div>
+        <div class="button-link" onclick="window.location.href='./HomeroomUnited/index.html'">母班界面</div>
+        <div class="button-link" onclick="window.location.href='https://ksvg.kcisec.site/'">康桥摄影合作组织</div>
+        <div class="button-link" onclick="window.location.href='./App/index.html'">APP下载</div>
+        <div class="button-link" onclick="window.location.href='./about-us.html'">关于我们</div>
     </nav>
 
     <section>
@@ -89,20 +116,19 @@
 
         <div class="convenient-links">
             <p><mark>便民链接：</mark></p>
-            <a href="http://portal.kcistz.org.cn/China/Account/LogIn?returnUrl=%2FChina%2F" target="_blank">校务系统</a>
-            <a href="http://ordering.kcisec.com/chaxun.asp" target="_blank">查餐系统（校内）</a>
-            <a href="http://ordering.kcisec.com/index.asp" target="_blank">订餐系统（校内）</a>
-            <a href="http://portal.kcistz.org.cn/login/Account/LogHC" target="_blank">肺结核自我筛查系统（校内）</a>
-            <br><a href="https://kcisec.managebac.cn" target="_blank">ManageBac</a>
-            <a href="https://powerschool.kcisec.org.cn/public/" target="_blank">PowerSchool</a>
-            <br><a href="https://192.168.80.60/" target="_blank">校园云打印（校内）</a>
+            <div class="button-link" onclick="window.location.href='http://portal.kcistz.org.cn/China/Account/LogIn?returnUrl=%2FChina%2F'" target="_blank">校务系统</div>
+            <div class="button-link" onclick="window.location.href='http://ordering.kcisec.com/chaxun.asp'" target="_blank">查餐系统（校内）</div>
+            <div class="button-link" onclick="window.location.href='http://ordering.kcisec.com/index.asp'" target="_blank">订餐系统（校内）</div>
+            <div class="button-link" onclick="window.location.href='http://portal.kcistz.org.cn/login/Account/LogHC'" target="_blank">肺结核自我筛查系统（校内）</div>
+            <br><div class="button-link" onclick="window.location.href='https://kcisec.managebac.cn'" target="_blank">ManageBac</div>
+            <div class="button-link" onclick="window.location.href='https://powerschool.kcisec.org.cn/public/'" target="_blank">PowerSchool</div>
+            <br><div class="button-link" onclick="window.location.href='https://192.168.80.60/'" target="_blank">校园云打印（校内）</div>
         </div>
     </section>
 
     <footer>
-        ©HomeroomUnited × GSDU Coding Group 2022-2024. All Right Reserved.
+        ©HomeroomUnited × GSDU Coding Group 2022-2024.<br>All Right Reserved.
     </footer>
-
     <div class="about-us">
         <h2>关于我们</h2>
         <p>
