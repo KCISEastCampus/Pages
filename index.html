@@ -6,27 +6,25 @@
     <link rel="shortcut icon" href="./files/favicon.ico">
     <!--适配移动端!-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Open Sans', sans-serif;
             margin: 0;
             padding: 0;
-            background-image: url('./files/new_background_image.jpg');
-            background-repeat: no-repeat;
-            background-attachment: fixed;  
-            background-size: cover;
+            background-color: #f9f9f9;
             color: #333;
         }
 
         header {
-            background-color: #333;
-            color: white;
-            padding: 10px;
+            background-color: #3498db;
+            color: #ecf0f1;
+            padding: 15px;
             text-align: center;
         }
 
         nav {
-            background-color: #444;
+            background-color: #2980b9;
             padding: 10px;
             text-align: center;
             display: flex;
@@ -35,23 +33,23 @@
         }
 
         nav a, .button-link {
-            color: white;
+            color: #ffffff; /* 将字体颜色改为白色 */
             text-decoration: none;
-            padding: 10px;
+            padding: 12px 20px;
             margin: 0 10px 10px 10px;
-            font-size: 14px;
+            font-size: 16px;
             white-space: nowrap;
             cursor: pointer;
             display: inline-block;
-            background-color: #333;
-            border: 2px solid #333;
-            border-radius: 5px;
+            background-color: #3498db;
+            border: 2px solid #3498db;
+            border-radius: 25px;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         nav a:hover, .button-link:hover {
-            background-color: #555;
-            color: #fff;
+            background-color: #297fb8;
+            color: #ecf0f1;
         }
 
         section {
@@ -60,9 +58,11 @@
         }
 
         .convenient-links {
-            background-color: #f0f0f0;
+            background-color: #ffffff;
             padding: 20px;
             margin: 20px 0;
+            border: 1px solid #ffffff;
+            border-radius: 8px;
         }
 
         .button-link {
@@ -70,19 +70,25 @@
         }
 
         footer {
-            background-color: #333;
-            color: white;
+            background-color: #3498db;
+            color: #ecf0f1;
             text-align: center;
-            padding: 10px;
+            padding: 15px;
             position: fixed;
             bottom: 0;
             width: 100%;
         }
 
         .about-us {
-            background-color: #f0f0f0;
+            background-color: #ffffff;
             padding: 20px;
             margin: 20px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        h2 {
+            color: #3498db;
         }
 
         /* Mobile Styles */
@@ -106,7 +112,7 @@
     <nav>
         <div class="button-link" onclick="window.location.href='./portal/index.html'">校园公报</div>
         <div class="button-link" onclick="window.location.href='./HomeroomUnited/index.html'">母班界面</div>
-        <div class="button-link" onclick="window.location.href='https://ksvg.kcisec.site/'">摄影合作组织</div>
+        <div class="button-link" onclick="window.open('https://ksvg.kcisec.site/')">摄影合作组织</div>
         <div class="button-link" onclick="window.location.href='./App/index.html'">APP下载</div>
     </nav>
 
@@ -115,14 +121,14 @@
 
         <div class="convenient-links">
             <p><mark>便民链接：</mark></p>
-            <div class="button-link" onclick="window.location.href='http://portal.kcistz.org.cn/China/Account/LogIn?returnUrl=%2FChina%2F'" target="_blank">校务系统</div>
-            <div class="button-link" onclick="window.location.href='http://ordering.kcisec.com/chaxun.asp'" target="_blank">查餐系统（校内）</div>
-            <div class="button-link" onclick="window.location.href='http://ordering.kcisec.com/index.asp'" target="_blank">订餐系统（校内）</div>
-            <div class="button-link" onclick="window.location.href='http://portal.kcistz.org.cn/login/Account/LogHC'" target="_blank">肺结核自我筛查系统（校内）</div>
-            <br><div class="button-link" onclick="window.location.href='https://kcisec.managebac.cn'" target="_blank">ManageBac</div>
-            <div class="button-link" onclick="window.location.href='https://powerschool.kcisec.org.cn/public/'" target="_blank">PowerSchool</div>
-            <div class="button-link" onclick="window.location.href='https://mail.kcisg.com'" target="_blank">网易企业邮箱（@kcisg.com）</div>
-            <div class="button-link" onclick="window.location.href='https://192.168.80.60/'" target="_blank">校园云打印（校内）</div>
+            <div class="button-link" onclick="window.open('http://portal.kcistz.org.cn/China/Account/LogIn?returnUrl=%2FChina%2F')" target="_blank">校务系统</div>
+            <div class="button-link" onclick="window.open('http://ordering.kcisec.com/chaxun.asp')" target="_blank">查餐系统（校内）</div>
+            <div class="button-link" onclick="window.open('http://ordering.kcisec.com/index.asp')" target="_blank">订餐系统（校内）</div>
+            <div class="button-link" onclick="window.open('http://portal.kcistz.org.cn/login/Account/LogHC')" target="_blank">肺结核自我筛查系统（校内）</div>
+            <br><div class="button-link" onclick="window.open('https://kcisec.managebac.cn')" target="_blank">ManageBac</div>
+            <div class="button-link" onclick="window.open('https://powerschool.kcisec.org.cn/public/')" target="_blank">PowerSchool</div>
+            <div class="button-link" onclick="window.open('https://mail.kcisg.com')" target="_blank">网易企业邮箱（@kcisg.com）</div>
+            <div class="button-link" onclick="window.open('https://192.168.80.60/')" target="_blank">校园云打印（校内）</div>
         </div>
     </section>
 
