@@ -2,28 +2,79 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>404!</title>
-    <link rel="shortcut icon" href="https://kciseastcampus.github.io/files/favicon.ico">
+    <title>404 Not Found</title>
+    <link rel="shortcut icon" href="./files/favicon.ico">
     <style>
-      body {
-        background-image: url('https://kcisec.site/files/987926059046633.jpg');
-        background-repeat: no-repeat;
-        background-attachment: fixed;  
-        background-size: cover;
-      }
-      </style>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  </head>
-  <body>
-    <a href="http://kunshan.kcis.org.cn" target="_blank"><img src="https://kcisec.site/files/logo.png"></a>
-      <h1><strong>Error 404!</strong></h1>
-      <h2 ><mark>您访问的链接不存在！</mark></h2>
-      <p>
-        <span style="background:white">
-        <strong>您访问的链接在我们的校园网内不存在。请检查您的链接。</strong>
-        <br>如有问题，请联系EricStone2009@outlook.com
-        </span>
-      </p>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            text-align: center;
+            padding: 50px;
+        }
+
+        h1 {
+            font-size: 100px;
+            color: #3498db;
+        }
+
+        p {
+            font-size: 24px;
+        }
+
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        form input {
+            padding: 8px;
+            font-size: 16px;
+        }
+
+        form button {
+            padding: 8px 16px;
+            font-size: 16px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        ul li {
+            display: inline-block;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>404</h1>
+    <p>抱歉，页面未找到。</p>
     
-    <a href="http://kcisec.site/"><button type="button"><h3><mark><strong>返回主页</mark></strong></h3></button></a>
-  </body>
+    <p>您可能感兴趣的链接：</p>
+    <ul>
+        <li><a href="/">首页</a></li>
+        <li><a href="/portal/">校园公报</a></li>
+        <li><a href="https://ksvg.kcisec.site/">KSVG</a></li>
+        <!-- 在这里添加更多相关链接 -->
+    </ul>
+
+    <p>返回 <a href="/">首页</a></p>
+</body>
+</html>
