@@ -32,7 +32,7 @@
             justify-content: center;
         }
 
-        nav a, .button-link {
+        nav a, .button-link, .top-button-link{
             color: #ffffff; /* 将字体颜色改为白色 */
             text-decoration: none;
             padding: 12px 20px;
@@ -65,8 +65,15 @@
             border-radius: 8px;
         }
 
+        .top-button-link {
+            border: none;
+            /* width: 50%; */
+            margin: 0 10px 0 10px;
+        }
+
         .button-link {
             border: none;
+            margin: 5px 5px 5px 5px;
         }
 
         footer {
@@ -82,7 +89,7 @@
         .about-us {
             background-color: #ffffff;
             padding: 20px;
-            margin: 20px 0;
+            margin: 0 0 25px;
             border: 1px solid #ddd;
             border-radius: 8px;
         }
@@ -97,12 +104,17 @@
                 flex-direction: column;
             }
 
-            nav a, .button-link {
+            nav a, .button-link, .top-button-link {
                 margin: 5px 0 10px 0;
+            }
+
+            footer {
+                padding: 20px 0 20px 0;
             }
         }
     </style>
 </head>
+
 <body>
     <header>
         <a href="http://kunshan.kcis.org.cn" target="_blank"><img src="https://kcisec.site/files/white_logo.png" title="KangChiao International School East Campus Logo"></a>
@@ -110,10 +122,10 @@
     </header>
 
     <nav>
-        <div class="button-link" onclick="window.location.href='./portal/index.html'">校园公报</div>
-        <div class="button-link" onclick="window.location.href='./HomeroomUnited/index.html'">母班界面</div>
-        <div class="button-link" onclick="window.open('https://ksvg.kcisec.site/')">摄影合作组织</div>
-        <div class="button-link" onclick="window.location.href='./App/index.html'">APP下载</div>
+        <div class="top-button-link" onclick="window.location.href='./portal/index.html'">校园公报</div>
+        <div class="top-button-link" onclick="window.location.href='./HomeroomUnited/index.html'">母班界面</div>
+        <div class="top-button-link" onclick="window.open('https://ksvg.kcisec.site/')">摄影合作组织</div>
+        <div class="top-button-link" onclick="window.location.href='./App/index.html'">APP下载</div>
     </nav>
 
     <section>
@@ -121,28 +133,30 @@
 
         <div class="convenient-links">
             <p><mark>便民链接：</mark></p>
-            <div class="button-link" onclick="window.open('http://portal.kcistz.org.cn/China/Account/LogIn?returnUrl=%2FChina%2F')" target="_blank">校务系统</div>
             <div class="button-link" onclick="window.open('http://ordering.kcisec.com/chaxun.asp')" target="_blank">查餐系统（校内）</div>
             <div class="button-link" onclick="window.open('http://ordering.kcisec.com/index.asp')" target="_blank">订餐系统（校内）</div>
+            <div class="button-link" onclick="window.open('https://192.168.80.60/')" target="_blank">校园云打印（校内）</div>
             <div class="button-link" onclick="window.open('http://portal.kcistz.org.cn/login/Account/LogHC')" target="_blank">肺结核自我筛查系统（校内）</div>
-            <br><div class="button-link" onclick="window.open('https://kcisec.managebac.cn')" target="_blank">ManageBac</div>
+            <br><div class="button-link" onclick="window.open('http://portal.kcistz.org.cn/China/Account/LogIn?returnUrl=%2FChina%2F')" target="_blank">校务系统</div>
+            <div class="button-link" onclick="window.open('https://kcisec.managebac.cn')" target="_blank">ManageBac</div>
             <div class="button-link" onclick="window.open('https://powerschool.kcisec.org.cn/public/')" target="_blank">PowerSchool</div>
             <div class="button-link" onclick="window.open('https://mail.kcisg.com')" target="_blank">网易企业邮箱（@kcisg.com）</div>
-            <div class="button-link" onclick="window.open('https://192.168.80.60/')" target="_blank">校园云打印（校内）</div>
         </div>
     </section>
 
-    <footer>
-        ©HomeroomUnited 2022-2024. All Right Reserved.
-    </footer>
     <div class="about-us">
-        <h2>关于我们</h2>
-        <p>
-            网站制作人：HR9L石洪斌 <a href="https://github.com/EricStoneChina" target="_blank">查看他的GitHub主页</a> 
+        <h2>关于</h2>
+        <p style="line-height: 1.5em;">
+            HR9L石洪斌 <a href="https://github.com/EricStoneChina" target="_blank">查看他的GitHub主页</a> 
             <a href="https://www.github.com/KCISEastCampus" target="_blank">查看本组织的GitHub官网</a>
-            <br>想要加入本网站制作的，请联系<a href="mailto:EricStone2009@outlook.com" class="__cf_email__">EricStone2009@outlook.com</a>。（你至少得有一个GitHub账号哦！）
+            <br>加入本站制作或维护，请联系<a href="mailto:EricStone2009@outlook.com" class="__cf_email__">EricStone2009@outlook.com</a>。
+            <br>本网站制作和维护与昆山康桥学校或其集团没有任何联系。
         </p>
     </div>
-    <br><br>
+    
+    <footer>
+        © 2022-2024 洪斌酱 EricStoneChina. All Right Reserved.
+    </footer>
 </body>
 </html>
+
