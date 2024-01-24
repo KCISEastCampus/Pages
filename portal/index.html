@@ -12,7 +12,10 @@
 
             // 发送请求获取根目录下所有页面的信息
             fetch(baseUrl)
-                .then(response => response.text())
+                .then(response => {
+                        // 由于使用了 no-cors 模式，response可能是不可读的
+                        console.log(response);
+                    })
                 .then(html => {
                     // 从HTML中提取所有链接
                     var links = html.match(/href="(\S+?)"/g);
