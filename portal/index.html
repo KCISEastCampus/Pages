@@ -2,89 +2,47 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>G9校园公报</title>
-    <link rel="shortcut icon" href="https://kcisec.site/files/favicon.ico">
-    <!--适配移动端!-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f0f0;
-            color: #333;
-        }
+    <title>重定向页面</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
 
-        a {
-            text-decoration: none;
-        }
 
-        button {
-            background-color: #3498db;
-            color: white;
-            padding: 5px;
-            border: none;
-            cursor: pointer;
-        }
+            // 提取根目录路径
+            var baseUrl = 'https://kcisec.site/portal/daily'
 
-        h1 {
-            text-align: center;
-        }
+            // 发送请求获取根目录下所有页面的信息
+            fetch(baseUrl)
+                .then(response => response.text())
+                .then(html => {
+                    // 从HTML中提取所有链接
+                    var links = html.match(/href="(\S+?)"/g);
+                    
+                    if (links) {
+                        // 提取链接中的数字并排序
+                        var sortedLinks = links
+                            .map(link => {
+                                var match = link.match(/(\d+)/);
+                                return match ? parseInt(match[1]) : 0;
+                            })
+                            .sort((a, b) => b - a);
 
-        mark {
-            background-color: #ffcc00;
-        }
+                        // 获取数字最大的页面
+                        var maxNumber = sortedLinks[0];
 
-        p {
-            line-height: 1.5em;
-            margin-bottom: 10px;
-        }
+                        // 构建重定向URL
+                        var redirectUrl = baseUrl + maxNumber + '/';
 
-        h3 {
-            color: #333;
-        }
-    </style>
+                        // 执行重定向
+                        window.location.replace(redirectUrl);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching links:', error);
+                });
+        });
+    </script>
 </head>
 <body>
-    <a href="https://kcisec.site/"><button type="button"><font size="3">返回主页</font></button></a>
-    <h1>每日公报</h1>
-    <a href="./files/academic_activities_W22.pdf" target="_blank" rel="noopener noreferrer"><button type="button"><font size="4">学术信息</font></button></a>
-    <p>
-        每日公报：整理来自<mark>学校校园公报</mark>的内容，整理出一个更利于<mark>班主任</mark>在早自习向学生们宣导及<mark>学生查看</mark>的内容板块。
-    </p>
-    <div>
-        <h2><mark>周常内容通告</mark></h2>
-        <p>
-            临近期末，请各位同学前往教一三楼失物领取处将自己丢失的水杯领取回家，放假后丢失水杯将进行统一清理，不予存放。
-            <br>下学期开始，将对各栋楼的中英文名称及空间编号进行重新整编(第一教学楼、第一宿舍楼、第二宿舍楼编号维持不变)，请同学们注意修改后的大楼空间编号，以便能准确找到对应上课教室。
-            <br>学生手册规定：全校区严禁穿着任何便服（包含体育课，运动性社团）、校队服装、帽T（包含毕业纪念帽T）、
-                艺文乐团团服以及活动纪念服。各校队练习、表演、比赛、时可穿着校队服装，除以上时间外，均应穿着学校校服。
-        </p>
-    </div>
-
-    <div>
-        <h3><mark>关于网络舆情</mark></h3>
-        <p>
-            一、要学会理性判断
-            <br>二、自觉遵守网络道德规范
-            <br>三、养成网络守法的行为习惯
-            <br>四、注重信息来源
-        </p>
-    </div>
-
-    <div>
-        <h3><mark>【课间社团公告重要公告】</mark></h3>
-        <p>*周一周二课间社团非申请使用3C社团一律不得使用电脑，申请3C社团不得使用电脑浏览于社团课无关内容，一经巡堂老师发现，一级警告信处理! 请同学们严肃对待，特此公告！</p>
-    </div>
-
-    <div>
-        <h3><mark>交通组提醒</mark></h3>
-        <p>
-            1、凡搭乘周末班车学生，周五/周日必须扫码上车，一经发现有学生未扫码坐车，将记<strong> Detention1 次</strong>；
-            <br>2、周末班车周五、周日运行，请学生务必提前到站等候，班车运行过时不候，错过站点时间将自行解决交通方式；
-            <br>3、对于搭乘线路、站点需要调整的(申请、临时申请、退搭、请假等情况)，请同学们在周一、三、五中午11:30-13:00，至教二DSA德育组办公室交通组进行咨询，并填写相关表单。
-            <br>4、搭乘周末班车之学生，一经发现“冒用”他人学号扫码登记坐车，予以“二级警告信”处罚。
-        </p>
-    </div>
+    <p>正在重定向...</p>
 </body>
 </html>
