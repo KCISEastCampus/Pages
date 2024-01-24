@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>重定向页面</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+
+            // 提取根目录路径
+            var baseUrl = 'https://kcisec.site/portal/daily'
+
+            // 发送请求获取根目录下所有页面的信息
+            fetch(baseUrl)
+                .then(response => response.text())
+                .then(html => {
+                    // 从HTML中提取所有链接
+                    var links = html.match(/href="(\S+?)"/g);
+                    
+                    if (links) {
+                        // 提取链接中的数字并排序
+                        var sortedLinks = links
+                            .map(link => {
+                                var match = link.match(/(\d+)/);
+                                return match ? parseInt(match[1]) : 0;
+                            })
+                            .sort((a, b) => b - a);
+
+                        // 获取数字最大的页面
+                        var maxNumber = sortedLinks[0];
+
+                        // 构建重定向URL
+                        var redirectUrl = baseUrl + maxNumber + '.html';
+
+                        // 执行重定向
+                        window.location.replace(redirectUrl);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching links:', error);
+                });
+        });
+    </script>
+</head>
+<body>
+    <p>正在重定向...</p>
+</body>
+</html>
