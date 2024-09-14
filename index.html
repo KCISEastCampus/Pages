@@ -7,146 +7,12 @@
     <link rel="shortcut icon" href="./files/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="./files/css2.css" rel="stylesheet">
+    <link rel="stylesheet" href="./files/styles.css">
     <script>
         function notAbletoAccess() {
             alert("内容因维护，暂停访问，感谢您的理解与支持！")
         }
     </script>
-    <style>
-        body {
-            font-family: 'Noto Sans SC', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
-            transition: background-color 0.3s ease;
-        }
-
-        header {
-            background-color: #3c87d3;
-            color: #ecf0f1;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        nav {
-            background-color: #5299e0;
-            padding: 15px;
-            text-align: center;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        nav a, .button-link, .top-button-link {
-            color: #ffffff;
-            text-decoration: none;
-            padding: 10px 20px;
-            margin: 5px 10px;
-            font-size: 16px;
-            white-space: nowrap;
-            cursor: pointer;
-            display: inline-block;
-            background-color: #4069c1; /* 调整为柔和的蓝色 */
-            border: 2px solid #4069c1;
-            border-radius: 25px;
-            transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
-        }
-
-        nav a:hover, .button-link:hover, .top-button-link:hover {
-            background-color: #91a9de; /* 调整为更深的颜色 */
-            color: #ecf0f1;
-            transform: scale(1.05);
-        }
-
-        section {
-            padding: 20px;
-            color: #333;
-            max-width: 1100px;
-            margin: 0 auto;
-            animation: fadeIn 0.5s ease-in-out; /* 更长时间的淡入效果 */
-        }
-
-        .convenient-links {
-            background-color: #ffffff;
-            padding: 20px;
-            margin: 20px 0;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .top-button-link, .button-link {
-            border: none;
-            margin: 10px 5px;
-        }
-
-        footer {
-            background-color: #6299cf;
-            color: #ecf0f1;
-            text-align: center;
-            padding: 15px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .about-us {
-            background-color: #ffffff;
-            padding: 20px;
-            margin: 0 0 25px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        h2 {
-            color: #68839e;
-            margin-bottom: 10px;
-        }
-
-        img {
-            width: 100%;
-            max-width: 400px;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        /* Mobile Styles */
-        @media screen and (max-width: 500px) {
-            nav {
-                flex-direction: column;
-            }
-
-            nav a, .button-link, .top-button-link {
-                margin: 5px 0;
-                width: 90%;
-                text-align: center;
-            }
-
-            footer {
-                padding: 20px 0;
-            }
-
-            img {
-                width: 100%;
-                max-width: 350px;
-            }
-        }
-    </style>
 </head>
 
 <body>
@@ -166,12 +32,14 @@
 
     <section>
         <div class="convenient-links">
+            <div class="inside-button-link" onclick="window.open('https://f.wps.cn/g/NS8vWP5Q/')">【进行中】问卷调查</div>
+            <div class="inside-button-link" onclick="window.open('./update_log.html')">更新日志</div>
             <h3>便民链接：</h3>
             仅校内能访问:
             <div class="button-link" onclick="window.open('https://ordering.kcisec.com/chaxun.asp')" target="_blank">查餐系统</div>
             <div class="button-link" onclick="window.open('https://ordering.kcisec.com/index.asp')" target="_blank">订餐系统</div>
-            <div class="button-link" onclick="window.open('https://192.168.80.60/')" target="_blank">云打印（教一&教二）</div>
-            <div class="button-link" onclick="window.open('http://192.168.80.68/')" target="_blank">云打印（教三）</div>
+            <div class="button-link" onclick="window.open('https://192.168.80.60/')" target="_blank">云打印(教一&教二)</div>
+            <div class="button-link" onclick="window.open('http://192.168.80.68/')" target="_blank">云打印(教三)</div>
             <div class="button-link" onclick="window.open('https://portal.kcisec.com/login/Account/LogHC')" target="_blank">肺结核自我筛查系统</div>
             <br>
             校内外均可访问:
@@ -182,13 +50,13 @@
         </div>
     </section>
 
-    <div class="about-us">
+    <div class="bottom-text">
         <h2>关于</h2>
         <p style="line-height: 1.5em;">
             10K_AL 洪斌酱 EricStoneChina <a href="https://github.com/EricStoneChina" target="_blank">查看他的GitHub主页</a> 
             <a href="https://www.github.com/KCISEastCampus" target="_blank">查看本组织的GitHub官网</a> 
             <br>反馈 <a href="mailto:report@kcisec.site" class="__cf_email__">report@kcisec.site</a>。
-            <br>本网站制作和维护与昆山康桥学校或其集团没有任何联系。
+            <br>本网站非学校官方网站。
         </p>
     </div>
     
