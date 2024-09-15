@@ -165,7 +165,8 @@ img {
 
     nav a,
     .button-link,
-    .top-button-link {
+    .top-button-link,
+    .inside-button-link {
         margin: 5px 0;
         width: 90%;
         text-align: center;
