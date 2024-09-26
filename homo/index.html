@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html id="容器">
+
+<head>
+	<meta charset="UTF-8">
+	<title>恶臭数字论证器</title>
+	<meta name="viewport" content="width=device-width,user-scalable=0">
+	<meta name="description" content="数字恶臭化工具">
+	<meta name="keyword" content="野兽先辈论证生成器,114514,神奇海螺">
+	<style>
+		html {
+			text-align: center;
+			background: #d0b164;
+			color: #412300;
+			transition: 1s ease;
+			font-family: sans-serif;
+			word-break: break-all;
+		}
+
+		html[数字=""] {
+			background: #b3d0d0;
+			color: #002b41;
+		}
+
+		head {
+			display: block;
+			text-align: center;
+			padding: 3em 0 2em;
+		}
+
+		title {
+			display: block;
+			font-weight: 700;
+			font-size: 2em;
+			margin: 0.67em;
+			line-height: 45px;
+
+		}
+
+		meta[name="description"] {
+			display: block;
+			margin: 1em 0;
+		}
+
+		meta[name="description"]:after {
+			content: attr(content);
+		}
+
+		body {
+			margin: 0;
+			padding: 0 0 100px;
+		}
+
+		a {
+			color: #0080ff;
+			text-decoration: none;
+		}
+
+		input {
+			outline: 0;
+			font-size: 20px;
+			line-height: 26px;
+			text-align: center;
+
+			padding: 8px 12px;
+			border: 0;
+			width: 80%;
+			max-width: 300px;
+			-webkit-appearance: none;
+		}
+
+		#恶臭 {
+			font-size: 24px;
+			font-family: "Comic Sans MS", script;
+			padding: 40px 10px 100px;
+
+		}
+
+		footer {
+			padding: 80px 0;
+			font-size: .8em;
+			font-family: "Comic Sans MS", script;
+			text-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+		}
+
+		footer p {
+			opacity: 0.5;
+			padding: 20px 0;
+		}
+
+		footer a {
+			margin: 0.5em;
+			color: inherit;
+		}
+
+        .top-button-link {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 5px 10px;
+            font-size: 16px;
+            white-space: nowrap;
+            cursor: pointer;
+            display: inline-block;
+            background-color: #4056c1;
+            /* 调整为柔和的蓝色 */
+            border: 2px solid #40bfc1;
+            border-radius: 25px;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+            border: none;
+            margin: 10px 5px;
+        }
+        nav a:hover,
+        .button-link:hover,
+        .top-button-link:hover,
+        .inside-button-link {
+            background-color: #91a9de;
+            /* 调整为更深的颜色 */
+            color: #ecf0f1;
+            transform: scale(1.05);
+        }
+	</style>
+</head>
+
+<body>
+	<input id="学弟" placeholder="输入任意数字" type="number">
+	<div id="恶臭"></div>
+
+	<footer>
+        EricStoneChina.
+        Original Open Source <a href="https://github.com/itorr/homo">GitHub</a>
+        <div class="top-button-link" onclick="javascript:window.opener=null;window.open('','_self');window.close();">回到主站</div>
+	</footer>
+
+	<script src="./homo.js"></script>
+	<script>
+		学弟.oninput = _ => {
+			const 数字 = 学弟.value === '' ? '' : Number(学弟.value);
+			恶臭.innerHTML = 数字 + ' = <big>' + homo(数字) + '</big>';
+			容器.setAttribute('数字', 数字);
+		};
+
+		学弟.oninput();
+	</script>
+</body>
+
+</html>

@@ -73,6 +73,21 @@ nav a,
     transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
 
+.bad-link {
+    color: #ffffff;
+    text-decoration: none;
+    padding: 10px 20px;
+    margin: 5px 10px;
+    font-size: 16px;
+    white-space: nowrap;
+    cursor: pointer;
+    display: inline-block;
+    background-color: #cfa03a;
+    border: 2px solid #cfa03a;
+    border-radius: 25px;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
 nav a:hover,
 .button-link:hover,
 .top-button-link:hover {
@@ -88,6 +103,14 @@ nav a:hover,
     color: #ecf0f1;
     transform: scale(1.05);
 }
+
+.bad-link:hover {
+    background-color: #dca27c;
+    /* 调整为更深的颜色 */
+    color: #ecf0f1;
+    transform: scale(1.05);
+}
+
 
 section {
     padding: 20px 0 0;
@@ -109,7 +132,8 @@ section {
 
 .top-button-link,
 .button-link,
-.inside-button-link {
+.inside-button-link,
+.bad-link {
     border: none;
     margin: 10px 5px;
 }
@@ -166,7 +190,8 @@ img {
     nav a,
     .button-link,
     .top-button-link,
-    .inside-button-link {
+    .inside-button-link,
+    .bad-link {
         margin: 5px 0;
         width: 90%;
         text-align: center;
