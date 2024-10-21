@@ -112,10 +112,19 @@ nav a:hover,
 }
 
 
-section {
+.cn {
     padding: 20px 0 0;
     color: #333;
-    max-width: 1100px;
+    max-width: 1000px;
+    margin: 0 auto;
+    animation: fadeIn 0.5s ease-in-out;
+    /* 更长时间的淡入效果 */
+}
+
+.en {
+    padding: 20px 0 0;
+    color: #333;
+    max-width: 1200px;
     margin: 0 auto;
     animation: fadeIn 0.5s ease-in-out;
     /* 更长时间的淡入效果 */
@@ -169,6 +178,22 @@ img {
     height: auto;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.english-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #4caf50; /* 绿色 */
+    color: #ffffff; /* 白色字体 */
+    padding: 10px 15px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.english-button:hover {
+    background-color: #45a049; /* 悬停颜色稍微深一点 */
 }
 
 @keyframes fadeIn {
