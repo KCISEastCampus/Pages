@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
     <meta charset="UTF-8">
     <title>IG Computer Science</title>
@@ -12,6 +13,7 @@
             font-family: Arial, sans-serif;
             background-color: #f2f2f2;
         }
+
         header {
             display: flex;
             /* justify-content: space-between; */
@@ -20,11 +22,13 @@
             background-color: #1e90ff;
             color: white;
         }
+
         h1 {
             margin: 0;
             font-size: 36px;
             text-shadow: 2px 2px #000000;
         }
+
         h2 {
             margin: 0;
             font-size: 24px;
@@ -32,17 +36,22 @@
             padding: 20px;
             color: #1e90ff;
         }
+
         p {
             text-align: center;
         }
+
         a {
             text-decoration: none;
             color: #1e90ff;
         }
+
         a:hover {
             text-decoration: underline;
         }
-        button {
+
+        button,
+        .chose {
             border: none;
             background-color: #1e90ff;
             color: white;
@@ -51,9 +60,11 @@
             cursor: pointer;
             font-size: 18px;
         }
+
         button:hover {
             background-color: #4169e1;
         }
+
         main {
             display: flex;
             flex-wrap: wrap;
@@ -61,6 +72,7 @@
             align-items: center;
             padding: 20px;
         }
+
         article {
             margin: 20px;
             padding: 20px;
@@ -70,25 +82,47 @@
             text-align: center;
             width: 300px;
         }
+
         article h3 {
             margin: 0;
             font-size: 24px;
             color: #1e90ff;
         }
+
         article p {
             margin: 10px 0;
             font-size: 18px;
             color: #555555;
         }
+
+        footer {
+            background-color: #6299cf;
+            color: #ecf0f1;
+            text-align: center;
+            padding: 15px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .bottom-text {
+            background-color: #ffffff;
+            padding: 20px;
+            margin: 0 0 25px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
     </style>
 </head>
+
 <body>
     <header>
-        <div class="chose" onclick="javascript:window.opener=null;window.open('','_self');window.close();">Back to Index</div>
+        <button onclick="javascript:window.opener=null;window.open('','_self');window.close();">Back to Index</button>
     </header>
     <header><h1>IGCSE Computer Science</h1></header>
-    <h2>About</h2>
-    <p>This is a content page of some of the classmates' work of IGCSE Computer Science website design. We also gives a ranking. The web owner, Eric Shi, gives a place to classmates to show their works. Report:<a href="mailto:report@kcisec.site">report@kcisec.site</a></p>
     <br><h3 style="text-align: center;">Mid Term</h3>
     <main>
         <br>
@@ -114,5 +148,15 @@
             <a href="javascript:void(alert('请联系9L石洪斌！report@kcisec.site'))"><button>立即联系</button></a>
         </article>
     </main> -->
-    </body>
-</html>    
+    <div class="bottom-text" style="font-family: 'Comic Sans MS', script;">
+        <h2>About</h2>
+        <p style="line-height: 1.5em;">
+            This is the page made for IGCSE G10 Computer Science students to perform their works.
+            <br>Wanna give some feedback? <a href="mailto:report@kcisec.site"
+                class="__cf_email__">report@kcisec.site</a>。
+            <br><br><a href="https://www.oxfordaqa.com/" target="_blank"><img src="/files/OxfordAQA-Digital-Badge.webp" alt="OxfordAQA Approved Centre" style="width: 100px;"></a>
+        </p>
+    </div>
+</body>
+
+</html>
