@@ -11,19 +11,19 @@
 <script src="/files/script.js"></script>
 
 <body>
-    <a href="javascript:window.opener=null;window.open('','_self');window.close();" class="return-button">Back to Index</a>
+    <a href="javascript:history.back()" class="return-button">Back to Index</a>
 
     <header>
         <h1>IGCSE Homepage</h1>
     </header>
 
     <nav>
-        <div class="top-button-link" onclick="window.open('./Mathematics/index.html')">IG Math</div>
+        <div class="top-button-link" onclick="window.location.href='./Mathematics/index.html'">IG Math</div>
         <!-- <div class="top-button-link" onclick="engUnderConstruction()">IG Math Extended(AS Math)</div> -->
-        <div class="top-button-link" onclick="window.open('./Physics/')">IG Physics</div>
-        <div class="top-button-link" onclick="window.open('./Chemistry/')">IG Chemistry</div>
+        <div class="top-button-link" onclick="window.location.href='./Physics/'">IG Physics</div>
+        <div class="top-button-link" onclick="window.location.href='./Chemistry/'">IG Chemistry</div>
         <div class="top-button-link" onclick="engUnderConstruction()">IG ESL</div>
-        <div class="top-button-link" onclick="window.open('/Computer_Science/')">IG Computer Science</div>
+        <div class="top-button-link" onclick="window.location.href='/Computer_Science/'">IG Computer Science</div>
     </nav>
     
     <footer>
