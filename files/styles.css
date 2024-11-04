@@ -88,6 +88,21 @@ nav a,
     transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
 
+.english-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #4caf50; /* 绿色 */
+    color: #ffffff; /* 白色字体 */
+    padding: 10px 15px;
+    border-radius: 25px;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    display: inline-block;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
 nav a:hover,
 .button-link:hover,
 .top-button-link:hover {
@@ -111,6 +126,12 @@ nav a:hover,
     transform: scale(1.05);
 }
 
+.english-button:hover {
+    /* 调整为更深的颜色 */
+    color: #ecf0f1;
+    transform: scale(1.05);
+    background-color: #47a32d; /* 悬停颜色稍微深一点 */
+}
 
 .cn {
     padding: 20px 0 0;
@@ -178,22 +199,6 @@ img {
     height: auto;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.english-button {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background-color: #4caf50; /* 绿色 */
-    color: #ffffff; /* 白色字体 */
-    padding: 10px 15px;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.english-button:hover {
-    background-color: #45a049; /* 悬停颜色稍微深一点 */
 }
 
 @keyframes fadeIn {
