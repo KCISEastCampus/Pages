@@ -1,0 +1,106 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #eef2f3;
+    color: #444;
+    padding: 15px;
+}
+
+/* Header styles */
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+h1 {
+    color: #2c3e50;
+    font-size: 2.5em;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+/* Navigation styles */
+nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.top-button-link {
+    background-color: #5c6bc0;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 25px;
+    text-align: center;
+    text-decoration: none;
+    width: 80%;
+    max-width: 300px;
+    margin: 15px 0;
+    transition: background-color 0.3s, transform 0.2s;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-size: 1.1em;
+}
+
+.top-button-link:hover {
+    background-color: #3f51b5;
+    transform: translateY(-3px);
+}
+
+/* About module styles */
+.about {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 30px auto;
+    max-width: 800px;
+    text-align: center;
+}
+
+.about h2 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+/* Return Button Styles */
+.return-button {
+    display: inline-block;
+    background-color: #5c6bc0;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-align: center;
+    text-decoration: none;
+    margin: 0 0 0;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.return-button:hover {
+    background-color: #3f51b5;
+    transform: translateY(-2px);
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    body {
+        padding: 10px; /* 在小屏幕上调整内边距 */
+    }
+    h1 {
+        font-size: 1.8em; /* 小屏幕上更小的标题 */
+    }
+    .top-button-link,
+    .return-button {
+        width: 100%; /* 全宽按钮 */
+        padding: 12px; /* 统一按钮内边距 */
+    }
+    .about {
+        padding: 10px; /* 调整模块内边距 */
+    }
+}

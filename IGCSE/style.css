@@ -1,0 +1,144 @@
+/* styles.css */
+
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #eef2f3;
+    color: #444;
+    padding: 20px;
+}
+
+/* List styles */
+ul, ol {
+    margin: 20px 0; /* 列表的上下间距 */
+    padding-left: 20px; /* 列表的左侧内边距 */
+    list-style-position: inside; /* 项目符号在内容区域内 */
+}
+
+ul {
+    list-style-type: disc; /* 使用实心圆点 */
+}
+
+ol {
+    list-style-type: decimal; /* 使用数字 */
+}
+
+/* 列表项样式 */
+li {
+    background-color: #ffffff; /* 背景色 */
+    border: 1px solid #ddd; /* 边框 */
+    border-radius: 5px; /* 圆角 */
+    padding: 10px; /* 内边距 */
+    margin-bottom: 10px; /* 列表项的下间距 */
+    transition: background-color 0.3s; /* 悬停效果 */
+}
+
+li:hover {
+    background-color: #f0f4ff; /* 悬停时的背景色 */
+}
+
+/* 添加样式用于嵌套列表 */
+ul ul, ol ol {
+    margin-left: 20px; /* 嵌套列表的左侧间距 */
+}
+
+/* Centered title */
+h1 {
+    text-align: center;
+    margin: 20px 0;
+    color: #2c3e50;
+}
+
+/* Headings styles */
+h2,
+h3 {
+    margin: 15px 0;
+    color: #34495e;
+}
+
+h2 {
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 5px;
+}
+
+/* Link styles */
+a {
+    text-decoration: none;
+    color: #3498db;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #2980b9;
+}
+
+/* Add some spacing between sections */
+h3 {
+    margin-top: 20px;
+}
+
+/* Styling the body */
+body {
+    padding: 20px;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    h3 {
+        font-size: 18px;
+    }
+
+    footer {
+        padding: 20px 0;
+    }
+}
+
+/* Return Button Styles */
+.return-button {
+    display: inline-block;
+    background-color: #3498db;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+    margin-bottom: 20px;
+}
+
+.return-button:hover {
+    background-color: #2980b9;
+    color: white;
+    /* 保持文字颜色为白色 */
+}
+
+/* Footer Styles */
+footer {
+    background-color: #ffffff;
+    padding: 20px;
+    margin: 20px 0 25px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+footer p {
+    margin: 5px 0;
+}
