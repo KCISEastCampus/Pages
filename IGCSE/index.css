@@ -97,8 +97,9 @@ nav {
     }
     .top-button-link,
     .return-button {
-        width: 100%; /* 全宽按钮 */
+        /* width: 100%;  */
         padding: 12px; /* 统一按钮内边距 */
+        margin: 15px 0 20px;
     }
     .about {
         padding: 10px; /* 调整模块内边距 */
