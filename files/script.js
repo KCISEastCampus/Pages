@@ -9,3 +9,7 @@ function underConstruction() {
 function engUnderConstruction() {
     alert("The content is under construction and access is temporarily suspended. Thank you for your understanding and support!")
 }
+
+function engPlaningConstruction() {
+    alert("The content is being planned and constructed. If you are willing to provide help or ideas, please send an email to report@kcisec.site.")
+}

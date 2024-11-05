@@ -48,6 +48,23 @@ nav {
     font-size: 1.1em;
 }
 
+.link-disabled {
+    background-color: #252e5d;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 25px;
+    text-align: center;
+    text-decoration: none;
+    width: 80%;
+    max-width: 300px;
+    margin: 15px 0;
+    /* transition: background-color 0.3s, transform 0.2s; */
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    /* font-size: 1.1em; */
+    cursor: not-allowed;
+}
+
 .top-button-link:hover {
     background-color: #3f51b5;
     transform: translateY(-3px);

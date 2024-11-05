@@ -16,7 +16,7 @@ body {
 
 /* List styles */
 ul, ol {
-    margin: 20px 0; /* 列表的上下间距 */
+    margin: 10px 0; /* 列表的上下间距 */
     padding-left: 20px; /* 列表的左侧内边距 */
     list-style-position: inside; /* 项目符号在内容区域内 */
 }
@@ -46,6 +46,10 @@ li:hover {
 /* 添加样式用于嵌套列表 */
 ul ul, ol ol {
     margin-left: 20px; /* 嵌套列表的左侧间距 */
+}
+
+p {
+    line-height: 1.5em;
 }
 
 /* Centered title */
