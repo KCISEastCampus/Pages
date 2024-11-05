@@ -15,33 +15,45 @@ body {
 }
 
 /* List styles */
+/* List styles */
 ul, ol {
-    margin: 10px 0; /* 列表的上下间距 */
-    padding-left: 20px; /* 列表的左侧内边距 */
-    list-style-position: inside; /* 项目符号在内容区域内 */
+    margin: 20px 0;
+    padding-left: 20px;
+    list-style-position: inside;
 }
 
+/* Unordered list */
 ul {
-    list-style-type: disc; /* 使用实心圆点 */
+    list-style-type: disc;
 }
 
+/* Ordered list */
 ol {
-    list-style-type: decimal; /* 使用数字 */
+    list-style-type: decimal;
 }
 
-/* 列表项样式 */
+/* List item styles - Avoid making list items look like buttons */
 li {
-    background-color: #ffffff; /* 背景色 */
-    border: 1px solid #ddd; /* 边框 */
-    border-radius: 5px; /* 圆角 */
-    padding: 10px; /* 内边距 */
-    margin-bottom: 10px; /* 列表项的下间距 */
-    transition: background-color 0.3s; /* 悬停效果 */
+    background-color: #ffffff;
+    border: none; /* Removed border to avoid button-like appearance */
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    color: #444; /* Regular text color */
+    transition: none; /* Removed hover effect */
+    cursor: default; /* Make it clear this is not interactive */
 }
 
+/* Remove hover effect for <li> items */
 li:hover {
-    background-color: #f0f4ff; /* 悬停时的背景色 */
+    background-color: #ffffff; /* No background color change */
 }
+
+/* Nested lists */
+ul ul, ol ol {
+    margin-left: 20px;
+}
+
 
 /* 添加样式用于嵌套列表 */
 ul ul, ol ol {
