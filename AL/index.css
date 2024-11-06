@@ -25,6 +25,35 @@ h1 {
     letter-spacing: 1px;
 }
 
+/* Exam Date Styles */
+.exam-date {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    text-align: center;
+    max-width: 800px;
+}
+
+.exam-date h2 {
+    color: #2c3e50;
+    font-size: 1.8em;
+    margin-bottom: 15px;
+}
+
+.exam-date h3 {
+    color: #2c3e50;
+    font-size: 1.3em;
+    margin-bottom: 15px;
+}
+
+.exam-date p {
+    font-size: 1.1em;
+    margin: 5px 0;
+    margin-bottom: 13px;
+}
+
 /* Navigation styles */
 nav {
     display: flex;
@@ -41,7 +70,7 @@ nav {
     text-decoration: none;
     width: 80%;
     max-width: 300px;
-    margin: 15px 0;
+    margin: 13px 0;
     transition: background-color 0.3s, transform 0.2s;
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -57,7 +86,7 @@ nav {
     text-decoration: none;
     width: 80%;
     max-width: 300px;
-    margin: 15px 0;
+    margin: 13px 0;
     /* transition: background-color 0.3s, transform 0.2s; */
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -68,22 +97,6 @@ nav {
 .top-button-link:hover {
     background-color: #3f51b5;
     transform: translateY(-3px);
-}
-
-/* About module styles */
-.about {
-    background-color: #ffffff;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin: 30px auto;
-    max-width: 800px;
-    text-align: center;
-}
-
-.about h2 {
-    color: #2c3e50;
-    margin-bottom: 10px;
 }
 
 /* Return Button Styles */
@@ -104,21 +117,38 @@ nav {
     transform: translateY(-2px);
 }
 
-/* Responsive design */
+/* Footer styles */
+.about {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 30px auto;
+    max-width: 800px;
+    text-align: center;
+}
+
+.about h2 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
 @media (max-width: 600px) {
     body {
-        padding: 10px; /* 在小屏幕上调整内边距 */
+        padding: 10px; /* Adjust padding for small screens */
     }
+
     h1 {
-        font-size: 1.8em; /* 小屏幕上更小的标题 */
+        font-size: 1.8em;
     }
+
     .top-button-link,
     .return-button {
-        /* width: 100%;  */
-        padding: 12px; /* 统一按钮内边距 */
-        margin: 15px 0 20px;
+        padding: 12px;
+        margin: 15px 0;
     }
-    .about {
-        padding: 10px; /* 调整模块内边距 */
+
+    .exam-date {
+        padding: 15px;
     }
 }
