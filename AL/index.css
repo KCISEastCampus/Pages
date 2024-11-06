@@ -78,7 +78,7 @@ nav {
 }
 
 .link-disabled {
-    background-color: #252e5d;
+    background-color: #2e3660;
     color: white;
     padding: 15px 30px;
     border-radius: 25px;
@@ -89,7 +89,7 @@ nav {
     margin: 13px 0;
     /* transition: background-color 0.3s, transform 0.2s; */
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); */
     /* font-size: 1.1em; */
     cursor: not-allowed;
 }
