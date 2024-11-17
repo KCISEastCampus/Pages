@@ -1,0 +1,153 @@
+/* styles.css */
+
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #eef2f3;
+    color: #444;
+    padding: 20px;
+}
+
+/* List styles */
+ul, ol {
+    margin: 20px 0;
+    padding-left: 20px;
+    list-style-position: inside;
+}
+
+/* Unordered list */
+ul {
+    list-style-type: disc;
+}
+
+/* Ordered list */
+ol {
+    list-style-type: decimal;
+}
+
+/* List item styles - Avoid making list items look like buttons */
+li {
+    background-color: #ffffff;
+    border: none; /* Removed border to avoid button-like appearance */
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    color: #444; /* Regular text color */
+    transition: none; /* Removed hover effect */
+    cursor: default; /* Make it clear this is not interactive */
+}
+
+/* Remove hover effect for <li> items */
+li:hover {
+    background-color: #ffffff; /* No background color change */
+}
+
+/* Nested lists */
+ul ul, ol ol {
+    margin-left: 20px;
+}
+
+p {
+    line-height: 1.5em;
+}
+
+/* Centered title */
+h1 {
+    text-align: center;
+    margin: 20px 0;
+    color: #2c3e50;
+}
+
+/* Headings styles */
+h2,
+h3 {
+    margin: 15px 0;
+    color: #34495e;
+}
+
+h2 {
+    border-bottom: 2px solid #2ecc71; /* 绿色边框 */
+    padding-bottom: 5px;
+}
+
+/* Link styles */
+a {
+    text-decoration: none;
+    color: #28a95e; /* 绿色链接 */
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #20904e; /* 更深的绿色 */
+}
+
+/* Add some spacing between sections */
+h3 {
+    margin-top: 20px;
+}
+
+/* Styling the body */
+body {
+    padding: 20px;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    h3 {
+        font-size: 18px;
+    }
+
+    footer {
+        padding: 20px 0;
+    }
+}
+
+/* Return Button Styles */
+.return-button {
+    display: inline-block;
+    background-color: #239e57; /* 绿色按钮背景 */
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+    margin-bottom: 20px;
+}
+
+.return-button:hover {
+    background-color: #1f874a; /* 更深绿色 */
+    color: white;
+    /* 保持文字颜色为白色 */
+}
+
+/* Footer Styles */
+footer {
+    background-color: #ffffff;
+    padding: 20px;
+    margin: 20px 0 25px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+footer p {
+    margin: 5px 0;
+}
