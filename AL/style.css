@@ -139,7 +139,20 @@ body {
     margin-bottom: 20px;
 }
 
-.return-button:hover {
+.achieved-button {
+    display: inline-block;
+    background-color: #3498db;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+.return-button:hover,
+.achieved-button:hover {
     background-color: #2980b9;
     color: white;
     /* 保持文字颜色为白色 */
