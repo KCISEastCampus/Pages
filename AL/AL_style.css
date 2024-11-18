@@ -1,6 +1,4 @@
-/* styles.css */
-
-/* Reset some default styles */
+/* Reset styles */
 * {
     margin: 0;
     padding: 0;
@@ -9,145 +7,101 @@
 
 body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    background-color: #eef2f3;
-    color: #444;
+    background-color: #f9fafb; /* 柔和背景 */
+    color: #333;
     padding: 20px;
+    line-height: 1.6;
 }
 
-/* List styles */
+/* General list styles */
 ul, ol {
     margin: 20px 0;
     padding-left: 20px;
     list-style-position: inside;
 }
 
-/* Unordered list */
 ul {
     list-style-type: disc;
 }
 
-/* Ordered list */
 ol {
     list-style-type: decimal;
 }
 
-/* List item styles - Avoid making list items look like buttons */
+/* List items */
 li {
-    background-color: #ffffff;
-    border: none; /* Removed border to avoid button-like appearance */
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
-    color: #444; /* Regular text color */
-    transition: none; /* Removed hover effect */
-    cursor: default; /* Make it clear this is not interactive */
+    background-color: #fff;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    border-left: 3px solid #6bbf59; /* 柔和的绿色线条 */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* 轻微阴影 */
+    transition: background-color 0.2s, box-shadow 0.2s;
 }
 
-/* Remove hover effect for <li> items */
-li:hover {
-    background-color: #ffffff; /* No background color change */
-}
-
-/* Nested lists */
-ul ul, ol ol {
-    margin-left: 20px;
-}
-
-p {
-    line-height: 1.5em;
-}
 
 /* Centered title */
 h1 {
     text-align: center;
     margin: 20px 0;
-    color: #2c3e50;
+    font-size: 2em;
+    font-weight: 600;
+    color: #3d5a4a; /* 柔和的深绿 */
 }
 
-/* Headings styles */
-h2,
-h3 {
-    margin: 15px 0;
-    color: #34495e;
-}
-
+/* Section headings */
 h2 {
-    border-bottom: 2px solid #2ecc71; /* 绿色边框 */
+    margin: 15px 0;
+    font-size: 1.5em;
+    color: #3d5a4a; /* 同样的柔和深绿 */
+    border-bottom: 2px solid #6bbf59; /* 底部线条稍微点缀 */
     padding-bottom: 5px;
 }
 
-/* Link styles */
+h3 {
+    margin: 10px 0;
+    font-size: 1.2em;
+    color: #444; /* 中性文本颜色 */
+}
+
+/* Links */
 a {
     text-decoration: none;
-    color: #28a95e; /* 绿色链接 */
-    transition: color 0.3s;
+    color: #6bbf59; /* 柔和绿色 */
+    border-bottom: 1px solid transparent;
+    transition: border-bottom 0.2s, color 0.2s;
 }
 
 a:hover {
-    color: #20904e; /* 更深的绿色 */
+    color: #4d9147; /* 稍深绿色 */
+    border-bottom: 1px solid #4d9147;
 }
 
-/* Add some spacing between sections */
-h3 {
-    margin-top: 20px;
-}
-
-/* Styling the body */
-body {
-    padding: 20px;
-}
-
-/* Responsive design */
-@media (max-width: 600px) {
-    body {
-        padding: 10px;
-    }
-
-    h1 {
-        font-size: 24px;
-    }
-
-    h2 {
-        font-size: 20px;
-    }
-
-    h3 {
-        font-size: 18px;
-    }
-
-    footer {
-        padding: 20px 0;
-    }
-}
-
-/* Return Button Styles */
+/* Buttons */
 .return-button {
     display: inline-block;
-    background-color: #239e57; /* 绿色按钮背景 */
-    color: white;
+    background-color: #6bbf59; /* 主按钮背景颜色 */
+    color: #fff;
     padding: 10px 15px;
-    border-radius: 5px;
+    border-radius: 4px;
     text-decoration: none;
-    transition: background-color 0.3s, color 0.3s;
-    margin-bottom: 20px;
+    font-size: 0.95em;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-bottom: 15px;
 }
 
 .return-button:hover {
-    background-color: #1f874a; /* 更深绿色 */
+    background-color: #4d9147; /* 稍深悬停效果 */
+    transform: scale(1.02);
     color: white;
-    /* 保持文字颜色为白色 */
 }
 
-/* Footer Styles */
+/* Footer */
 footer {
-    background-color: #ffffff;
-    padding: 20px;
-    margin: 20px 0 25px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-footer p {
-    margin: 5px 0;
+    background-color: #f5f7f6; /* 更浅的柔和灰绿背景 */
+    padding: 15px;
+    margin-top: 30px;
+    text-align: center;
+    font-size: 0.9em;
+    color: #666; /* 中性色 */
+    border-top: 1px solid #ddd;
 }
