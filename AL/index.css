@@ -58,6 +58,8 @@ button {
 }
 
 .return-button {
+    font-size: 1em;
+    padding: 13px 20px;
     background-color: #5c98c0;
     color: white;
     transition: all 0.3s ease;
