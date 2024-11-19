@@ -1,0 +1,192 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #eef2f3;
+    color: #444;
+    padding: 15px;
+}
+
+/* Header styles */
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+h1 {
+    color: #2c3e50;
+    font-size: 2.5em;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+/* Exam Date Styles */
+.exam-date {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    text-align: center;
+    max-width: 900px;
+}
+
+.exam-date h2 {
+    color: #2c3e50;
+    font-size: 1.8em;
+    margin-bottom: 15px;
+}
+
+.exam-date h3 {
+    color: #2c3e50;
+    font-size: 1.3em;
+    margin-bottom: 15px;
+}
+
+.exam-date p {
+    font-size: 1.1em;
+    margin: 5px 0;
+    margin-bottom: 13px;
+}
+
+/* Navigation styles */
+nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.IG-button {
+    background-color: #5c6bc0;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 25px;
+    text-align: center;
+    text-decoration: none;
+    width: 80%;
+    max-width: 300px;
+    margin: 13px 0;
+    transition: background-color 0.3s, transform 0.2s;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-size: 1.1em;
+}
+
+.AL-button {
+    background-color: #5cc07f;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 25px;
+    text-align: center;
+    text-decoration: none;
+    width: 80%;
+    max-width: 300px;
+    margin: 13px 0;
+    transition: background-color 0.3s, transform 0.2s;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-size: 1.1em;
+}
+
+.IG-button-disabled {
+    background-color: #2e3660;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 25px;
+    text-align: center;
+    text-decoration: none;
+    width: 80%;
+    max-width: 300px;
+    margin: 13px 0;
+    /* transition: background-color 0.3s, transform 0.2s; */
+    cursor: pointer;
+    /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); */
+    /* font-size: 1.1em; */
+    cursor: not-allowed;
+}
+
+.AL-button-disabled {
+    background-color: #2f5428;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 25px;
+    text-align: center;
+    text-decoration: none;
+    width: 80%;
+    max-width: 300px;
+    margin: 13px 0;
+    /* transition: background-color 0.3s, transform 0.2s; */
+    cursor: pointer;
+    /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); */
+    /* font-size: 1.1em; */
+    cursor: not-allowed;
+}
+
+.IG-button:hover {
+    background-color: #3f51b5;
+    transform: translateY(-3px);
+}
+
+.AL-button:hover {
+    background-color: #51b53f;
+    transform: translateY(-3px);
+}
+
+/* Return Button Styles */
+.return-button {
+    display: inline-block;
+    background-color: #5c6bc0;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-align: center;
+    text-decoration: none;
+    margin: 0 0 0;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.return-button:hover {
+    background-color: #3f51b5;
+    transform: translateY(-2px);
+}
+
+/* Footer styles */
+.about {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 30px auto;
+    max-width: 900px;
+    text-align: center;
+}
+
+.about h2 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 10px; /* Adjust padding for small screens */
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
+
+    .top-button-link,
+    .return-button {
+        padding: 12px;
+        margin: 15px 0;
+    }
+
+    .exam-date {
+        padding: 15px;
+    }
+}
