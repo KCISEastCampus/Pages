@@ -76,7 +76,7 @@ a:hover {
 }
 
 /* Buttons */
-.return-button, .achieved-button {
+.return-button, .archived-button {
     display: inline-block;
     background-color: #3498db;
     color: #fff;
@@ -88,7 +88,7 @@ a:hover {
     margin-bottom: 15px;
 }
 
-.return-button:hover, .achieved-button:hover {
+.return-button:hover, .archived-button:hover {
     background-color: #217dbb;
     transform: scale(1.02);
     color: white;
@@ -103,4 +103,38 @@ footer {
     font-size: 0.9em;
     color: #666;
     border-top: 1px solid #ddd;
+}
+
+/* Image container */
+.image-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.image-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.image-container img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Optional caption for the image */
+.image-container figcaption {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 8px;
+}
+
+p {
+    font-size: 16px; /* 调整文字大小 */
+    line-height: 1.8; /* 提高行间距，增强可读性 */
+    text-align: justify; /* 文字对齐两端 */
+    border-radius: 5px; /* 圆角处理 */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 平滑过渡效果 */
 }

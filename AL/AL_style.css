@@ -105,3 +105,37 @@ footer {
     color: #666; /* 中性色 */
     border-top: 1px solid #ddd;
 }
+
+/* Image container */
+.image-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.image-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.image-container img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Optional caption for the image */
+.image-container figcaption {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 8px;
+}
+
+p {
+    font-size: 16px; /* 调整文字大小 */
+    line-height: 1.8; /* 提高行间距，增强可读性 */
+    text-align: justify; /* 文字对齐两端 */
+    border-radius: 5px; /* 圆角处理 */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 平滑过渡效果 */
+}
