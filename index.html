@@ -2,79 +2,72 @@
 <html lang="zh">
 
 <head>
-    <link rel="preconnect" href="https://fonts.gstatic.com/">
-    <meta charset="UTF-8">
-    <title>KCISEC校园网站</title>
-    <meta name="description" content="KCISEC校园网站包含校园公报、昆山康桥学校A-Level/IGCSE资讯和摄影合作组织。">
-    <link rel="shortcut icon" href="./files/favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="./files/css2.css" rel="stylesheet">
-    <link rel="stylesheet" href="./files/styles.css">
+  {% include head.html %}
+  <script src="/files/script.js"></script>
 </head>
-<script src="/files/script.js"></script>
 
 <body>
-    <header>
-        <a href="https://kunshan.kcis.org.cn/default.html" target="_blank"><img src="/files/school_logo.png"
-                title="KangChiao International School East Campus Logo" style="width: 100%;max-width: 400px;height: auto;border-radius: 8px;box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);"></a>
-        <h1>KCISEC校园网站</h1>
-        <div class="english-button" onclick="window.location.href='./en.html'">English Version</div>
-    </header>
+  <header>
+    <a href="https://kunshan.kcis.org.cn/default.html" target="_blank"><img src="/files/school_logo.png"
+        title="KangChiao International School East Campus Logo"
+        style="width: 100%;max-width: 400px;height: auto;border-radius: 8px;box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);"></a>
+    <h1>KCISEC校园网站</h1>
+    <div class="english-button" onclick="window.location.href='./en.html'">English Version</div>
+  </header>
 
-    <nav>
-        <!-- <div class="top-button-link" onclick="window.location.href='https://blog.kcisec.site/post/Notice/'">校园公报</div> -->
-        <!-- <div class="top-button-link" onclick="notAbletoAccess()">母班界面</div> -->
-        <div class="top-button-link" onclick="window.open('./KSVG_policy.html')">摄影合作组织</div>
-        <div class="top-button-link" onclick="window.location.href='./App/'">APP下载</div>
-        <div class="top-button-link" onclick="window.location.href='https://blog.kcisec.site'">个人博客</div>
-        <!-- <div class="top-button-link" onclick="window.open('./vivo50')">今天是___？</div> -->
-        <!-- <div class="top-button-link" onclick="window.open('./Computer_Science/')">IGCSE计算机科学(EN)</div> -->
-        <div class="top-button-link" onclick="window.open('https://AL.kcisec.site/')">A-Level主页(EN)</div>
-        <div class="inside-button-link" onclick="window.location.href='./update_log.html'">更新日志</div>
-        <!-- <div class="bad-link" onclick="window.location.href='./homo/index.html'">恶臭数字论证器</div> -->
-    </nav>
+  <nav>
+    <!-- <div class="top-button-link" onclick="window.location.href='https://blog.kcisec.site/post/Notice/'">校园公报</div> -->
+    <!-- <div class="top-button-link" onclick="notAbletoAccess()">母班界面</div> -->
+    <div class="top-button-link" onclick="window.open('./KSVG_policy.html')">摄影合作组织</div>
+    <div class="top-button-link" onclick="window.location.href='./App/'">APP下载</div>
+    <div class="top-button-link" onclick="window.location.href='https://blog.kcisec.site'">个人博客</div>
+    <!-- <div class="top-button-link" onclick="window.open('./vivo50')">今天是___？</div> -->
+    <!-- <div class="top-button-link" onclick="window.open('./Computer_Science/')">IGCSE计算机科学(EN)</div> -->
+    <div class="top-button-link" onclick="window.open('https://AL.kcisec.site/')">A-Level主页(EN)</div>
+    <div class="inside-button-link" onclick="window.location.href='./update_log.html'">更新日志</div>
+    <!-- <div class="bad-link" onclick="window.location.href='./homo/index.html'">恶臭数字论证器</div> -->
+  </nav>
 
-    <section class="cn">
-        <div class="convenient-links">
-            <h3>便民链接：</h3>
-            仅校内能访问:
-            <div class="button-link" onclick="window.open('https://ordering.kcisec.com/chaxun.asp')" target="_blank">
-                查餐系统</div>
-            <div class="button-link" onclick="window.open('https://ordering.kcisec.com/index.asp')" target="_blank">订餐系统
-            </div>
-            <div class="button-link" onclick="window.open('https://192.168.80.60/')" target="_blank">云打印(教一&教二)</div>
-            <div class="button-link" onclick="window.open('http://192.168.80.68/')" target="_blank">云打印(教三)</div>
-            <div class="button-link" onclick="window.open('https://portal.kcisec.com/login/Account/LogHC')"
-                target="_blank">肺结核自我筛查系统</div>
-            <br>
-            校内外均可访问:
-            <div class="button-link"
-                onclick="window.open('https://portal.kcisec.com/China/Account/LogIn?returnUrl=%2FChina')"
-                target="_blank">校务系统</div>
-            <div class="button-link" onclick="window.open('https://kcisec.managebac.cn')" target="_blank">ManageBac
-            </div>
-            <div class="button-link" onclick="window.open('https://powerschool.kcisec.org.cn/public/')" target="_blank">
-                PowerSchool</div>
-            <div class="button-link" onclick="window.open('https://mail.kcisg.com')" target="_blank">网易企业邮箱（@kcisg.com）
-            </div>
-        </div>
-    </section>
-
-    <div class="bottom-text" style="font-family: 'Comic Sans MS', script;">
-        <h2>关于</h2>
-        <p style="line-height: 1.5em;">
-            10K_AL 洪斌酱 EricStoneChina <a href="https://github.com/EricStoneChina" target="_blank">查看他的GitHub主页</a>
-            <a href="https://www.github.com/KCISEastCampus" target="_blank">查看本组织的GitHub官网</a>
-            <br>反馈 <a href="mailto:report@kcisec.site" class="__cf_email__">report@kcisec.site</a>。
-            <br>校徽版权归昆山康桥学校所有，OxfordAQA图标归OxfordAQA所有，并授权昆山康桥学校使用授权中心Logo。除另外声明外，其余内容版权均归本组织所有。
-            <!-- <br><a href="https://www.oxfordaqa.com/" target="_blank"><img src="./files/OxfordAQA-Digital-Badge.webp" alt="OxfordAQA Approved Centre" style="height: 57.57px;width: 105.824127px;"></a> -->
-            <br><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fkcisec.site&count_bg=%2379C83D&title_bg=%23555555&icon=googleclassroom.svg&icon_color=%23E7E7E7&title=%E7%BD%91%E7%AB%99%E8%AE%BF%E9%97%AE%E6%AC%A1%E6%95%B0&edge_flat=false" alt="Hits"/>
-        </p>
+  <section class="cn">
+    <div class="convenient-links">
+      <h3>便民链接：</h3>
+      仅校内能访问:
+      <div class="button-link" onclick="window.open('https://ordering.kcisec.com/chaxun.asp')" target="_blank">
+        查餐系统</div>
+      <div class="button-link" onclick="window.open('https://ordering.kcisec.com/index.asp')" target="_blank">订餐系统
+      </div>
+      <div class="button-link" onclick="window.open('https://192.168.80.60/')" target="_blank">云打印(教一&教二)</div>
+      <div class="button-link" onclick="window.open('http://192.168.80.68/')" target="_blank">云打印(教三)</div>
+      <div class="button-link" onclick="window.open('https://portal.kcisec.com/login/Account/LogHC')" target="_blank">
+        肺结核自我筛查系统</div>
+      <br>
+      校内外均可访问:
+      <div class="button-link" onclick="window.open('https://portal.kcisec.com/China/Account/LogIn?returnUrl=%2FChina')"
+        target="_blank">校务系统</div>
+      <div class="button-link" onclick="window.open('https://kcisec.managebac.cn')" target="_blank">ManageBac
+      </div>
+      <div class="button-link" onclick="window.open('https://powerschool.kcisec.org.cn/public/')" target="_blank">
+        PowerSchool</div>
+      <div class="button-link" onclick="window.open('https://mail.kcisg.com')" target="_blank">网易企业邮箱（@kcisg.com）
+      </div>
     </div>
+  </section>
 
-    <footer style="font-family: 'Comic Sans MS', script;">
-        &copy; 2022-2024 洪斌酱 EricStoneChina.
-    </footer>
+  <div class="bottom-text" style="font-family: 'Comic Sans MS', script;">
+    <h2>关于</h2>
+    <p style="line-height: 1.5em;">
+      10K_AL 洪斌酱 EricStoneChina <a href="https://github.com/EricStoneChina" target="_blank">查看他的GitHub主页</a>
+      <a href="https://www.github.com/KCISEastCampus" target="_blank">查看本组织的GitHub官网</a>
+      <br>反馈 <a href="mailto:report@kcisec.site" class="__cf_email__">report@kcisec.site</a>。
+      <br>校徽版权归昆山康桥学校所有，OxfordAQA图标归OxfordAQA所有，并授权昆山康桥学校使用授权中心Logo。除另外声明外，其余内容版权均归本组织所有。
+      <!-- <br><a href="https://www.oxfordaqa.com/" target="_blank"><img src="./files/OxfordAQA-Digital-Badge.webp" alt="OxfordAQA Approved Centre" style="height: 57.57px;width: 105.824127px;"></a> -->
+      <br><img
+        src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fkcisec.site&count_bg=%2379C83D&title_bg=%23555555&icon=googleclassroom.svg&icon_color=%23E7E7E7&title=%E7%BD%91%E7%AB%99%E8%AE%BF%E9%97%AE%E6%AC%A1%E6%95%B0&edge_flat=false"
+        alt="Hits" />
+    </p>
+  </div>
+
+  {% include footer.html %}
 </body>
 
 </html>

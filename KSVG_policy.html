@@ -1,49 +1,49 @@
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
-    <meta charset="UTF-8">
-    <title>KSVG-重定向提示</title>
-    <link rel="shortcut icon" href="./files/favicon.ico">
-    <link href="./files/css2.css" rel="stylesheet">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-            color: #333;
-            text-align: center;
-            padding: 50px;
-        }
+  <meta charset="UTF-8">
+  <title>KSVG-重定向提示</title>
+  {% include head.html %}
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+      color: #333;
+      text-align: center;
+      padding: 50px;
+    }
 
-        h1 {
-            font-size: 100px;
-            color: #3498db;
-        }
+    h1 {
+      font-size: 100px;
+      color: #3498db;
+    }
 
-        p {
-            font-size: 24px;
-        }
+    p {
+      font-size: 24px;
+    }
 
-        a {
-            color: #3498db;
-            text-decoration: none;
-        }
+    a {
+      color: #3498db;
+      text-decoration: none;
+    }
 
-        a:hover {
-            text-decoration: underline;
-        }
+    a:hover {
+      text-decoration: underline;
+    }
 
-        form {
-            margin-top: 20px;
-        }
+    form {
+      margin-top: 20px;
+    }
 
-        form input {
-            padding: 8px;
-            font-size: 16px;
-        }
+    form input {
+      padding: 8px;
+      font-size: 16px;
+    }
 
-        /* form button {
+    /* form button {
             padding: 8px 16px;
             font-size: 16px;
             background-color: #3498db;
@@ -52,42 +52,47 @@
             cursor: pointer;
         } */
 
-        /* ul {
+    /* ul {
             list-style: none;
             padding: 0;
             margin: 20px 0;
         } */
 
-        .chose {
-            color: #ffffff;
-            text-decoration: none;
-            padding: 10px 20px;
-            margin: 5px 10px;
-            font-size: 16px;
-            white-space: nowrap;
-            cursor: pointer;
-            display: inline-block;
-            background-color: #4069c1; /* 调整为柔和的蓝色 */
-            border: 2px solid #4069c1;
-            border-radius: 25px;
-            transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
-            border: none;
-            margin: 10px 5px;
-        }
-        .chose:hover {
-            background-color: #91a9de; /* 调整为更深的颜色 */
-            color: #ecf0f1;
-            transform: scale(1.05);
-        }
-    </style>
-</head>
-<body>
-    <h1>提示</h1>
-    <p>KSVG.kcisec.site由KSVG(康桥学校昆山校区学生摄影和摄像合作组织)运营，发布的任何信息的真实性与本站无关。</p>
-    
-    <p>在重定向之前，请做出决定。</p>
+    .chose {
+      color: #ffffff;
+      text-decoration: none;
+      padding: 10px 20px;
+      margin: 5px 10px;
+      font-size: 16px;
+      white-space: nowrap;
+      cursor: pointer;
+      display: inline-block;
+      background-color: #4069c1;
+      /* 调整为柔和的蓝色 */
+      border: 2px solid #4069c1;
+      border-radius: 25px;
+      transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+      border: none;
+      margin: 10px 5px;
+    }
 
-    <div class="chose" onclick="window.location.href='https://ksvg.kcisec.site/'">继续前往KSVG</div>
-    <div class="chose" onclick="javascript:window.opener=null;window.open('','_self');window.close();">回到主站</div>
+    .chose:hover {
+      background-color: #91a9de;
+      /* 调整为更深的颜色 */
+      color: #ecf0f1;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+
+<body>
+  <h1>提示</h1>
+  <p>KSVG.kcisec.site由KSVG(康桥学校昆山校区学生摄影和摄像合作组织)运营，发布的任何信息的真实性与本站无关。</p>
+
+  <p>在重定向之前，请做出决定。</p>
+
+  <div class="chose" onclick="window.location.href='https://ksvg.kcisec.site/'">继续前往KSVG</div>
+  <div class="chose" onclick="javascript:window.opener=null;window.open('','_self');window.close();">回到主站</div>
 </body>
+
 </html>

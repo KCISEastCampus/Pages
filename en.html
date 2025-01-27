@@ -2,74 +2,77 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <title>KCISEC School Website</title>
-    <meta name="description" content="KCISEC School Website contains School Portal, A-Level and IGCSE KCISEC information, and ordering check system.">
-    <link rel="shortcut icon" href="./files/favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="./files/css2.css" rel="stylesheet">
-    <link rel="stylesheet" href="./files/styles.css">
+  {% include head.html %}
+  <script src="/files/script.js"></script>
 </head>
-<script src="/files/script.js"></script>
 
 <body>
-    <header>
-        <a href="https://kunshan.kcis.org.cn/default.html" target="_blank"><img src="/files/school_logo.png"
-                title="KangChiao International School East Campus Logo" style="width: 100%;max-width: 400px;height: auto;border-radius: 8px;box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);"></a>
-        <h1>KCISEC School Website</h1>
-        <div class="english-button" onclick="window.location.href='./index.html'">Chinese Version</div>
-    </header>
+  <header>
+    <a href="https://kunshan.kcis.org.cn/default.html" target="_blank"><img src="/files/school_logo.png"
+        title="KangChiao International School East Campus Logo"
+        style="width: 100%;max-width: 400px;height: auto;border-radius: 8px;box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);"></a>
+    <h1>KCISEC School Website</h1>
+    <div class="english-button" onclick="window.location.href='./index.html'">Chinese Version</div>
+  </header>
 
-    <nav>
-        <div class="top-button-link" onclick="window.location.href='https://blog.kcisec.site/post/Notice/'">School Portal(CN)</div>
-        <!-- <div class="top-button-link" onclick="notAbletoAccess()">母班界面</div> -->
-        <div class="top-button-link" onclick="window.open('./KSVG_policy.html')">KSVG(CN)</div>
-        <!-- <div class="top-button-link" onclick="notAbletoAccess()">APP下载</div> -->
-        <div class="top-button-link" onclick="window.location.href='https://blog.kcisec.site'">Personal Blog of EricStoneChina(CN)</div>
-        <!-- <div class="top-button-link" onclick="window.open('./Computer_Science/')">IG Computer Science</div> -->
-        <div class="top-button-link" onclick="window.location.href='/AL/'">A-Level Homepage</div>
-        <div class="inside-button-link" onclick="window.location.href='./update_log.html'">Update Log(CN)</div>
-    </nav>
+  <nav>
+    <div class="top-button-link" onclick="window.location.href='https://blog.kcisec.site/post/Notice/'">School
+      Portal(CN)</div>
+    <!-- <div class="top-button-link" onclick="notAbletoAccess()">母班界面</div> -->
+    <div class="top-button-link" onclick="window.open('./KSVG_policy.html')">KSVG(CN)</div>
+    <!-- <div class="top-button-link" onclick="notAbletoAccess()">APP下载</div> -->
+    <div class="top-button-link" onclick="window.location.href='https://blog.kcisec.site'">Personal Blog of
+      EricStoneChina(CN)</div>
+    <!-- <div class="top-button-link" onclick="window.open('./Computer_Science/')">IG Computer Science</div> -->
+    <div class="top-button-link" onclick="window.location.href='/AL/'">A-Level Homepage</div>
+    <div class="inside-button-link" onclick="window.location.href='./update_log.html'">Update Log(CN)</div>
+  </nav>
 
-    <section class="en">
-        <div class="convenient-links">
-            <h3>Convenience links:</h3>
-            Accessible in campus:
-            <div class="button-link" onclick="window.open('https://ordering.kcisec.com/chaxun.asp')" target="_blank">
-                Meal Checking System</div>
-            <div class="button-link" onclick="window.open('https://ordering.kcisec.com/index.asp')" target="_blank">Meal Ordering System
-            </div>
-            <div class="button-link" onclick="window.open('https://192.168.80.60/')" target="_blank">Cloud Print(Building 1&2)</div>
-            <div class="button-link" onclick="window.open('http://192.168.80.68/')" target="_blank">Cloud Print(Building 3)</div>
-            <br>
-            Accessible both on and off campus:
-            <div class="button-link"
-                onclick="window.open('https://portal.kcisec.com/China/Account/LogIn?returnUrl=%2FChina')"
-                target="_blank">School System</div>
-            <div class="button-link" onclick="window.open('https://kcisec.managebac.cn')" target="_blank">ManageBac
-            </div>
-            <div class="button-link" onclick="window.open('https://powerschool.kcisec.org.cn/public/')" target="_blank">
-                PowerSchool</div>
-            <div class="button-link" onclick="window.open('https://mail.kcisg.com')" target="_blank">NetEast Mail(kcisg.com)
-            </div>
-        </div>
-    </section>
-
-    <div class="bottom-text" style="font-family: 'Comic Sans MS', script;">
-        <h2>About</h2>
-        <p style="line-height: 1.5em;">
-            10K_AL EricStoneChina <a href="https://github.com/EricStoneChina" target="_blank">Take a look at his GitHub homepage.</a>
-            <a href="https://www.github.com/KCISEastCampus" target="_blank">Take a look at the GitHub homepage of this organization.</a>
-            <br>Wanna give some feedback? <a href="mailto:report@kcisec.site" class="__cf_email__">report@kcisec.site</a>.
-            <!-- <br><a href="https://www.oxfordaqa.com/" target="_blank"><img src="./files/OxfordAQA-Digital-Badge.webp" alt="OxfordAQA Approved Centre" style="height: 57.57px;width: 105.824127px;"></a> -->
-            <br>The copyright of the school emblem belongs to Kunshan Kang Chiao School, and the OxfordAQA Approved Centre logo belongs to OxfordAQA, and Kunshan Kang Chiao School had been authorized. Unless otherwise stated, all other assets belong to this organization.
-            <br><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fen.kcisec.site&count_bg=%2379C83D&title_bg=%23555555&icon=googleclassroom.svg&icon_color=%23E7E7E7&title=Number of Website Visitors&edge_flat=false" alt="Hits"/>
-        </p>
+  <section class="en">
+    <div class="convenient-links">
+      <h3>Convenience links:</h3>
+      Accessible in campus:
+      <div class="button-link" onclick="window.open('https://ordering.kcisec.com/chaxun.asp')" target="_blank">
+        Meal Checking System</div>
+      <div class="button-link" onclick="window.open('https://ordering.kcisec.com/index.asp')" target="_blank">Meal
+        Ordering System
+      </div>
+      <div class="button-link" onclick="window.open('https://192.168.80.60/')" target="_blank">Cloud Print(Building 1&2)
+      </div>
+      <div class="button-link" onclick="window.open('http://192.168.80.68/')" target="_blank">Cloud Print(Building 3)
+      </div>
+      <br>
+      Accessible both on and off campus:
+      <div class="button-link" onclick="window.open('https://portal.kcisec.com/China/Account/LogIn?returnUrl=%2FChina')"
+        target="_blank">School System</div>
+      <div class="button-link" onclick="window.open('https://kcisec.managebac.cn')" target="_blank">ManageBac
+      </div>
+      <div class="button-link" onclick="window.open('https://powerschool.kcisec.org.cn/public/')" target="_blank">
+        PowerSchool</div>
+      <div class="button-link" onclick="window.open('https://mail.kcisg.com')" target="_blank">NetEast Mail(kcisg.com)
+      </div>
     </div>
+  </section>
 
-    <footer style="font-family: 'Comic Sans MS', script;">
-        &copy; 2022-2024 EricStoneChina.
-    </footer>
+  <div class="bottom-text" style="font-family: 'Comic Sans MS', script;">
+    <h2>About</h2>
+    <p style="line-height: 1.5em;">
+      10K_AL EricStoneChina <a href="https://github.com/EricStoneChina" target="_blank">Take a look at his GitHub
+        homepage.</a>
+      <a href="https://www.github.com/KCISEastCampus" target="_blank">Take a look at the GitHub homepage of this
+        organization.</a>
+      <br>Wanna give some feedback? <a href="mailto:report@kcisec.site" class="__cf_email__">report@kcisec.site</a>.
+      <!-- <br><a href="https://www.oxfordaqa.com/" target="_blank"><img src="./files/OxfordAQA-Digital-Badge.webp" alt="OxfordAQA Approved Centre" style="height: 57.57px;width: 105.824127px;"></a> -->
+      <br>The copyright of the school emblem belongs to Kunshan Kang Chiao School, and the OxfordAQA Approved Centre
+      logo belongs to OxfordAQA, and Kunshan Kang Chiao School had been authorized. Unless otherwise stated, all other
+      assets belong to this organization.
+      <br><img
+        src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fen.kcisec.site&count_bg=%2379C83D&title_bg=%23555555&icon=googleclassroom.svg&icon_color=%23E7E7E7&title=Number of Website Visitors&edge_flat=false"
+        alt="Hits" />
+    </p>
+  </div>
+
+  {% include footer.html %}
 </body>
 
 </html>
