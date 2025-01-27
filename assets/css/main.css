@@ -83,25 +83,25 @@ nav a,
   transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
   color: var(--secondary-text-color);
   background-color: var(--secondary-color);
-  border: 2px solid var(--secondary-dark-color);
+  /* border: 2px solid var(--secondary-dark-color); */
 }
 
 .secondary-button-link {
   color: var(--secondary-text-color);
   background-color: var(--primary-gradient-color);
-  border: 2px solid var(--secondary-gradient-color);
+  /* border: 2px solid var(--secondary-gradient-color); */
 }
 
 .tetriary-button-link {
   color: var(--secondary-text-color);
   background-color: var(--theme-pink);
-  border: 2px solid var(--theme-dark-pink);
+  /* border: 2px solid var(--theme-dark-pink); */
 }
 
 .quaternary-button-link {
   background-color: var(--theme-green);
   color: var(--secondary-text-color);
-  border: 2px solid var(--theme-dark-green);
+  /* border: 2px solid var(--theme-dark-green); */
 }
 
 .english-button {
