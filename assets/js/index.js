@@ -1,10 +1,10 @@
 function bind_onclick_btn() {
-  let buttons = document.getElementsByClassName('button-link');
-  for (let button in buttons) {
-
-  }
+  let buttons = Array.from(document.getElementsByClassName('button-link'));
+  buttons.forEach(function (button) {
+    let href = button.getAttribute('href');
+    button.addEventListener('click', function () {
+      if (href == null) return;
+      window.location.href = href;
+    });
+  });
 }
-function load_lang() {
-
-}
-console.log("index.js loaded");

@@ -61,6 +61,8 @@ GEM
       webrick (~> 1.7)
     jekyll-feed (0.17.0)
       jekyll (>= 3.7, < 5.0)
+    jekyll-polyglot (1.9.0)
+      jekyll (>= 4.0, >= 3.0)
     jekyll-redirect-from (0.16.0)
       jekyll (>= 3.3, < 5.0)
     jekyll-sass-converter (3.0.0)
@@ -160,6 +162,7 @@ PLATFORMS
 DEPENDENCIES
   http_parser.rb (~> 0.6.0)
   jekyll (~> 4.3.4)
+  jekyll-polyglot
   jekyll-redirect-from
   minima (~> 2.5)
   tzinfo (>= 1, < 3)
