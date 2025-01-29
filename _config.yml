@@ -25,12 +25,6 @@ description: >- # this means to ignore newlines until "baseurl:"
 # Build settings
 plugins:
   - jekyll-redirect-from
-  - jekyll-polyglot
-
-languages: ["en", "zh-CN"]
-default_lang: "zh-CN"
-exclude_from_localization: ["javascript", "images", "css", "public", "sitemap"]
-parallel_localization: true
 
 # Exclude from processing.
 # The following items will not be processed, by default.
@@ -52,23 +46,3 @@ exclude:
   - vendor/gems/
   - vendor/ruby/
   - README.md
-
-navibar:
-  title:
-    zh-CN: KCISEC校园网站
-    en: KCISEC Navigator
-  button_ksvg:
-    zh-CN: 摄影合作组织
-    en: KSVG
-  button_app:
-    zh-CN: App下载
-    en: App Download
-  button_blog:
-    zh-CN: 个人博客
-    en: Blog
-  button_alevel:
-    zh-CN: A-Level主页
-    en: A-Level Homepage
-  button_log:
-    zh-CN: 更新日志
-    en: Update Log

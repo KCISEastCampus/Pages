@@ -1,5 +1,6 @@
 ---
 layout: index
+language: en
 ---
 
 # Frequently Used Links
@@ -35,7 +36,7 @@ layout: index
 
 # About
 
-- This project is found by 10K_AL 洪斌酱 EricStoneChina: [View his GitHub](https://github.com/EricStoneChina)
+- This project is founded by 10K_AL 洪斌酱 EricStoneChina: [View his GitHub](https://github.com/EricStoneChina)
 - Front end improvements & English translations done by[idadwind](https://www.github.com/idadwind1): [Website](https://www.idadwind.fun)
 - [Help us improve on GitHub](https://www.github.com/KCISEastCampus)
 - [Complaints & Suggestions go into this email](mailto:report@kcisec.site)

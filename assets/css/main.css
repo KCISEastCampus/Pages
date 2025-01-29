@@ -108,9 +108,10 @@ nav a,
 }
 
 .english-button {
-  position: absolute;
-  top: 20px;
+  position: fixed;
+  top: 15px;
   right: 20px;
+  z-index: 110;
 }
 
 .button-link:hover,
@@ -211,7 +212,7 @@ h2 {
   }
 }
 
-#wrapper {
-  /* min-height: 100%; */
+header,
+nav {
   background-color: var(--primary-color);
 }
