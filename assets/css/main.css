@@ -159,8 +159,10 @@ footer {
   background-color: var(--primary-color);
   color: #ecf0f1;
   text-align: center;
-  flex: 1;
   padding: 15px;
+  height: 40px; /* 固定高度 */
+  margin-top: auto; /* 新增这行 */
+  /* width: 100%; */
 }
 
 .bottom-text {

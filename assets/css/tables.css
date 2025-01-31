@@ -44,88 +44,80 @@ canvas {
 table {
   max-width: 100%;
   border-collapse: collapse;
-  border-spacing: 0
-}
-
-.table,
-table {
+  border-spacing: 0;
   width: 100%;
-  margin-bottom: 1.529411765em
+  margin-bottom: 1.529411765em;
+  overflow-x: auto;
+  display: block;
 }
 
-.table th,
-table th,
-.table td,
-table td {
+th, td {
   padding: .470588235em;
   text-align: left;
-  border-top: .071428571em solid #b8b8b8
+  border-top: .071428571em solid #b8b8b8;
+  vertical-align: top;
 }
 
-.table th,
-table th {
+th {
   font-weight: bold;
-  vertical-align: bottom
+  vertical-align: bottom;
 }
 
-.table td,
-table td {
-  vertical-align: top
+thead:first-child tr th,
+thead:first-child tr td {
+  border-top: 0;
 }
 
-.table thead:first-child tr th,
-table thead:first-child tr th,
-.table thead:first-child tr td,
-table thead:first-child tr td {
-  border-top: 0
-}
-
-.table tbody+tbody,
-table tbody+tbody {
-  border-top: 0.142857143em solid #b8b8b8
+tbody+tbody {
+  border-top: 0.142857143em solid #b8b8b8;
 }
 
 .table-condensed th,
 .table-condensed td {
-  padding: .294117647em
+  padding: .294117647em;
 }
 
 .table-bordered {
   border: .071428571em solid #b8b8b8;
   border-collapse: separate;
-  *border-collapse: collapsed;
-  border-radius: .470588235em
+  border-radius: .470588235em;
 }
 
 .table-bordered th+th,
 .table-bordered td+td,
 .table-bordered th+td,
 .table-bordered td+th {
-  border-left: .071428571em solid #b8b8b8
+  border-left: .071428571em solid #b8b8b8;
 }
 
 .table-bordered thead:first-child tr:first-child th,
 .table-bordered tbody:first-child tr:first-child th,
 .table-bordered tbody:first-child tr:first-child td {
-  border-top: 0
+  border-top: 0;
 }
 
 .table-bordered thead:first-child tr:first-child th:first-child,
 .table-bordered tbody:first-child tr:first-child td:first-child {
-  border-radius: .470588235em 0 0 0
+  border-radius: .470588235em 0 0 0;
 }
 
 .table-bordered thead:first-child tr:first-child th:last-child,
 .table-bordered tbody:first-child tr:first-child td:last-child {
-  border-radius: 0 .470588235em 0 0
+  border-radius: 0 .470588235em 0 0;
 }
 
 .table-bordered thead:last-child tr:last-child th:first-child,
 .table-bordered tbody:last-child tr:last-child td:first-child {
-  border-radius: 0 0 0 .470588235em
+  border-radius: 0 0 0 .470588235em;
 }
 
 .table-bordered thead:last-child tr:last-child th:last-child,
 .table-bordered tbody:last-child tr:last-child td:last-child {
-  border-radius: 0 0 .470588235em 0
+  border-radius: 0 0 .470588235em 0;
+}
+
+@media (max-width: 600px) {
+  table, th, td {
+    font-size: 0.8em;
+  }
 }
