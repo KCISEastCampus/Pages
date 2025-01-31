@@ -1,31 +1,32 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="{{ page.language }}">
 
 <head>
   {% include head.html %}
   <script src="/assets/js/script.js"></script>
-  <script src="/assets/js/index.js"></script>
 </head>
 
 <body>
+  {% assign lang = site.data.lang[page.language] %}
+  {% assign navibar = lang.navibar %}
   <header>
     <a href="https://kunshan.kcis.org.cn/default.html" target="_blank">
       <img src="/assets/images/school_logo.png" title="KangChiao International School East Campus Logo"
         style="width: 100%;max-width: 400px;height: auto;"></a>
-    <h1>KCISEC校园网站</h1>
+    <h1>{{ navibar.title }}</h1>
   </header>
   <nav>
     <!-- <div class="top-button-link" onclick="window.location.href='https://blog.kcisec.site/post/Notice/'">校园公报</div> -->
     <!-- <div class="top-button-link" onclick="notAbletoAccess()">母班界面</div> -->
-    <div class="button-link">摄影合作组织</div>
-    <div class="button-link" href="./App/">APP下载</div>
-    <div class="button-link" href="https://blog.kcisec.site">个人博客</div>
+    <div class="button-link">{{ navibar.button_ksvg }}</div>
+    <div class="button-link" href="./App/">{{ navibar.button_app }}</div>
+    <div class="button-link" href="https://blog.kcisec.site">{{ navibar.button_blog }}</div>
     <!-- <div class="top-button-link" onclick="window.open('./vivo50')">今天是___？</div> -->
     <!-- <div class="top-button-link" onclick="window.open('./Computer_Science/')">IGCSE计算机科学(EN)</div> -->
-    <div class="button-link" href="https://academic.kcisec.site/">A-Level主页(EN)</div>
-    <div class="button-link" href="./update_log.html">更新日志</div>
+    <div class="button-link" href="https://academic.kcisec.site/">{{ navibar.button_alevel }}</div>
+    <div class="button-link" href="./update_log.html">{{ navibar.button_log }}</div>
     <!-- <div class="bad-link" onclick="window.location.href='./homo/index.html'">恶臭数字论证器</div> -->
-    <div class="english-button button-link secondary-button-link" href="index_en.html">English Version</div>
+    <div id="switch-language-button" class="button-link secondary-button-link"></div>
   </nav>
   <div class="page-content box-shadow">
     {{ content }}
@@ -33,7 +34,10 @@
 
   {% include footer.html %}
 
-  <script>bind_onclick_btn();</script>
+  <script>
+    load_switch_language_btn('{{ page.language }}');
+    bind_onclick_btn();
+  </script>
 </body>
 
 </html>

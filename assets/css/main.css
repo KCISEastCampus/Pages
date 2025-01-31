@@ -4,9 +4,9 @@
   /* purple */
   --secondary-color: #920783;
   --secondary-color-hover: #bb64b2;
-  --secondary-dark-color: #66045B;
   /* gold */
   --primary-gradient-color: #CBBE00;
+  --primary-gradient-color-hover: #eadb02;
   --secondary-gradient-color: #F5E979;
 
   --primary-text-color: #333;
@@ -96,6 +96,10 @@ nav a,
   /* border: 2px solid var(--secondary-gradient-color); */
 }
 
+.secondary-button-link:hover {
+  background-color: var(--primary-gradient-color-hover);
+}
+
 .tetriary-button-link {
   color: var(--secondary-text-color);
   background-color: var(--theme-pink);
@@ -108,18 +112,11 @@ nav a,
   /* border: 2px solid var(--theme-dark-green); */
 }
 
-.english-button {
+#switch-language-button {
   position: fixed;
   top: 15px;
   right: 20px;
   z-index: 110;
-}
-
-.button-link:hover,
-/* .button-link:hover, */
-.top-button-link:hover {
-  transform: scale(1.05);
-  background-color: var(--secondary-color-hover);
 }
 
 /* .cn { */
