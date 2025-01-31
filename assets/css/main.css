@@ -96,6 +96,13 @@ nav a,
   /* border: 2px solid var(--secondary-gradient-color); */
 }
 
+.button-link:hover,
+/* .button-link:hover, */
+.top-button-link:hover {
+  transform: scale(1.05);
+  background-color: var(--secondary-color-hover);
+}
+
 .secondary-button-link:hover {
   background-color: var(--primary-gradient-color-hover);
 }
@@ -117,13 +124,6 @@ nav a,
   top: 15px;
   right: 20px;
   z-index: 110;
-}
-
-.button-link:hover,
-/* .button-link:hover, */
-.top-button-link:hover {
-  transform: scale(1.05);
-  background-color: var(--secondary-color-hover);
 }
 
 /* .cn { */
