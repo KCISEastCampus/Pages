@@ -32,14 +32,13 @@ language: en
 |Network|*ID*|Kskq%*birthday*|15000|Kskq%20080909|
 |ManageBac|*ID*@kcisg.com|*ID*_kcis|15000@kcisg.com|15000_kcis|
 |PowerSchool|*ID*|Kskq%*birthday*|15000|Kskq%20080909|
-|School Email|*ID*|Ks%*birthday* **or** Kskq%*birthday*|15000|Ks@20080909|
+|School Email|*ID*|Ks@*birthday* **or** Kskq%*birthday*|15000|Ks@20080909|
 
 # About
 
-- This project is founded by 10K_AL 洪斌酱 EricStoneChina: [View his GitHub](https://github.com/EricStoneChina)
-- Front end improvements & English translations done by[idadwind](https://www.github.com/idadwind1): [Website](https://www.idadwind.fun)
-- [Help us improve on GitHub](https://www.github.com/KCISEastCampus)
-- [Complaints & Suggestions go into this email](mailto:report@kcisec.site)
+- Project Organization: [View on GitHub](https://github.com/KCISEastCampus)
+- Maintainers: [Idad Wind](https://www.github.com/idadwind1), [EricStoneChina](https://www.github.com/EricStoneChina)
+- [Report & Contributions](mailto:report@kcisec.site)
 
 The copyright of the school emblem belongs to Kunshan Kang Chiao School, and the OxfordAQA Approved Centre logo belongs to OxfordAQA, and Kunshan Kang Chiao School had been authorized. Unless otherwise stated, all other assets belong to this organization.
 

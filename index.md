@@ -31,14 +31,13 @@ language: zh_CN
 |网络|*ID*|Kskq%*八位生日*|15000|Kskq%20080909|
 |ManageBac|*ID*@kcisg.com|*ID*_kcis|15000@kcisg.com|15000_kcis|
 |PowerSchool|*ID*|Kskq%*八位生日*|15000|Kskq%20080909|
-|网易企业邮箱|*ID*|Ks%*八位生日* **or** Kskq%*八位生日*|15000|Ks@20080909|
+|网易企业邮箱|*ID*|Ks@*八位生日* **or** Kskq%*八位生日*|15000|Ks@20080909|
 
 # 关于
 
-- 这个项目由10K_AL 洪斌酱 EricStoneChina发起：[查看他的GitHub主页](https://github.com/EricStoneChina)
-- 前端优化和英语翻译由[idadwind](https://www.github.com/idadwind1)负责：[网站](https://www.idadwind.fun)
 - [查看本组织的GitHub官网](https://www.github.com/KCISEastCampus)
-- [反馈至这个邮件](mailto:report@kcisec.site)
+- 维护人：EricStoneChina [查看他的GitHub主页](https://github.com/EricStoneChina), Idad Wind [查看他的GitHub主页](https://www.github.com/idadwind1)
+- [反馈](mailto:report@kcisec.site)
 
 校徽版权归昆山康桥学校所有，OxfordAQA图标归OxfordAQA所有，并授权昆山康桥学校使用授权中心Logo。除另外声明外，其余内容版权均归本组织所有。
 
