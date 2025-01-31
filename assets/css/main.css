@@ -119,6 +119,13 @@ nav a,
   z-index: 110;
 }
 
+.button-link:hover,
+/* .button-link:hover, */
+.top-button-link:hover {
+  transform: scale(1.05);
+  background-color: var(--secondary-color-hover);
+}
+
 /* .cn { */
 /*   padding: 20px 0 0; */
 /*   color: #333; */
