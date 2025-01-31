@@ -3,6 +3,7 @@
   --primary-color: #009fa8;
   /* purple */
   --secondary-color: #920783;
+  --secondary-color-hover: #bb64b2;
   --secondary-dark-color: #66045B;
   /* gold */
   --primary-gradient-color: #CBBE00;
@@ -118,6 +119,7 @@ nav a,
 /* .button-link:hover, */
 .top-button-link:hover {
   transform: scale(1.05);
+  background-color: var(--secondary-color-hover);
 }
 
 /* .cn { */
