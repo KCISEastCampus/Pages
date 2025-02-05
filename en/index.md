@@ -39,11 +39,13 @@ Those websites are marked unsafe by modern browsers. You would need to click "Ad
 |PowerSchool|*ID*|Kskq%*birthday*|15000|Kskq%20080909|
 |School Email|*ID*|Ks@*birthday* **or** Kskq%*birthday*|15000|Ks@20080909|
 
+# Visitor Counter
+![moecounter](https://count.getloli.com/@kcisecnav?name=kcisecnav&theme=gelbooru&darkmode=0)
 # About
 
 ## What is this
 
-This website aim to provide a convenient link station for all people in KCISEC, to provide convenient and quick access links for teachers and students.
+This website aims to provide a convenient link station for all people in KCISEC, to provide convenient and quick access links for teachers and students.
 
 ## Who are we
 
@@ -53,12 +55,10 @@ We are committed to creating a convenient website for all teachers and students 
 
 ## Contribute
 
-If you are interested in joining us, you can contact us via the following:
+If you are interested in joining us, you can contact us via the following methods:
 - Maintainer: EricStoneChina: [GitHub](https://github.com/EricStoneChina)
 - Idad Wind: [GitHub](https://www.github.com/idadwind1)
 
 or try to submit a [feedback](mailto:mailto:report@kcisec.site), we will reach you as soon as possible.
 
-The copyright of the school emblem belongs to Kunshan Kang Chiao School, and the OxfordAQA Approved Centre logo belongs to OxfordAQA, and Kunshan Kang Chiao School had been authorized. Unless otherwise stated, all other assets belong to this organization.
-
-![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fkcisec.site&count_bg=%2379C83D&title_bg=%23555555&icon=googleclassroom.svg&icon_color=%23E7E7E7&title=%E7%BD%91%E7%AB%99%E8%AE%BF%E9%97%AE%E6%AC%A1%E6%95%B0&edge_flat=false)
+The copyright of the school emblem belongs to Kunshan Kang Chiao School, and Kunshan Kang Chiao School had been authorized. Unless otherwise stated, all other assets belong to this organization.

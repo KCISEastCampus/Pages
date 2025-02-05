@@ -10,13 +10,17 @@ function bind_onclick_btn() {
 }
 function load_switch_language_btn(current_language) {
   let button = document.getElementById('switch-language-button');
+  let title = document.querySelector('a.nav-title-container');
+  if (button == null || title == null) return;
   let path = window.location.pathname;
   if (current_language == 'en') {
     button.innerHTML = "中文";
     button.setAttribute('href', path.replace(/\/en(.*?)$/g, "$1"));
+    title.href = "/en/";
   }
   else if (current_language == 'zh_CN') {
     button.innerHTML = "English";
     button.setAttribute('href', '/en' + path);
+    title.href = "/";
   }
 }

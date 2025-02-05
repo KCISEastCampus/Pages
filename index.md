@@ -38,6 +38,8 @@ language: zh_CN
 |PowerSchool|*ID*|Kskq%*八位生日*|15000|Kskq%20080909|
 |网易企业邮箱|*ID*|Ks@*八位生日* **or** Kskq%*八位生日*|15000|Ks@20080909|
 
+# 访问量统计
+![moecounter](https://count.getloli.com/@kcisecnav?name=kcisecnav&theme=gelbooru&darkmode=0)
 # 关于
 
 ## 这是什么？
@@ -58,6 +60,4 @@ language: zh_CN
 
 你也可以试着[反馈](mailto:report@kcisec.site)一些问题，我们会尽快回复。
 
-校徽版权归昆山康桥学校所有，OxfordAQA图标归OxfordAQA所有，并授权昆山康桥学校使用授权中心Logo。除另外声明外，其余内容版权均归本组织所有。
-
-![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fkcisec.site&count_bg=%2379C83D&title_bg=%23555555&icon=googleclassroom.svg&icon_color=%23E7E7E7&title=%E7%BD%91%E7%AB%99%E8%AE%BF%E9%97%AE%E6%AC%A1%E6%95%B0&edge_flat=false)
+校徽版权归昆山康桥学校所有，并授权昆山康桥学校使用授权中心Logo。除另外声明外，其余内容版权均归本组织所有。
