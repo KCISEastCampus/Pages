@@ -12,7 +12,7 @@ language: en
 <buttonlink href="https://sop.kcisec.com/">SOP</buttonlink>
 
 **HTTP websites:**
-Those websites are marked unsafe by modern browsers. You would need to click "Advanced" and "Proceed to unsafe" to access them.
+Those websites are marked unsafe by modern browsers. You would need to click "Advanced" and then "Proceed to unsafe" to access them.
 <buttonlink href="http://192.168.80.60/">Printing (Building 1 & 2)</buttonlink>
 <buttonlink href="http://192.168.80.68/">Printing (Building 3)</buttonlink>
 
