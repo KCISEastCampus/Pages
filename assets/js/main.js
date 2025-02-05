@@ -1,5 +1,5 @@
 function bind_onclick_btn() {
-  let buttons = Array.from(document.getElementsByClassName('button-link'));
+  let buttons = Array.from(document.querySelectorAll('buttonlink'));
   buttons.forEach(function (button) {
     let href = button.getAttribute('href');
     button.addEventListener('click', function () {

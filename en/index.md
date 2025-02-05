@@ -5,23 +5,28 @@ language: en
 
 # Frequently Used Links
 
-**Only accessible through school network:**
+## Only accessible through school network
 
-<div class="button-link" href="https://ordering.kcisec.com/chaxun.asp">Meal Querying</div>
-<div class="button-link" href="https://ordering.kcisec.com/index.asp">Meal Ordering</div>
-<div class="button-link" href="https://192.168.80.60/">Printing (Building 1 & 2)</div>
-<div class="button-link" href="http://192.168.80.68/">Printing (Building 3)</div>
-<div class="button-link" href="https://sop.kcisec.com/">SOP</div>
+<buttonlink href="https://ordering.kcisec.com/chaxun.asp">Meal Querying</buttonlink>
+<buttonlink href="https://ordering.kcisec.com/index.asp">Meal Ordering</buttonlink>
+<buttonlink href="https://sop.kcisec.com/">SOP</buttonlink>
 
-**Accessible anywhere:**
+**HTTP websites:**
+Those websites are marked unsafe by modern browsers. You would need to click "Advanced" and "Proceed to unsafe" to access them.
+<buttonlink href="http://192.168.80.60/">Printing (Building 1 & 2)</buttonlink>
+<buttonlink href="http://192.168.80.68/">Printing (Building 3)</buttonlink>
 
-<div class="button-link" href="https://ordering.kcisec.com/ordering">Meal Ordering</div>
-<div class="button-link" href="https://portal.kcisec.com/China">Student Dashboard</div>
-<div class="button-link" href="https://kcisec.managebac.cn">ManageBac</div>
-<div class="button-link" href="https://powerschool.kcisec.org.cn/public/">PowerSchool</div>
-<div class="button-link" href="https://mail.kcisg.com">School Email (@kcisg.com)
-</div>
-<div class="button-link" href="https://portal.kcisec.com/login/Account/LogHC">Tuberculosis Self-screening Form</div>
+## Accessible anywhere
+
+<buttonlink href="https://ordering.kcisec.com/ordering">Meal Ordering</buttonlink>
+<buttonlink href="https://portal.kcisec.com/China">Student Dashboard</buttonlink>
+<buttonlink href="https://kcisec.managebac.cn">ManageBac</buttonlink>
+<buttonlink href="https://powerschool.kcisec.org.cn/public/">PowerSchool</buttonlink>
+<buttonlink href="https://mail.kcisg.com">School Email (@kcisg.com)
+</buttonlink>
+<buttonlink href="https://portal.kcisec.com/login/Account/LogHC">Tuberculosis Self-screening Form</buttonlink>
+
+
 
 # Usernames & Passwords
 
@@ -36,9 +41,23 @@ language: en
 
 # About
 
-- Project Organization: [View on GitHub](https://github.com/KCISEastCampus)
-- Maintainers: [Idad Wind](https://www.github.com/idadwind1), [EricStoneChina](https://www.github.com/EricStoneChina)
-- [Report & Contributions](mailto:report@kcisec.site)
+## What is this
+
+This website aim to provide a convenient link station for all people in KCISEC, to provide convenient and quick access links for teachers and students.
+
+## Who are we
+
+[Our GitHub](https://www.github.com/KCISEastCampus)
+
+We are committed to creating a convenient website for all teachers and students of KCISEC, aiming to help teachers and students conveniently access various services of the school.
+
+## Contribute
+
+If you are interested in joining us, you can contact us via the following:
+- Maintainer: EricStoneChina: [GitHub](https://github.com/EricStoneChina)
+- Idad Wind: [GitHub](https://www.github.com/idadwind1)
+
+or try to submit a [feedback](mailto:mailto:report@kcisec.site), we will reach you as soon as possible.
 
 The copyright of the school emblem belongs to Kunshan Kang Chiao School, and the OxfordAQA Approved Centre logo belongs to OxfordAQA, and Kunshan Kang Chiao School had been authorized. Unless otherwise stated, all other assets belong to this organization.
 

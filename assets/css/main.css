@@ -51,6 +51,7 @@ a {
 }
 
 nav {
+  background-color: var(--primary-color);
   text-align: center;
   display: flex;
   position: sticky;
@@ -58,12 +59,41 @@ nav {
   z-index: 100;
   top: 0;
   flex-wrap: wrap;
-  padding: 15px 300px;
+  padding: 15px 80px;
   justify-content: space-between;
+  height: 80px;
 }
 
-nav a,
-.button-link {
+nav img {
+  display: block;
+  max-height: 90%;
+  max-width: 100%;
+}
+
+nav h1 {
+  color: var(--secondary-text-color);
+}
+
+.nav-links-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 50%;
+}
+
+.nav-title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 20%;
+  max-height: 100%;
+}
+
+nav a {
+  text-decoration: none;
+}
+
+buttonlink {
   text-decoration: none;
   padding: 10px 20px;
   font-size: 16px;
@@ -81,8 +111,7 @@ nav a,
   background-color: var(--primary-gradient-color);
 }
 
-.button-link:hover,
-.top-button-link:hover {
+buttonlink:hover {
   transform: scale(1.05);
   background-color: var(--secondary-color-hover);
 }
@@ -148,11 +177,6 @@ footer {
   border-radius: 8px;
 }
 
-h2 {
-  color: #68839e;
-  margin-bottom: 10px;
-}
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -170,17 +194,6 @@ h2 {
     padding: 15px;
   }
 
-  nav a,
-  .button-link,
-  .top-button-link,
-  .inside-button-link,
-  .bad-link,
-  #switch-language-button {
-    margin: 5px 0;
-    width: 90%;
-    text-align: center;
-  }
-
   footer {
     padding: 20px 0;
   }
@@ -190,9 +203,12 @@ h2 {
     max-width: 350px;
   }
 
-  .button-link {
+  buttonlink {
     font-size: 14px;
     padding: 8px 16px;
+    margin: 5px 0;
+    width: 90%;
+    text-align: center;
   }
 }
 
@@ -200,9 +216,4 @@ h2 {
   .english-button {
     display: none;
   }
-}
-
-header,
-nav {
-  background-color: var(--primary-color);
 }

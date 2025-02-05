@@ -5,22 +5,27 @@ language: zh_CN
 
 # 便民链接
 
-**仅校内能访问:**
-<div class="button-link" href="https://ordering.kcisec.com/chaxun.asp">查餐系统</div>
-<div class="button-link" href="https://ordering.kcisec.com/index.asp">订餐系统</div>
-<div class="button-link" href="https://192.168.80.60/">云打印(教一&教二)</div>
-<div class="button-link" href="http://192.168.80.68/">云打印(教三)</div>
-<div class="button-link" href="https://sop.kcisec.com/">SOP</div>
+## 仅校内能访问
+<buttonlink href="https://ordering.kcisec.com/chaxun.asp">查餐系统</buttonlink>
+<buttonlink href="https://ordering.kcisec.com/index.asp">订餐系统</buttonlink>
+<buttonlink href="https://sop.kcisec.com/">SOP</buttonlink>
 
-**校内外均可访问:**
-<div class="button-link" href="https://ordering.kcisec.com/ordering">手机端订餐系统 (电脑可用)</div>
-<div class="button-link" href="https://portal.kcisec.com/China">校务系统</div>
-<div class="button-link" href="https://kcisec.managebac.cn">ManageBac</div>
-<div class="button-link" href="https://powerschool.kcisec.org.cn/public/">
-  PowerSchool</div>
-<div class="button-link" href="https://mail.kcisg.com">网易企业邮箱（@kcisg.com）
-</div>
-<div class="button-link" href="https://portal.kcisec.com/login/Account/LogHC"> 肺结核自我筛查系统</div>
+**HTTP 网站:**
+这些网站通常会被浏览器标记为不安全  
+点击"高级"和"访问不安全网站"以访问这些网站
+
+<buttonlink href="https://192.168.80.60/">云打印(教一&教二)</buttonlink>
+<buttonlink href="http://192.168.80.68/">云打印(教三)</buttonlink>
+
+## 校内外均可访问
+<buttonlink href="https://ordering.kcisec.com/ordering">手机端订餐系统 (电脑可用)</buttonlink>
+<buttonlink href="https://portal.kcisec.com/China">校务系统</buttonlink>
+<buttonlink href="https://kcisec.managebac.cn">ManageBac</buttonlink>
+<buttonlink href="https://powerschool.kcisec.org.cn/public/">
+  PowerSchool</buttonlink>
+<buttonlink href="https://mail.kcisg.com">网易企业邮箱（@kcisg.com）
+</buttonlink>
+<buttonlink href="https://portal.kcisec.com/login/Account/LogHC"> 肺结核自我筛查系统</buttonlink>
 
 # 网站默认密码
 
@@ -35,9 +40,23 @@ language: zh_CN
 
 # 关于
 
-- [查看本组织的GitHub官网](https://www.github.com/KCISEastCampus)
-- 维护人：EricStoneChina [查看他的GitHub主页](https://github.com/EricStoneChina), Idad Wind [查看他的GitHub主页](https://www.github.com/idadwind1)
-- [反馈](mailto:report@kcisec.site)
+## 这是什么？
+
+这个网站是KCISEC初中部的一个便民链接站，旨在为初中部的师生提供方便快捷的访问链接。
+
+## 我们是谁？
+
+[我们的GitHub官网](https://www.github.com/KCISEastCampus)
+
+我们致力为KCISEC初中部的全体师生打造一个便民的网站，让师生能够更方便地访问学校的各种服务。
+
+## 加入我们
+
+如果你有兴趣加入我们，可以通过以下方式联系我们：
+- 维护人：EricStoneChina [查看他的GitHub主页](https://github.com/EricStoneChina)
+- Idad Wind [查看他的GitHub主页](https://www.github.com/idadwind1)
+
+你也可以试着[反馈](mailto:report@kcisec.site)一些问题，我们会尽快回复。
 
 校徽版权归昆山康桥学校所有，OxfordAQA图标归OxfordAQA所有，并授权昆山康桥学校使用授权中心Logo。除另外声明外，其余内容版权均归本组织所有。
 
