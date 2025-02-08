@@ -9,10 +9,10 @@ language: en
 
 <buttonlink href="https://ordering.kcisec.com/chaxun.asp">Meal Querying</buttonlink>
 <buttonlink href="https://ordering.kcisec.com/index.asp">Meal Ordering</buttonlink>
-<buttonlink href="https://sop.kcisec.com/">SOP</buttonlink>
+<!-- <buttonlink href="https://sop.kcisec.com/">SOP</buttonlink> -->
 
 **HTTP websites:**
-Those websites are marked unsafe by modern browsers. You would need to click "Advanced" and then "Proceed to unsafe" to access them.
+Those websites below are marked unsafe by modern browsers. You would need to click "Advanced" and then "Proceed to unsafe" to access them.
 <buttonlink href="http://192.168.80.60/">Printing (Building 1 & 2)</buttonlink>
 <buttonlink href="http://192.168.80.68/">Printing (Building 3)</buttonlink>
 
@@ -39,13 +39,11 @@ Those websites are marked unsafe by modern browsers. You would need to click "Ad
 |PowerSchool|*ID*|Kskq%*birthday*|15000|Kskq%20080909|
 |School Email|*ID*|Ks@*birthday* **or** Kskq%*birthday*|15000|Ks@20080909|
 
-# Visitor Counter
-![moecounter](https://count.getloli.com/@kcisecnav?name=kcisecnav&theme=gelbooru&darkmode=0)
 # About
 
 ## What is this
 
-This website aims to provide a convenient link station for all people in KCISEC, to provide convenient and quick access links for teachers and students.
+This website aims to provide a convenient link station of KCISEC, to provide convenient and quick access links for teachers and students.
 
 ## Who are we
 
@@ -53,10 +51,8 @@ This website aims to provide a convenient link station for all people in KCISEC,
 
 We are committed to creating a convenient website for all teachers and students of KCISEC, aiming to help teachers and students conveniently access various services of the school.
 
-## Contribute
-
-If you are interested in joining us, you can contact us via the following methods:
-- Maintainer: EricStoneChina: [GitHub](https://github.com/EricStoneChina)
+### Contributors
+- EricStoneChina: [GitHub](https://github.com/EricStoneChina)
 - Idad Wind: [GitHub](https://www.github.com/idadwind1)
 
 or try to submit a [feedback](mailto:mailto:report@kcisec.site), we will reach you as soon as possible.
