@@ -10,8 +10,8 @@ function bind_onclick_btn() {
 }
 function load_switch_language_btn(current_language) {
   let button = document.getElementById('switch-language-button');
-  let title = document.querySelector('a.nav-title-container');
-  if (button == null || title == null) return;
+  let title = document.querySelector('nav a.logo-container');
+  if (button == null) return;
   let path = window.location.pathname;
   if (current_language == 'en') {
     button.innerHTML = "中文";

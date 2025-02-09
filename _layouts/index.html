@@ -9,11 +9,11 @@
   {% assign lang = site.data.lang[page.language] %}
   {% assign navibar = lang.navibar %}
   <nav>
-    <a href="/" class="nav-title-container">
+    <a href="/" class="logo-container">
       <img src="/assets/images/school-logo.svg" title="KangChiao International School East Campus Logo" />
-      <h1>{{ navibar.title }}</h1>
+      <span>{{ navibar.title }}</span>
     </a>
-    <div class="nav-links-container">
+    <div class="links-container">
       <buttonlink href="./App/">{{ navibar.button_app }}</buttonlink>
       <buttonlink href="https://blog.kcisec.site">{{ navibar.button_blog }}</buttonlink>
       <buttonlink href="https://academic.kcisec.site/">{{ navibar.button_alevel }}</buttonlink>

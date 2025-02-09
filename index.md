@@ -23,8 +23,7 @@ language: zh_CN
 <buttonlink href="https://kcisec.managebac.cn">ManageBac</buttonlink>
 <buttonlink href="https://powerschool.kcisec.org.cn/public/">
   PowerSchool</buttonlink>
-<buttonlink href="https://mail.kcisg.com">网易企业邮箱（@kcisg.com）
-</buttonlink>
+<buttonlink href="https://mail.kcisg.com">网易企业邮箱(@kcisg.com)</buttonlink>
 <buttonlink href="https://portal.kcisec.com/login/Account/LogHC"> 肺结核自我筛查系统</buttonlink>
 
 # 网站默认密码

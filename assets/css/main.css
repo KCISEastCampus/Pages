@@ -59,51 +59,66 @@ nav {
   z-index: 100;
   top: 0;
   flex-wrap: wrap;
-  padding: 15px 80px;
+  padding: 1rem 2rem;
   justify-content: space-between;
-  height: 80px;
+  height: 3rem;
 }
 
 nav img {
   display: block;
-  max-height: 90%;
-  max-width: 100%;
+  max-height: 100%;
 }
 
-nav h1 {
+nav span {
   color: var(--secondary-text-color);
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0.25rem 0;
 }
 
-.nav-links-container {
+nav .logo-container {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  width: 50%;
+  max-height: 100%;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  gap: 1rem;
 }
 
-.nav-title-container {
+nav .links-container {
+  margin-top: 0.125rem;
+}
+
+nav .title-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 20%;
   max-height: 100%;
+  flex-grow: 1;
+  flex-shrink: 0;
 }
 
 nav a {
   text-decoration: none;
 }
 
+#collapsible-btn,
 buttonlink {
   text-decoration: none;
-  padding: 10px 20px;
-  font-size: 16px;
+  padding: 0.6rem 1rem;
+  margin-top: 0.5rem;
   white-space: nowrap;
   cursor: pointer;
   display: inline-block;
-  border-radius: 25px;
+  border-radius: 1.5rem;
   transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
   color: var(--secondary-text-color);
   background-color: var(--secondary-color);
+}
+
+nav buttonlink {
+  margin-top: 0;
 }
 
 .secondary-button-link {
@@ -148,10 +163,10 @@ buttonlink:hover {
 }
 
 .page-content {
-  padding: 30px;
+  padding: 2rem;
   border: 1px solid #ddd;
   border-radius: 8px;
-  margin: 30px;
+  margin: 2rem;
 }
 
 .box-shadow {
@@ -164,8 +179,8 @@ footer {
   background-color: var(--primary-color);
   color: #ecf0f1;
   text-align: center;
-  padding: 15px;
-  height: 40px;
+  padding: 1rem;
+  height: 1rem;
   margin-top: auto;
 }
 
@@ -188,32 +203,19 @@ footer {
 }
 
 /* Mobile Styles */
-@media screen and (max-width: 500px) {
-  nav {
-    flex-direction: column;
-    padding: 15px;
-  }
-
+@media screen and (max-width: 1060px) {
   footer {
     padding: 20px 0;
   }
 
-  img {
-    width: 100%;
-    max-width: 350px;
-  }
-
   buttonlink {
-    font-size: 14px;
-    padding: 8px 16px;
+    padding: 0.5rem 1rem;
     margin: 5px 0;
-    width: 90%;
     text-align: center;
+    width: 90%;
   }
-}
 
-@media screen and (max-width: 750px) {
-  .english-button {
-    display: none;
+  nav buttonlink {
+    margin: 5px 0;
   }
 }
