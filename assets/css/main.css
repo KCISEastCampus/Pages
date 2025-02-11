@@ -213,6 +213,10 @@ footer {
     text-align: center;
   }
 
+  #switch-language-button {
+    margin-bottom: 1rem;
+  }
+
   nav buttonlink {
     margin: 0.5rem 1rem;
   }
@@ -241,7 +245,6 @@ footer {
     background-color: var(--primary-color);
     position: absolute;
     top: 5rem;
-    margin-bottom: 1rem;
     left: 0;
   }
 
