@@ -124,7 +124,6 @@ buttonlink {
   cursor: pointer;
   display: inline-block;
   box-sizing: border-box;
-  width: 100%;
   border-radius: 1.5rem;
   color: var(--secondary-text-color);
   background-color: var(--secondary-color);
