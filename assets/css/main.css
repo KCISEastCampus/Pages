@@ -123,6 +123,8 @@ buttonlink {
   white-space: nowrap;
   cursor: pointer;
   display: inline-block;
+  box-sizing: border-box;
+  width: 100%;
   border-radius: 1.5rem;
   color: var(--secondary-text-color);
   background-color: var(--secondary-color);
@@ -208,6 +210,8 @@ footer {
 /* Mobile Styles */
 @media screen and (max-width: 850px) {
   buttonlink {
+    box-sizing: border-box;
+    width: 100%;
     padding: 0.5rem 1rem;
     margin: 5px 0;
     text-align: center;
@@ -219,6 +223,7 @@ footer {
 
   nav buttonlink {
     margin: 0.5rem 1rem;
+    width: auto;
   }
 
   /* Hamburger Menu */
