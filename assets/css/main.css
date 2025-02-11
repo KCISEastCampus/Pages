@@ -1,3 +1,8 @@
+/*
+* im not very good at css pls dont blame me
+* -- idadwind
+*/
+
 :root {
   /* blue */
   --primary-color: #009fa8;
@@ -27,13 +32,16 @@
   --theme-silver: #C9CACA;
 }
 
+* {
+  transition: 0.5s;
+}
+
 body {
   font-family: 'Noto Sans SC', sans-serif;
   margin: 0;
   padding: 0;
   background-color: var(--background-color);
   color: var(--primary-text-color);
-  transition: background-color 0.3s ease;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -85,8 +93,12 @@ nav .logo-container {
   gap: 1rem;
 }
 
+nav .logo-container>a {
+  height: 100%;
+}
+
 nav .links-container {
-  margin-top: 0.125rem;
+  margin: auto 0;
 }
 
 nav .title-container {
@@ -112,7 +124,6 @@ buttonlink {
   cursor: pointer;
   display: inline-block;
   border-radius: 1.5rem;
-  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
   color: var(--secondary-text-color);
   background-color: var(--secondary-color);
 }
@@ -146,14 +157,6 @@ buttonlink:hover {
 }
 
 #switch-language-button {
-  text-decoration: none;
-  padding: 10px 20px;
-  font-size: 16px;
-  white-space: nowrap;
-  cursor: pointer;
-  display: inline-block;
-  border-radius: 25px;
-  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
   color: var(--secondary-text-color);
   background-color: var(--primary-gradient-color);
 }
@@ -203,19 +206,66 @@ footer {
 }
 
 /* Mobile Styles */
-@media screen and (max-width: 1060px) {
-  footer {
-    padding: 20px 0;
-  }
-
+@media screen and (max-width: 850px) {
   buttonlink {
     padding: 0.5rem 1rem;
     margin: 5px 0;
     text-align: center;
-    width: 90%;
   }
 
   nav buttonlink {
+    margin: 0.5rem 1rem;
+  }
+
+  /* Hamburger Menu */
+  .hamburger {
+    display: block;
+    cursor: pointer;
+    padding: 10px;
+
+  }
+
+  .hamburger .line {
+    width: 25px;
+    height: 3px;
+    background-color: var(--secondary-text-color);
     margin: 5px 0;
+  }
+
+  .links-container {
+    display: flex;
+    max-height: 0;
+    overflow: hidden;
+    flex-direction: column;
+    width: 100%;
+    background-color: var(--primary-color);
+    position: absolute;
+    top: 5rem;
+    left: 0;
+  }
+
+  .links-container.active {
+    max-height: 100vh;
+  }
+
+  .logo-container {
+    height: 100%;
+    justify-content: space-between;
+  }
+
+  .title-container {
+    width: 100%;
+  }
+
+  .active>.line#line1 {
+    transform: rotate(-45deg) translate(-5px, 6px);
+  }
+
+  .active>.line#line2 {
+    opacity: 0;
+  }
+
+  .active>.line#line3 {
+    transform: rotate(45deg) translate(-5px, -6px);
   }
 }
