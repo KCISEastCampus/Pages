@@ -49,8 +49,6 @@ This website aims to provide a convenient link station of KCISEC, to provide con
 
 [Our GitHub](https://www.github.com/KCISEastCampus)
 
-We are committed to creating a convenient website for all teachers and students of KCISEC, aiming to help teachers and students conveniently access various services of the school.
-
 ### Contributors
 - EricStoneChina: [GitHub](https://github.com/EricStoneChina)
 - Idad Wind: [GitHub](https://www.github.com/idadwind1)
