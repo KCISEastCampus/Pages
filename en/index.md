@@ -53,6 +53,6 @@ This website aims to provide a convenient link station of KCISEC, to provide con
 - EricStoneChina: [GitHub](https://github.com/EricStoneChina)
 - Idad Wind: [GitHub](https://www.github.com/idadwind1)
 
-or try to submit a [feedback](mailto:mailto:report@kcisec.site), we will reach you as soon as possible.
+or try to submit a [feedback](mailto:EricStone2009@163.com), we will reach you as soon as possible.
 
 The copyright of the school emblem belongs to Kunshan Kang Chiao School, and Kunshan Kang Chiao School had been authorized. Unless otherwise stated, all other assets belong to this organization.
