@@ -8,7 +8,6 @@ language: zh_CN
 ## 仅校内能访问
 <buttonlink href="https://ordering.kcisec.com/chaxun.asp">查餐系统</buttonlink>
 <buttonlink href="https://ordering.kcisec.com/index.asp">订餐系统</buttonlink>
-<!-- <buttonlink href="https://sop.kcisec.com/">SOP</buttonlink> -->
 
 **HTTP 网站:**
 下述这些网站通常会被浏览器标记为不安全  
@@ -23,8 +22,7 @@ language: zh_CN
 <buttonlink href="https://kcisec.managebac.cn">ManageBac</buttonlink>
 <buttonlink href="https://powerschool.kcisec.org.cn/public/">
   PowerSchool</buttonlink>
-<buttonlink href="https://mail.kcisg.com">网易企业邮箱（@kcisg.com）
-</buttonlink>
+<buttonlink href="https://mail.kcisg.com">网易企业邮箱(@kcisg.com)</buttonlink>
 <buttonlink href="https://portal.kcisec.com/login/Account/LogHC">肺结核自我筛查系统</buttonlink>
 
 # 网站默认密码
