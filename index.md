@@ -11,7 +11,7 @@ language: zh_CN
 
 **HTTP 网站:**
 下述这些网站通常会被浏览器标记为不安全  
-点击"高级"->"访问不安全网站"以访问这些网站
+点击“高级”->“访问不安全网站”以访问这些网站
 
 <buttonlink href="https://192.168.80.60/">云打印(教一&教二)</buttonlink>
 <buttonlink href="http://192.168.80.68/">云打印(教三)</buttonlink>

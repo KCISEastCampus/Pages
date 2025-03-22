@@ -7,6 +7,7 @@ language: zh_CN
 
 ## KCISEC终端
 KCISEC终端为我们最新研发的App，现阶段包括聊天和公报。未来会有更多功能接入。推荐所有受众下载！
+(目前只支持A-Level G10学生注册。)
 
 [进入Web端](https://coco.codemao.cn/editor/player/254319992?channel=h5)
 
