@@ -7,7 +7,10 @@
 
 <body>
   {% include header.html %}
-  {% include hero.html %}
+  {%- comment -%} Only include hero on site root pages to avoid path nesting on subpages {%- endcomment -%}
+  {%- if page.url == '/' or page.url == '/en/' -%}
+    {% include hero.html %}
+  {%- endif -%}
   <div class="page-content">
     {{ content }}
   </div>
