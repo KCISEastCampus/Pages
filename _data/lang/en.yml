@@ -5,3 +5,20 @@ navibar:
   button_blog: Blog
   button_alevel: A-Level Homepage
   button_log: Update Log
+  switch_language: 简体中文
+
+footer:
+  copyright_org: "KCISEastCampus"
+  school_rights: "The school emblem and OxfordAQA Logo are copyrighted by KangChiao International School."
+  maintained_by: "Maintained by"
+  collaboration_log: "Collaboration Log"
+  feedback: "Feedback"
+  all_rights_reserved: "All rights reserved"
+
+hero:
+  title: "Explore Campus Resources"
+  subtitle: "Quickly access important links to simplify your campus life."
+  toggle: "Toggle hero"
+toggle_ui:
+  open_old: "Old UI"
+  open_new: "New UI"

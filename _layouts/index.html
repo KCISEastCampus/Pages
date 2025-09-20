@@ -6,34 +6,21 @@
 </head>
 
 <body>
-  {% assign lang = site.data.lang[page.language] %}
-  {% assign navibar = lang.navibar %}
-  <nav>
-    <a class="logo-container" href="/">
-      <img src="/assets/images/school-logo.svg" title="KangChiao International School East Campus Logo" />
-      <span>{{ navibar.title }}</span>
-    </a>
-    <div class="hamburger" onclick="toggle_hamburger_menu()">
-      <div class="line" id="line1"></div>
-      <div class="line" id="line2"></div>
-      <div class="line" id="line3"></div>
-    </div>
-    <div class="links-container" id="nav-links">
-      <buttonlink href="./app/">{{ navibar.button_app }}</buttonlink>
-      <buttonlink href="https://blog.kcisec.site">{{ navibar.button_blog }}</buttonlink>
-      <buttonlink href="https://academic.kcisec.site/">{{ navibar.button_alevel }}</buttonlink>
-      <buttonlink id="switch-language-button">{{ navibar.switch_language }}</buttonlink>
-    </div>
-  </nav>
-  <div class="page-content box-shadow">
+  {% include header.html %}
+  {% include hero.html %}
+  <div class="page-content">
     {{ content }}
   </div>
 
   {% include footer.html %}
 
+  <script src="/assets/js/main.js"></script>
   <script>
     load_switch_language_btn('{{ page.language }}');
+    load_ui_toggle_btn('{{ page.language }}');
     bind_onclick_btn();
+    if (typeof initHeroCardsAnimation === 'function') initHeroCardsAnimation();
+    if (typeof initHeroAutoHide === 'function') initHeroAutoHide();
   </script>
 </body>
 

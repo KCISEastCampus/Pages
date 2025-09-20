@@ -5,3 +5,20 @@ navibar:
   button_blog: 个人博客
   button_alevel: A-Level主页
   button_log: 更新日志
+  switch_language: English
+
+footer:
+  copyright_org: "KCISEastCampus"
+  school_rights: "校徽及 OxfordAQA Logo 版权归昆山康桥学校所有"
+  maintained_by: "网站维护"
+  collaboration_log: "网站协作记录"
+  feedback: "问题反馈"
+  all_rights_reserved: "版权所有"
+
+hero:
+  title: "探索校园资源"
+  subtitle: "访问我们为您准备的校园资源。"
+  toggle: "折叠/展开"
+toggle_ui:
+  open_old: "旧界面"
+  open_new: "新版界面"

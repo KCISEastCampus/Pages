@@ -1,3 +1,12 @@
+{% assign footer = lang.footer %}
 <footer>
-  &copy; 2024 EricStoneChina & Idad Wind.
+  <div class="footer-content">
+    <p>&copy; 2024 {{ footer.copyright_org }}. {{ footer.all_rights_reserved }}.</p>
+    <p>{{ footer.school_rights }}.</p>
+    <p>
+      {{ footer.maintained_by }}: <a href="https://github.com/EricStoneChina">EricStoneChina</a>.
+      <a href="https://github.com/KCISEastCampus/Pages/commits/main/">{{ footer.collaboration_log }}</a>.
+      <a href="mailto:EricStone2009@163.com">{{ footer.feedback }}</a>.
+    </p>
+  </div>
 </footer>
