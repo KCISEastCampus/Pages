@@ -1,3 +1,6 @@
+page_title: "KCISEC校园网站"
+page_description: "KCISEC校园网站包含校园公报、昆山康桥学校A-Level/IGCSE资讯和摄影合作组织。"
+
 navibar:
   title: KCISEC校园网站
   button_ksvg: 摄影合作组织
@@ -7,6 +10,7 @@ navibar:
   button_log: 更新日志
   switch_language: English
   menu: 菜单
+  main_navigation: 主导航
 
 skip_to_content: "跳转到主内容"
 

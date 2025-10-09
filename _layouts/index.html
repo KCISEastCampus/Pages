@@ -12,9 +12,9 @@
   {%- if page.url == '/' or page.url == '/en/' -%}
     {% include hero.html %}
   {%- endif -%}
-  <div id="main-content" class="page-content">
+  <main id="main-content" class="page-content" role="main">
     {{ content }}
-  </div>
+  </main>
 
   {% include footer.html %}
 

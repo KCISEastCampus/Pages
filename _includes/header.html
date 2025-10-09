@@ -1,6 +1,6 @@
 {% assign lang = site.data.lang[page.language] %}
 {% assign navibar = lang.navibar %}
-<nav>
+<nav role="navigation" aria-label="{{ navibar.main_navigation }}">
   <a class="logo-container" href="/">
     <img src="/assets/images/school-logo.svg" alt="KangChiao International School East Campus Logo" title="KangChiao International School East Campus Logo" />
     <span>{{ navibar.title }}</span>
