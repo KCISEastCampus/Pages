@@ -16,7 +16,7 @@
 
   --primary-text-color: #333;
   --secondary-text-color: #ffffff;
-  --tetriary-text-color: #337ab7;
+  --tertiary-text-color: #337ab7;
   --background-color: #f4f4f4;
 
   --theme-blue: #004098;
@@ -216,28 +216,30 @@ nav buttonlink:hover {
   box-shadow: none;
 }
 
-.button-link i {
-  font-size: 1.2rem;
-}
-
 /* Make icons in button-link visually consistent */
 .button-link i {
+  font-size: 1.2rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 1.8rem;
   height: 1.8rem;
-}
-
-/* Stronger visual for icons (color/weight) */
-.button-link i, .hero-card-icon i {
+  /* Stronger visual for icons (color/weight) */
   color: rgba(0,0,0,0.75);
 }
 
 .button-link span { display: inline-block; vertical-align: middle; }
 
 /* Improve hero card icon sizing */
-.hero-card-icon { width: 64px; height: 64px; font-size: 1.6rem; }
+.hero-card-icon { 
+  width: 64px; 
+  height: 64px; 
+  font-size: 1.6rem; 
+}
+
+.hero-card-icon i {
+  color: rgba(0,0,0,0.75);
+}
 
 #switch-language-button {
   background-color: var(--primary-gradient-color);
@@ -376,6 +378,7 @@ footer a:hover {
 }
 
 /* Small screens: default collapse to save space */
+/* 700px height threshold matches JS viewport collapse threshold */
 @media (max-height: 700px), (max-width: 600px) {
   .hero-section { padding: 1rem 1rem; }
   .hero-toggle { top: 0.75rem; right: 0.75rem; }

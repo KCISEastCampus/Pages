@@ -1,3 +1,31 @@
+// Helper function to add keyboard support to clickable elements
+function addKeyboardSupport(element, handler) {
+  element.setAttribute('tabindex', '0');
+  element.addEventListener('keydown', function (ev) {
+    if (ev.key === 'Enter' || ev.key === ' ' || ev.key === 'Spacebar') {
+      ev.preventDefault();
+      handler();
+    }
+  });
+}
+
+// Helper functions for localStorage with error handling
+function getLocalStorage(key) {
+  try {
+    return localStorage.getItem(key);
+  } catch (e) {
+    return null;
+  }
+}
+
+function setLocalStorage(key, value) {
+  try {
+    localStorage.setItem(key, value);
+  } catch (e) {
+    // Silently fail if localStorage is unavailable
+  }
+}
+
 function bind_onclick_btn() {
   let buttons = Array.from(document.querySelectorAll('buttonlink'));
   buttons.forEach(function (button) {
@@ -8,6 +36,9 @@ function bind_onclick_btn() {
     
     const clickHandler = function () {
       if (href == null) return;
+      
+    button.addEventListener('click', function () {
+      if (href === null) return;
       window.open(href);
     };
     
@@ -25,15 +56,15 @@ function bind_onclick_btn() {
 function load_switch_language_btn(current_language) {
   let button = document.getElementById('switch-language-button');
   let title = document.querySelector('nav a');
-  if (button == null) return;
-  if (title == null) return;
+  if (button === null) return;
+  if (title === null) return;
   let path = window.location.pathname;
-  if (current_language == 'en') {
+  if (current_language === 'en') {
     button.innerHTML = "中文";
     button.setAttribute('href', path.replace(/\/en(.*?)$/g, "$1"));
     title.href = "/en/";
   }
-  else if (current_language == 'zh_CN') {
+  else if (current_language === 'zh_CN') {
     button.innerHTML = "English";
     button.setAttribute('href', '/en' + path);
     title.href = "/";
@@ -53,22 +84,22 @@ function initHeroCardsAnimation() {
   const cards = document.querySelectorAll('.hero-card');
   if (!('IntersectionObserver' in window) || cards.length === 0) {
     // Fallback: show all
-    cards.forEach(c => c.classList.add('in-view'));
+    cards.forEach(card => card.classList.add('in-view'));
     return;
   }
 
-  const io = new IntersectionObserver((entries, observer) => {
-    entries.forEach((entry, idx) => {
+  const observer = new IntersectionObserver((entries, observerInstance) => {
+    entries.forEach((entry, index) => {
       if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('in-view'), entry.target.dataset.delay || (idx * 100));
-        observer.unobserve(entry.target);
+        setTimeout(() => entry.target.classList.add('in-view'), entry.target.dataset.delay || (index * 100));
+        observerInstance.unobserve(entry.target);
       }
     });
   }, { threshold: 0.15 });
 
-  cards.forEach((c, i) => {
-    c.dataset.delay = i * 120;
-    io.observe(c);
+  cards.forEach((card, i) => {
+    card.dataset.delay = i * 120;
+    observer.observe(card);
   });
 }
 
@@ -90,15 +121,12 @@ function load_ui_toggle_btn(current_language) {
       btn.dataset.state = 'new';
       btn.setAttribute('aria-pressed', 'false');
     }
-    try { localStorage.setItem('kcisec_ui', state); } catch (e) {}
+    setLocalStorage('kcisec_ui', state);
   };
 
   // Initialize from storage or default to new
-  const pref = (function(){ try { return localStorage.getItem('kcisec_ui'); } catch(e){ return null; } })();
+  const pref = getLocalStorage('kcisec_ui');
   applyState(pref === 'old' ? 'old' : 'new');
-
-  // Ensure button is focusable and supports keyboard activation
-  btn.setAttribute('tabindex', '0');
 
   const toggleHandler = function () {
     const cur = btn.dataset.state === 'old' ? 'old' : 'new';
@@ -107,12 +135,7 @@ function load_ui_toggle_btn(current_language) {
   };
 
   btn.addEventListener('click', toggleHandler);
-  btn.addEventListener('keydown', function (ev) {
-    if (ev.key === 'Enter' || ev.key === ' ' || ev.key === 'Spacebar') {
-      ev.preventDefault();
-      toggleHandler();
-    }
-  });
+  addKeyboardSupport(btn, toggleHandler);
 }
 
 function initHeroAutoHide() {
@@ -120,8 +143,14 @@ function initHeroAutoHide() {
   const toggle = document.getElementById('hero-toggle');
   if (!hero || !toggle) return;
 
+  // Constants for hero collapse behavior
   const COLLAPSE_KEY = 'kcisec_hero';
-  const viewportCollapse = () => (window.innerHeight || document.documentElement.clientHeight) < 700;
+  const VIEWPORT_HEIGHT_THRESHOLD = 700;
+  const SCROLL_DOWN_THRESHOLD = 80;
+  const SCROLL_UP_THRESHOLD = -40;
+  const SCROLL_POSITION_MIN = 100;
+  
+  const viewportCollapse = () => (window.innerHeight || document.documentElement.clientHeight) < VIEWPORT_HEIGHT_THRESHOLD;
 
   const applyCollapsed = (collapsed) => {
     if (collapsed) {
@@ -131,12 +160,11 @@ function initHeroAutoHide() {
       hero.classList.remove('collapsed');
       toggle.setAttribute('aria-expanded', 'true');
     }
-    try { localStorage.setItem(COLLAPSE_KEY, collapsed ? '1' : '0'); } catch(e){}
+    setLocalStorage(COLLAPSE_KEY, collapsed ? '1' : '0');
   };
 
   // Init from stored user preference, else viewport heuristic
-  let stored = null;
-  try { stored = localStorage.getItem(COLLAPSE_KEY); } catch(e) { stored = null; }
+  let stored = getLocalStorage(COLLAPSE_KEY);
   // userSetPreference indicates whether the user explicitly set collapse/expand before
   let userSetPreference = (stored !== null);
   if (stored === '1') applyCollapsed(true);
@@ -144,19 +172,15 @@ function initHeroAutoHide() {
   else applyCollapsed(viewportCollapse());
 
   // Toggle by button
-  toggle.addEventListener('click', function () {
+  const toggleClickHandler = function () {
     const cur = hero.classList.contains('collapsed');
     applyCollapsed(!cur);
     // mark that user explicitly set preference so auto-behaviour won't override
     userSetPreference = true;
-  });
-  toggle.setAttribute('tabindex', '0');
-  toggle.addEventListener('keydown', function (ev) {
-    if (ev.key === 'Enter' || ev.key === ' ' || ev.key === 'Spacebar') {
-      ev.preventDefault();
-      toggle.click();
-    }
-  });
+  };
+  
+  toggle.addEventListener('click', toggleClickHandler);
+  addKeyboardSupport(toggle, toggleClickHandler);
 
   // Scroll behaviour: collapse on scroll down, expand on scroll up
   let lastScroll = window.scrollY || window.pageYOffset;
@@ -169,10 +193,10 @@ function initHeroAutoHide() {
       const delta = current - lastScroll;
       // Only auto-change on scroll if user hasn't set an explicit preference
       if (!userSetPreference) {
-        // If user scrolled down more than 80px and page scrolled past 100px, collapse
-        if (delta > 80 && current > 100) {
+        // If user scrolled down more than threshold and page scrolled past minimum, collapse
+        if (delta > SCROLL_DOWN_THRESHOLD && current > SCROLL_POSITION_MIN) {
           applyCollapsed(true);
-        } else if (delta < -40) {
+        } else if (delta < SCROLL_UP_THRESHOLD) {
           applyCollapsed(false);
         }
       }
@@ -190,3 +214,20 @@ function initHeroAutoHide() {
 }
 
 /* idadwind 2025-02-11 */
+
+// Initialize all page functionality
+function initializePage(language, options) {
+  options = options || {};
+  load_switch_language_btn(language);
+  load_ui_toggle_btn(language);
+  bind_onclick_btn();
+  
+  if (options.includeHeroAnimation && typeof initHeroCardsAnimation === 'function') {
+    initHeroCardsAnimation();
+  }
+  
+  if (typeof initHeroAutoHide === 'function') {
+    initHeroAutoHide();
+  }
+}
+
