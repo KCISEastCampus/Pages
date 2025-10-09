@@ -1,15 +1,15 @@
 {% assign lang = site.data.lang[page.language] %}
 {% assign navibar = lang.navibar %}
-<nav>
+<nav role="navigation" aria-label="{{ navibar.main_navigation }}">
   <a class="logo-container" href="/">
     <img src="/assets/images/school-logo.svg" alt="KangChiao International School East Campus Logo" title="KangChiao International School East Campus Logo" />
     <span>{{ navibar.title }}</span>
   </a>
-  <div class="hamburger" onclick="toggle_hamburger_menu()">
+  <button class="hamburger" onclick="toggle_hamburger_menu()" aria-label="{{ navibar.menu }}" aria-expanded="false" aria-controls="nav-links">
     <div class="line" id="line1"></div>
     <div class="line" id="line2"></div>
     <div class="line" id="line3"></div>
-  </div>
+  </button>
   <div class="links-container" id="nav-links">
     <!-- Default to new UI label; JS will toggle text and aria-pressed state as needed -->
   <buttonlink id="ui-toggle-button" role="button" aria-pressed="false" tabindex="0" data-state="new" data-label-old="{{ lang.toggle_ui.open_old }}" data-label-new="{{ lang.toggle_ui.open_new }}">{{ lang.toggle_ui.open_new }}</buttonlink>

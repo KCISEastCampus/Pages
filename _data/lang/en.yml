@@ -1,3 +1,6 @@
+page_title: "KCISEC Navigator - Campus Resources"
+page_description: "KCISEC campus website with campus bulletins, KangChiao International School A-Level/IGCSE information and resources."
+
 navibar:
   title: KCISEC Navigator
   button_ksvg: KSVG
@@ -6,6 +9,10 @@ navibar:
   button_alevel: A-Level Homepage
   button_log: Update Log
   switch_language: 简体中文
+  menu: Menu
+  main_navigation: Main navigation
+
+skip_to_content: "Skip to main content"
 
 footer:
   copyright_org: "KCISEastCampus"
@@ -14,11 +21,13 @@ footer:
   collaboration_log: "Collaboration Log"
   feedback: "Feedback"
   all_rights_reserved: "All rights reserved"
+  visitor_counter: "Website visitor counter"
 
 hero:
   title: "Explore Campus Resources"
   subtitle: "Quickly access important links to simplify your campus life."
   toggle: "Toggle hero"
+  quick_links: "Quick access links"
 toggle_ui:
   open_old: "Old UI"
   open_new: "New UI"
