@@ -95,7 +95,6 @@ PLATFORMS
 DEPENDENCIES
   base64
   csv
-  http_parser.rb (~> 0.6.0)
   jekyll (~> 4.3.4)
   jekyll-redirect-from
   logger
