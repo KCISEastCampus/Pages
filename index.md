@@ -12,7 +12,7 @@ language: zh_CN
 {% endif %}
 <div class="button-grid">
 {% for button in section.buttons %}
-<a href="{{ button.url }}" class="button-link">
+<a href="{{ button.url }}" class="button-link" target="_blank" rel="noopener noreferrer">
   <i class="{{ button.icon }}"></i>
   <span>{{ button.name }}</span>
 </a>
