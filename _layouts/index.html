@@ -6,24 +6,22 @@
 </head>
 
 <body>
+  {% assign lang = site.data.lang[page.language] %}
+  <a href="#main-content" class="skip-link">{{ lang.skip_to_content }}</a>
   {% include header.html %}
   {%- comment -%} Only include hero on site root pages to avoid path nesting on subpages {%- endcomment -%}
   {%- if page.url == '/' or page.url == '/en/' -%}
     {% include hero.html %}
   {%- endif -%}
-  <div class="page-content">
+  <main id="main-content" class="page-content" role="main">
     {{ content }}
-  </div>
+  </main>
 
   {% include footer.html %}
 
   <script src="/assets/js/main.js"></script>
   <script>
-    load_switch_language_btn('{{ page.language }}');
-    load_ui_toggle_btn('{{ page.language }}');
-    bind_onclick_btn();
-    if (typeof initHeroCardsAnimation === 'function') initHeroCardsAnimation();
-    if (typeof initHeroAutoHide === 'function') initHeroAutoHide();
+    initializePage('{{ page.language }}', { includeHeroAnimation: true });
   </script>
 </body>
 

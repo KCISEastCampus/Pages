@@ -16,7 +16,7 @@
 
   --primary-text-color: #333;
   --secondary-text-color: #ffffff;
-  --tetriary-text-color: #337ab7;
+  --tertiary-text-color: #337ab7;
   --background-color: #f4f4f4;
 
   --theme-blue: #004098;
@@ -34,6 +34,37 @@
 
 /* Avoid global transitions which cause layout jank and unintended hover effects. */
 
+/* Skip to content link for keyboard accessibility */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--primary-color);
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  z-index: 1000;
+  border-radius: 0 0 4px 0;
+}
+
+.skip-link:focus {
+  top: 0;
+  outline: 3px solid rgba(3,169,244,0.5);
+  outline-offset: 2px;
+}
+
+/* Visually hidden but accessible to screen readers */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
 
 /* Base styles */
 body {
@@ -185,32 +216,34 @@ nav buttonlink:hover {
   box-shadow: none;
 }
 
-.button-link i {
-  font-size: 1.2rem;
-}
-
 /* Make icons in button-link visually consistent */
 .button-link i {
+  font-size: 1.2rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 1.8rem;
   height: 1.8rem;
-}
-
-/* Stronger visual for icons (color/weight) */
-.button-link i, .hero-card-icon i {
+  /* Stronger visual for icons (color/weight) */
   color: rgba(0,0,0,0.75);
 }
 
 .button-link span { display: inline-block; vertical-align: middle; }
 
 /* Improve hero card icon sizing */
-.hero-card-icon { width: 64px; height: 64px; font-size: 1.6rem; }
+.hero-card-icon { 
+  width: 64px; 
+  height: 64px; 
+  font-size: 1.6rem; 
+}
+
+.hero-card-icon i {
+  color: rgba(0,0,0,0.75);
+}
 
 #switch-language-button {
   background-color: var(--primary-gradient-color);
-  color: var(--secondary-text-color);
+  color: #000;
   border: none;
 }
 
@@ -241,7 +274,7 @@ footer .footer-content {
 }
 
 footer a {
-  color: #009fa8;
+  color: #00d4df;
 }
 
 footer a:hover {
@@ -345,6 +378,7 @@ footer a:hover {
 }
 
 /* Small screens: default collapse to save space */
+/* 700px height threshold matches JS viewport collapse threshold */
 @media (max-height: 700px), (max-width: 600px) {
   .hero-section { padding: 1rem 1rem; }
   .hero-toggle { top: 0.75rem; right: 0.75rem; }
