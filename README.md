@@ -56,7 +56,6 @@ Before you begin, ensure you have the following installed:
 To run the website locally:
 
 ```bash
-export PATH="/home/runner/.local/share/gem/ruby/3.2.0/bin:$PATH"  # If bundler is installed in user directory
 bundle exec jekyll serve
 ```
 
@@ -67,6 +66,11 @@ bundle exec jekyll serve --livereload
 ```
 
 The website will be available at `http://localhost:4000`
+
+**Note**: If you get a "command not found" error, you may need to add the bundler bin directory to your PATH:
+```bash
+export PATH="$HOME/.local/share/gem/ruby/$(ruby -e 'puts RUBY_VERSION')/bin:$PATH"
+```
 
 #### Building for Production
 
@@ -186,7 +190,6 @@ KCISEC Navigator（昆山康桥学校导航站）是为昆山康桥学校（KCIS
 本地运行网站：
 
 ```bash
-export PATH="/home/runner/.local/share/gem/ruby/3.2.0/bin:$PATH"  # 如果bundler安装在用户目录
 bundle exec jekyll serve
 ```
 
@@ -197,6 +200,11 @@ bundle exec jekyll serve --livereload
 ```
 
 网站将在 `http://localhost:4000` 上运行
+
+**注意**：如果遇到 "command not found" 错误，您可能需要将bundler的bin目录添加到PATH：
+```bash
+export PATH="$HOME/.local/share/gem/ruby/$(ruby -e 'puts RUBY_VERSION')/bin:$PATH"
+```
 
 #### 构建生产版本
 
