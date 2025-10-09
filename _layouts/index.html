@@ -6,12 +6,13 @@
 </head>
 
 <body>
+  <a href="#main-content" class="skip-link">{{ lang.skip_to_content }}</a>
   {% include header.html %}
   {%- comment -%} Only include hero on site root pages to avoid path nesting on subpages {%- endcomment -%}
   {%- if page.url == '/' or page.url == '/en/' -%}
     {% include hero.html %}
   {%- endif -%}
-  <div class="page-content">
+  <div id="main-content" class="page-content">
     {{ content }}
   </div>
 

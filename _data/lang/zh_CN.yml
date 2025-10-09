@@ -6,6 +6,9 @@ navibar:
   button_alevel: A-Level主页
   button_log: 更新日志
   switch_language: English
+  menu: 菜单
+
+skip_to_content: "跳转到主内容"
 
 footer:
   copyright_org: "KCISEastCampus"
@@ -14,11 +17,13 @@ footer:
   collaboration_log: "网站协作记录"
   feedback: "问题反馈"
   all_rights_reserved: "版权所有"
+  visitor_counter: "网站访问计数器"
 
 hero:
   title: "探索校园资源"
   subtitle: "访问我们为您准备的校园资源。"
   toggle: "折叠/展开"
+  quick_links: "快速访问链接"
 toggle_ui:
   open_old: "旧界面"
   open_new: "新版界面"

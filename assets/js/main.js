@@ -2,9 +2,23 @@ function bind_onclick_btn() {
   let buttons = Array.from(document.querySelectorAll('buttonlink'));
   buttons.forEach(function (button) {
     let href = button.getAttribute('href');
-    button.addEventListener('click', function () {
+    // Add role and tabindex for accessibility
+    button.setAttribute('role', 'button');
+    button.setAttribute('tabindex', '0');
+    
+    const clickHandler = function () {
       if (href == null) return;
       window.open(href);
+    };
+    
+    button.addEventListener('click', clickHandler);
+    
+    // Add keyboard support
+    button.addEventListener('keydown', function (ev) {
+      if (ev.key === 'Enter' || ev.key === ' ' || ev.key === 'Spacebar') {
+        ev.preventDefault();
+        clickHandler();
+      }
     });
   });
 }
@@ -29,8 +43,10 @@ function load_switch_language_btn(current_language) {
 function toggle_hamburger_menu() {
   const nav_links = document.getElementById('nav-links');
   const hamburger = document.querySelector('.hamburger');
+  const isExpanded = nav_links.classList.contains('active');
   nav_links.classList.toggle('active');
   hamburger.classList.toggle('active');
+  hamburger.setAttribute('aria-expanded', !isExpanded);
 }
 
 function initHeroCardsAnimation() {
