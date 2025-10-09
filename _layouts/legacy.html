@@ -15,7 +15,10 @@
 
   <script src="/assets/js/main.js"></script>
   <script>
-    initializePage('{{ page.language }}', { includeHeroAnimation: false });
+  load_switch_language_btn('{{ page.language }}');
+  load_ui_toggle_btn('{{ page.language }}');
+  bind_onclick_btn();
+  if (typeof initHeroAutoHide === 'function') initHeroAutoHide();
   </script>
 </body>
 

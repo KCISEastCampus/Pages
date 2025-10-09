@@ -6,29 +6,23 @@ language: zh_CN
 # 便民链接
 
 {% for section in site.data.links %}
-<section aria-labelledby="section-{{ forloop.index }}">
 ## {{ section.title }}
-{: #section-{{ forloop.index }} }
 {% if section.description %}
 <p>{{ section.description }}</p>
 {% endif %}
-<nav aria-label="{{ section.title }}">
 <div class="button-grid">
 {% for button in section.buttons %}
-<a href="{{ button.url }}" class="button-link" aria-label="{{ button.name }}">
-  <i class="{{ button.icon }}" aria-hidden="true"></i>
+<a href="{{ button.url }}" class="button-link">
+  <i class="{{ button.icon }}"></i>
   <span>{{ button.name }}</span>
 </a>
 {% endfor %}
 </div>
-</nav>
-</section>
 {% endfor %}
 
 # 网站默认密码
 
 <table>
-  <caption>校园服务账号默认用户名和密码</caption>
   <thead>
     <tr>
       {% for header in site.data.passwords.headers %}
