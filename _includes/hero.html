@@ -1,33 +1,33 @@
 {% assign hero = lang.hero %}
-<section class="hero-section" aria-labelledby="hero-title">
+<div class="hero-section">
   <div class="hero-content">
-    <button class="hero-toggle" id="hero-toggle" aria-expanded="true" aria-controls="hero-cards" title="{{ hero.toggle }}">
+    <button class="hero-toggle" id="hero-toggle" aria-expanded="true" aria-controls="main-hero" title="{{ hero.toggle }}">
       <i class="fas fa-chevron-down hero-toggle-icon" aria-hidden="true"></i>
       <span class="hero-toggle-label">{{ hero.toggle }}</span>
     </button>
-    <h1 id="hero-title">{{ hero.title }}</h1>
+    <h1>{{ hero.title }}</h1>
     <p>{{ hero.subtitle }}</p>
-    <div class="hero-cards" id="hero-cards" role="navigation" aria-label="{{ hero.quick_links }}">
-  <a class="hero-card" href="/app/" data-card="app" aria-label="{{ navibar.button_app }}">
-        <div class="hero-card-icon" aria-hidden="true"><i class="fas fa-download"></i></div>
+    <div class="hero-cards">
+  <a class="hero-card" href="/app/" data-card="app">
+        <div class="hero-card-icon"><i class="fas fa-download"></i></div>
         <div class="hero-card-body">
           <div class="hero-card-title">{{ navibar.button_app }}</div>
         </div>
       </a>
 
-  <a class="hero-card" href="https://blog.kcisec.site" data-card="blog" aria-label="{{ navibar.button_blog }}">
-        <div class="hero-card-icon" aria-hidden="true"><i class="fas fa-pen-nib"></i></div>
+  <a class="hero-card" href="https://blog.kcisec.site" data-card="blog">
+        <div class="hero-card-icon"><i class="fas fa-pen-nib"></i></div>
         <div class="hero-card-body">
           <div class="hero-card-title">{{ navibar.button_blog }}</div>
         </div>
       </a>
 
-  <a class="hero-card" href="https://academic.kcisec.site/" data-card="alevel" aria-label="{{ navibar.button_alevel }}">
-        <div class="hero-card-icon" aria-hidden="true"><i class="fas fa-school"></i></div>
+  <a class="hero-card" href="https://academic.kcisec.site/" data-card="alevel">
+        <div class="hero-card-icon"><i class="fas fa-school"></i></div>
         <div class="hero-card-body">
           <div class="hero-card-title">{{ navibar.button_alevel }}</div>
         </div>
       </a>
     </div>
   </div>
-</section>
+</div>
