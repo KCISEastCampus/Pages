@@ -1,0 +1,72 @@
+matches:
+  # - name: "Example Tournament"
+  #   start_time: "2025-10-28 18:00"
+  #   end_time: "2025-10-28 20:00"
+  #   link: "https://lichess.org/tournament/HffQoOUd"
+  #   prize_distribution:
+  #     - position: "🥇 第一名"
+  #       amount: "￥10"
+  #     - position: "🥈 第二名" 
+  #       amount: "￥5"
+  #   winner:
+  #     - position: "🥇 第一名"
+  #       name: "Player A"
+
+
+
+  - name: "KCG E.C. Pre-season S1"
+    start_time: "2025-10-28 18:00"
+    end_time: "2025-10-28 20:00"
+    link: "https://lichess.org/tournament/HffQoOUd"
+
+  - name: "KCG Champions Pre-season Oct."
+    start_time: "2025-10-29 18:00"
+    end_time: "2025-10-29 20:00"
+    link: "https://lichess.org/tournament/IW81tWDY"
+    prize_distribution:
+      - position: "🥇 第一名"
+        amount: "￥15"
+      - position: "🥈 第二名"
+        amount: "￥9"
+      - position: "🥉 第三名"
+        amount: "￥4"
+      - position: "第四-五名"
+        amount: "￥2"
+  - name: "KC Gaming Chess E.C. Season 1"
+    start_time: "2025-11-04 18:00"
+    end_time: "2025-11-04 20:00"
+    link: "https://lichess.org/tournament/pS1fvKBH"
+
+  - name: "KC Gaming Chess PRO LEAGUE S1"
+    start_time: "2025-11-13 15:45"
+    end_time: "2025-11-13 20:15"
+    link: "https://lichess.org/tournament/nG4jAyVW"
+    prize_distribution:
+      - position: "🥇 第一名"
+        amount: "￥10"
+      - position: "🥈 第二名"
+        amount: "￥3"
+      - position: "🥉 第三名"
+        amount: "￥2"
+
+  - name: "KC Gaming Chess E.C. Season 2"
+    start_time: "2025-11-11 18:00"
+    end_time: "2025-11-11 20:00"
+    link: "https://lichess.org/tournament/xvxFmQ4x;"
+
+rules: |
+  ## KC Gaming Chess 比赛规则
+
+  1. **参赛资格**：所有昆山康桥学校学生均可参赛。无报名时间限制，只要在结束时间前都能参与。
+
+  2. **比赛形式**：每周的KC Gaming Chess E.C.、每两周的KC Gaming Chess PRO LEAGUE以及每两个月的KC Gaming Chess Champions。
+
+  3. **时间控制**：每方15分钟 + 10秒增时。
+
+  4. **平台**：比赛在Lichess.org平台进行。你需要先注册账号才能参与对局。建议使用真实姓名（英文）作为用户名，以便识别身份。并发放奖金。
+
+  5. **比赛规则**：所有对局均采用国际象棋规则，禁止使用任何外部辅助工具。
+  
+  6. **奖金**：由于反作弊调查和其他信息收集，奖金将于比赛结束的72小时后进行发放，敬请谅解。
+
+  7. **密码**：所有比赛密码为 **KangChiaoInternationalSchool**

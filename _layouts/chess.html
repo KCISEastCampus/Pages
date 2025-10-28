@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="{{ page.language }}">
+
+<head>
+  {% include head.html %}
+  <style>
+    body {
+      font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      color: #e0e0e0;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* 棋盘背景图案 */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .header {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      padding: 40px 20px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+    }
+
+    .back-link {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 1em;
+    }
+
+    .back-link a {
+      color: #ffffff;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 8px 16px;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .back-link a:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      transform: translateY(-2px);
+    }
+
+    .header h1 {
+      margin: 0;
+      color: #ffffff;
+      font-size: 3em;
+      font-weight: 300;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+      position: relative;
+    }
+
+    .header h1::before {
+      content: '♔';
+      position: absolute;
+      left: -50px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2em;
+      opacity: 0.7;
+    }
+
+    .header h1::after {
+      content: '♛';
+      position: absolute;
+      right: -50px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2em;
+      opacity: 0.7;
+    }
+
+    .header p {
+      margin: 10px 0 0 0;
+      color: #b8c5d1;
+      font-size: 1.2em;
+      font-weight: 300;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .rules-section {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      padding: 40px;
+      margin-bottom: 50px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+    }
+
+    .rules-section::before {
+      content: '♜ ♞ ♝ ♛ ♚ ♝ ♞ ♜';
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.5em;
+      color: rgba(255, 255, 255, 0.3);
+      letter-spacing: 10px;
+    }
+
+    .rules-section h2 {
+      color: #ffffff;
+      border-bottom: 3px solid #ffd700;
+      padding-bottom: 15px;
+      margin-top: 0;
+      font-weight: 400;
+      text-align: center;
+    }
+
+    .rules-section p, .rules-section ul, .rules-section li {
+      color: #e0e0e0;
+      line-height: 1.8;
+    }
+
+    .matches-section h2 {
+      color: #ffffff;
+      text-align: center;
+      margin-bottom: 50px;
+      font-weight: 300;
+      font-size: 2.5em;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+
+    /* 日历样式 */
+    .calendar-container {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 50px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .calendar-container h3 {
+      color: #ffffff;
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 1.8em;
+      font-weight: 400;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .calendar-item {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .calendar-date {
+      text-align: center;
+      min-width: 80px;
+    }
+
+    .calendar-date .date {
+      font-size: 1.5em;
+      font-weight: bold;
+      color: #ffd700;
+      margin-bottom: 5px;
+    }
+
+    .calendar-date .weekday {
+      font-size: 0.9em;
+      color: #b8c5d1;
+      font-weight: 500;
+    }
+
+    .calendar-content {
+      flex: 1;
+    }
+
+    .calendar-content h4 {
+      margin: 0 0 10px 0;
+      color: #ffffff;
+      font-size: 1.2em;
+      font-weight: 500;
+    }
+
+    .calendar-time {
+      color: #b8c5d1;
+      font-size: 0.9em;
+      margin-bottom: 10px;
+    }
+
+    .calendar-prizes {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+
+    .prize-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(45deg, #ffd700, #ffed4e);
+      color: #1a1a2e;
+      padding: 6px 12px;
+      border-radius: 12px;
+      font-size: 0.9em;
+      font-weight: bold;
+      line-height: 1.1;
+      box-shadow: 0 3px 10px rgba(255, 215, 0, 0.35);
+      min-width: 48px;
+    }
+
+    .calendar-link {
+      display: inline-block;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white;
+      padding: 8px 16px;
+      text-decoration: none;
+      border-radius: 20px;
+      font-size: 0.9em;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    .calendar-link:hover {
+      transform: translateY(-2px);
+    }
+
+    .match-link:hover {
+      transform: translateY(-2px);
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    }
+
+    .week-group {
+      margin-bottom: 60px;
+    }
+
+    .week-title {
+      background: linear-gradient(45deg, #ffd700, #ffed4e);
+      color: #1a1a2e;
+      padding: 15px 30px;
+      border-radius: 50px;
+      display: inline-block;
+      margin-bottom: 30px;
+      font-weight: bold;
+      font-size: 1.2em;
+      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+      position: relative;
+    }
+
+    .week-title::before {
+      content: '♟';
+      margin-right: 10px;
+    }
+
+    .matches-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+    }
+
+    .match-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .match-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #ffd700, #ff6b6b, #4ecdc4, #45b7d1);
+      background-size: 400% 400%;
+      animation: gradientShift 3s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .match-card h3 {
+      margin-top: 0;
+      color: #ffffff;
+      font-size: 1.4em;
+      font-weight: 500;
+      margin-bottom: 15px;
+    }
+
+    .match-card h3::before {
+      content: '♘';
+      margin-right: 10px;
+      opacity: 0.8;
+    }
+
+    .match-time {
+      color: #b8c5d1;
+      font-weight: 500;
+      margin: 15px 0;
+      font-size: 1.1em;
+    }
+
+    .match-prize {
+      color: #ffd700;
+      font-weight: bold;
+      margin: 10px 0;
+      font-size: 1.1em;
+      text-shadow: 0 1px 3px rgba(255, 215, 0, 0.5);
+    }
+
+    .match-prize-distribution {
+      margin: 15px 0;
+    }
+
+    .prize-item {
+      color: #ffd700;
+      font-weight: bold;
+      font-size: 1em;
+      margin: 5px 0;
+      text-shadow: 0 1px 3px rgba(255, 215, 0, 0.5);
+    }
+
+    .match-link {
+      display: inline-block;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white;
+      padding: 15px 30px;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      margin-top: auto;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      align-self: flex-start;
+    }
+
+    .match-winners {
+      margin: 15px 0;
+    }
+
+    .match-winners h4 {
+      color: #ffffff;
+      font-size: 1em;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    .winner-item.champion {
+      font-size: 1.1em;
+      color: #ffed4e;
+      text-shadow: 0 2px 5px rgba(255, 237, 78, 0.8);
+      font-weight: bolder;
+    }
+
+    .match-link.ended {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.1);
+      color: #b8c5d1;
+      padding: 15px 30px;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: bold;
+      margin-top: auto;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      cursor: default;
+      align-self: flex-start;
+    }
+
+    .match-link.ended:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-1px);
+    }
+
+    .footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: rgba(255, 255, 255, 0.6);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 60px;
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 2.2em;
+      }
+      .header h1::before, .header h1::after {
+        display: none;
+      }
+      .matches-grid {
+        grid-template-columns: 1fr;
+      }
+      .rules-section {
+        padding: 25px;
+      }
+      .match-card {
+        padding: 20px;
+      }
+      .calendar-grid {
+        grid-template-columns: 1fr;
+      }
+      .calendar-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+      }
+      .calendar-date {
+        min-width: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <div class="back-link">
+      <a href="/">← 回到主页</a>
+    </div>
+    <h1>KC Gaming Chess</h1>
+    <p>每周精彩国际象棋赛事，等你来战！</p>
+  </div>
+
+  <div class="container">
+    <div class="rules-section">
+      {{ site.data.chess.rules | markdownify }}
+    </div>
+
+    <div class="matches-section">
+      <h2>比赛安排</h2>
+
+      <!-- 日历时间表 -->
+      <div class="calendar-container">
+        <h3>📅 本周比赛时间表</h3>
+        <div class="calendar-grid">
+          {% assign current_week_matches = "" | split: "" %}
+          {% for match in site.data.chess.matches %}
+            {% if match.start_time contains "2025-10-28" or match.start_time contains "2025-10-29" %}
+              {% assign current_week_matches = current_week_matches | push: match %}
+            {% endif %}
+          {% endfor %}
+          {% assign sorted_matches = current_week_matches | sort: "start_time" %}
+
+          {% for match in sorted_matches %}
+          <div class="calendar-item">
+            <div class="calendar-date">
+              <div class="date">{{ match.start_time | date: "%m/%d" }}</div>
+              <div class="weekday">{{ match.start_time | date: "%A" | replace: "Monday", "周一" | replace: "Tuesday", "周二" | replace: "Wednesday", "周三" | replace: "Thursday", "周四" | replace: "Friday", "周五" | replace: "Saturday", "周六" | replace: "Sunday", "周日" }}</div>
+            </div>
+            <div class="calendar-content">
+              <h4>{{ match.name }}</h4>
+              <div class="calendar-time">{{ match.start_time | date: "%H:%M" }}-{{ match.end_time | date: "%H:%M" }}</div>
+              {% if match.prize_distribution %}
+              <div class="calendar-prizes">
+                {% for prize in match.prize_distribution %}
+                <span class="prize-badge">{{ prize.amount }}</span>
+                {% endfor %}
+              </div>
+              {% endif %}
+              <a href="{{ match.link }}" target="_blank" class="calendar-link">报名</a>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- 传统卡片视图 - 按周分组 -->
+      {% assign this_week_matches = "" | split: "" %}
+      {% assign next_week_matches = "" | split: "" %}
+      {% assign week_after_next_matches = "" | split: "" %}
+
+      {% for match in site.data.chess.matches %}
+        {% if match.start_time contains "2025-10-28" or match.start_time contains "2025-10-29" %}
+          {% assign this_week_matches = this_week_matches | push: match %}
+        {% elsif match.start_time contains "2025-11-04" %}
+          {% assign next_week_matches = next_week_matches | push: match %}
+        {% elsif match.start_time contains "2025-11-11" %}
+          {% assign week_after_next_matches = week_after_next_matches | push: match %}
+        {% endif %}
+      {% endfor %}
+
+      {% if this_week_matches.size > 0 %}
+      <div class="week-group">
+        <div class="week-title">本周</div>
+        <div class="matches-grid">
+          {% for match in this_week_matches %}
+          <div class="match-card">
+            <h3>{{ match.name }}</h3>
+            <div class="match-time">{{ match.start_time | date: "%m月%d日" }} {{ match.start_time | date: "%H:%M" }}-{{ match.end_time | date: "%H:%M" }}</div>
+            {% if match.prize_distribution %}
+            <div class="match-prize-distribution">
+              {% for prize in match.prize_distribution %}
+              <div class="prize-item">{{ prize.position }}: {{ prize.amount }}</div>
+              {% endfor %}
+            </div>
+            {% endif %}
+            <a href="{{ match.link }}" target="_blank" class="match-link">立即报名</a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      {% if next_week_matches.size > 0 %}
+      <div class="week-group">
+        <div class="week-title">下周</div>
+        <div class="matches-grid">
+          {% for match in next_week_matches %}
+          <div class="match-card">
+            <h3>{{ match.name }}</h3>
+            <div class="match-time">{{ match.start_time | date: "%m月%d日" }} {{ match.start_time | date: "%H:%M" }}-{{ match.end_time | date: "%H:%M" }}</div>
+            {% if match.prize_distribution %}
+            <div class="match-prize-distribution">
+              {% for prize in match.prize_distribution %}
+              <div class="prize-item">{{ prize.position }}: {{ prize.amount }}</div>
+              {% endfor %}
+            </div>
+            {% endif %}
+            <a href="{{ match.link }}" target="_blank" class="match-link">立即报名</a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      {% if week_after_next_matches.size > 0 %}
+      <div class="week-group">
+        <div class="week-title">下下周</div>
+        <div class="matches-grid">
+          {% for match in week_after_next_matches %}
+          <div class="match-card">
+            <h3>{{ match.name }}</h3>
+            <div class="match-time">{{ match.start_time | date: "%m月%d日" }} {{ match.start_time | date: "%H:%M" }}-{{ match.end_time | date: "%H:%M" }}</div>
+            {% if match.prize_distribution %}
+            <div class="match-prize-distribution">
+              {% for prize in match.prize_distribution %}
+              <div class="prize-item">{{ prize.position }}: {{ prize.amount }}</div>
+              {% endfor %}
+            </div>
+            {% endif %}
+            <a href="{{ match.link }}" target="_blank" class="match-link">立即报名</a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      {% assign past_matches = "" | split: "" %}
+      {% for match in site.data.chess.matches %}
+        {% assign match_end_date = match.end_time | date: "%s" %}
+        {% assign current_date = site.time | date: "%s" %}
+        {% if match_end_date < current_date %}
+          {% assign past_matches = past_matches | push: match %}
+        {% endif %}
+      {% endfor %}
+
+      {% if past_matches.size > 0 %}
+      <div class="week-group">
+        <div class="week-title">已结束比赛</div>
+        <div class="matches-grid">
+          {% for match in past_matches %}
+          <div class="match-card past-match">
+            <h3>{{ match.name }}</h3>
+            <div class="match-time">{{ match.start_time | date: "%m月%d日" }} {{ match.start_time | date: "%H:%M" }}-{{ match.end_time | date: "%H:%M" }}</div>
+            {% if match.prize_distribution %}
+            <div class="match-prize-distribution">
+              {% for prize in match.prize_distribution %}
+              <div class="prize-item">{{ prize.position }}: {{ prize.amount }}</div>
+              {% endfor %}
+            </div>
+            {% endif %}
+            {% if match.winner %}
+            <div class="match-winners">
+              <h4>比赛结果</h4>
+              {% for winner in match.winner %}
+                {% if winner.position contains "🥇" %}
+                <div class="winner-item champion">{{ winner.position }}: {{ winner.name }}</div>
+                {% endif %}
+              {% endfor %}
+            </div>
+            {% endif %}
+            <div class="match-link ended">比赛已结束</div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>&copy; 2025 KC Gaming. All rights reserved.</p>
+  </div>
+
+  <script src="/assets/js/main.js"></script>
+  <script>
+    load_switch_language_btn('{{ page.language }}');
+    load_ui_toggle_btn('{{ page.language }}');
+    bind_onclick_btn();
+  </script>
+</body>
+
+</html>

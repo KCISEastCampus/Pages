@@ -58,9 +58,9 @@ a {
   text-decoration: none;
 }
 
-a:hover {
+/* a:hover {
   color: var(--secondary-color-hover);
-}
+} */
 
 /* Page content */
 .page-content {
