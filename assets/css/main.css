@@ -429,14 +429,14 @@ footer a:hover {
   /* very subtle lift */
   transform: translateY(-2px);
   box-shadow: 0 6px 14px rgba(0,0,0,0.08);
-  background: rgba(255,255,255,0.88);
+  background: rgba(255,255,255,0.25);
 }
 
 .hero-card:hover .hero-card-icon {
   /* subtle icon emphasis */
   transform: scale(1.06);
-  background: rgba(255,255,255,0.95);
-  color: var(--primary-color);
+  background: rgba(255,255,255,0.3);
+  color: #fff;
 }
 
 .hero-card .hero-card-icon {
@@ -444,7 +444,7 @@ footer a:hover {
 }
 
 .hero-card:hover .hero-card-title{
-  color: var(--primary-color);
+  color: #fff;
 }
 
 .hero-card.in-view {
