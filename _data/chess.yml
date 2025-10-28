@@ -18,6 +18,11 @@ matches:
     start_time: "2025-10-28 18:00"
     end_time: "2025-10-28 20:00"
     link: "https://lichess.org/tournament/HffQoOUd"
+    winner:
+      - position: "🥇 第一名"
+        name: "Jimmy \"Hurr1can333333\" Yu"
+      - position: "🥈 第二名"
+        name: "Eric \"EricStoneChina\" Shi"
 
   - name: "KCG Champions Pre-season Oct."
     start_time: "2025-10-29 18:00"

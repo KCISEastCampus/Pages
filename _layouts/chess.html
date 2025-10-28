@@ -390,11 +390,15 @@
       font-weight: 500;
     }
 
-    .winner-item.champion {
-      font-size: 1.1em;
-      color: #ffed4e;
-      text-shadow: 0 2px 5px rgba(255, 237, 78, 0.8);
-      font-weight: bolder;
+    .winner-item {
+      color: #ffffff;
+      font-weight: bold;
+      font-size: 0.9em;
+      margin: 5px 0;
+      background: rgba(255, 215, 0, 0.2);
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 215, 0, 0.3);
     }
 
     .match-link.ended {
@@ -479,8 +483,12 @@
         <div class="calendar-grid">
           {% assign current_week_matches = "" | split: "" %}
           {% for match in site.data.chess.matches %}
+            {% assign match_end = match.end_time | date: "%s" %}
+            {% assign current_time = site.time | date: "%s" %}
             {% if match.start_time contains "2025-10-28" or match.start_time contains "2025-10-29" %}
-              {% assign current_week_matches = current_week_matches | push: match %}
+              {% if match_end >= current_time %}
+                {% assign current_week_matches = current_week_matches | push: match %}
+              {% endif %}
             {% endif %}
           {% endfor %}
           {% assign sorted_matches = current_week_matches | sort: "start_time" %}
@@ -620,13 +628,20 @@
             <div class="match-winners">
               <h4>比赛结果</h4>
               {% for winner in match.winner %}
-                {% if winner.position contains "🥇" %}
-                <div class="winner-item champion">{{ winner.position }}: {{ winner.name }}</div>
+                {% if winner.position contains "🥇" or winner.position contains "🥈" or winner.position contains "🥉" %}
+                  {% assign prize_amount = "" %}
+                  {% for prize in match.prize_distribution %}
+                    {% if prize.position == winner.position %}
+                      {% assign prize_amount = prize.amount %}
+                    {% endif %}
+                  {% endfor %}
+                  {% assign stripped_prize = prize_amount | strip %}
+                <div class="winner-item">{{ winner.position }}: {{ winner.name }} {% if stripped_prize != "" %} (奖金: {{ prize_amount }}) {% endif %}</div>
                 {% endif %}
               {% endfor %}
             </div>
             {% endif %}
-            <div class="match-link ended">比赛已结束</div>
+            <a href="{{ match.link }}" target="_blank" class="match-link">查看结果</a>
           </div>
           {% endfor %}
         </div>
