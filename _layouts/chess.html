@@ -496,9 +496,12 @@
               <div class="calendar-time">{{ match.start_time | date: "%H:%M" }}-{{ match.end_time | date: "%H:%M" }}</div>
               {% if match.prize_distribution %}
               <div class="calendar-prizes">
+                {% assign total_prize = 0 %}
                 {% for prize in match.prize_distribution %}
-                <span class="prize-badge">{{ prize.amount }}</span>
+                  {% assign amount_num = prize.amount | remove: '￥' | to_integer %}
+                  {% assign total_prize = total_prize | plus: amount_num %}
                 {% endfor %}
+                <span class="prize-badge">总奖金: ￥{{ total_prize }}</span>
               </div>
               {% endif %}
               <a href="{{ match.link }}" target="_blank" class="calendar-link">报名</a>
@@ -534,7 +537,7 @@
             {% if match.prize_distribution %}
             <div class="match-prize-distribution">
               {% for prize in match.prize_distribution %}
-              <div class="prize-item">{{ prize.position }}: {{ prize.amount }}</div>
+              <div class="prize-item">{{ prize.position }}: 奖金 {{ prize.amount }}</div>
               {% endfor %}
             </div>
             {% endif %}
@@ -556,7 +559,7 @@
             {% if match.prize_distribution %}
             <div class="match-prize-distribution">
               {% for prize in match.prize_distribution %}
-              <div class="prize-item">{{ prize.position }}: {{ prize.amount }}</div>
+              <div class="prize-item">{{ prize.position }}: 奖金 {{ prize.amount }}</div>
               {% endfor %}
             </div>
             {% endif %}
@@ -578,7 +581,7 @@
             {% if match.prize_distribution %}
             <div class="match-prize-distribution">
               {% for prize in match.prize_distribution %}
-              <div class="prize-item">{{ prize.position }}: {{ prize.amount }}</div>
+              <div class="prize-item">{{ prize.position }}: 奖金 {{ prize.amount }}</div>
               {% endfor %}
             </div>
             {% endif %}
@@ -609,7 +612,7 @@
             {% if match.prize_distribution %}
             <div class="match-prize-distribution">
               {% for prize in match.prize_distribution %}
-              <div class="prize-item">{{ prize.position }}: {{ prize.amount }}</div>
+              <div class="prize-item">{{ prize.position }}: 奖金 {{ prize.amount }}</div>
               {% endfor %}
             </div>
             {% endif %}
