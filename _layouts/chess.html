@@ -725,6 +725,105 @@
     load_switch_language_btn('{{ page.language }}');
     load_ui_toggle_btn('{{ page.language }}');
     bind_onclick_btn();
+
+    // 客户端实时判断和更新过期内容
+    (function() {
+      const matches = [
+        {% for match in site.data.chess.matches %}
+        {
+          name: "{{ match.name }}",
+          endTime: "{{ match.end_time }}",
+          startTime: "{{ match.start_time }}",
+          hasWinner: {{ match.winner | size | default: 0 }} > 0
+        }{% unless forloop.last %},{% endunless %}
+        {% endfor %}
+      ];
+
+      const now = new Date();
+      const currentWeekMatches = [];
+      const upcomingMatches = [];
+      const pastMatches = [];
+
+      // 按结束时间分类比赛
+      matches.forEach(match => {
+        const endTime = new Date(match.endTime);
+        if (endTime < now) {
+          pastMatches.push(match);
+        } else {
+          const startTime = new Date(match.startTime);
+          const daysDiff = Math.floor((startTime - now) / (1000 * 60 * 60 * 24));
+          if (daysDiff <= 7) {
+            currentWeekMatches.push(match);
+          } else {
+            upcomingMatches.push(match);
+          }
+        }
+      });
+
+      // 隐藏日历容器中的过期比赛
+      document.querySelectorAll('.calendar-item').forEach(item => {
+        const matchName = item.querySelector('.calendar-content h4').textContent;
+        const isPast = pastMatches.some(m => m.name === matchName);
+        if (isPast) {
+          item.style.display = 'none';
+        }
+      });
+
+      // 检查日历容器是否为空，如果为空则隐藏
+      const calendarGrid = document.querySelector('.calendar-grid');
+      if (calendarGrid) {
+        const visibleItems = Array.from(calendarGrid.children).filter(
+          child => child.style.display !== 'none'
+        );
+        if (visibleItems.length === 0) {
+          document.querySelector('.calendar-container').style.display = 'none';
+        }
+      }
+
+      // 重新组织周分组
+      const weekGroups = document.querySelectorAll('.week-group');
+      weekGroups.forEach(group => {
+        const title = group.querySelector('.week-title').textContent.trim();
+        const matchCards = group.querySelectorAll('.match-card');
+        
+        matchCards.forEach(card => {
+          const matchName = card.querySelector('h3').textContent.replace(/^[♘♗♖♕♔♞♝]\s*/, '').trim();
+          const match = matches.find(m => m.name === matchName);
+          
+          if (match) {
+            const endTime = new Date(match.endTime);
+            const isPast = endTime < now;
+            
+            // 如果在"本周"、"下周"等分组中，但已过期，则隐藏
+            if (!title.includes('已结束') && isPast) {
+              card.style.display = 'none';
+            }
+            
+            // 如果在"已结束"分组中，但还没过期，则隐藏
+            if (title.includes('已结束') && !isPast) {
+              card.style.display = 'none';
+            }
+
+            // 更新按钮状态
+            if (isPast) {
+              const link = card.querySelector('.match-link');
+              if (link && !link.classList.contains('ended')) {
+                link.textContent = '查看结果';
+                link.classList.add('ended');
+              }
+            }
+          }
+        });
+
+        // 如果分组中所有卡片都被隐藏，隐藏整个分组
+        const visibleCards = Array.from(matchCards).filter(
+          card => card.style.display !== 'none'
+        );
+        if (visibleCards.length === 0) {
+          group.style.display = 'none';
+        }
+      });
+    })();
   </script>
 </body>
 
