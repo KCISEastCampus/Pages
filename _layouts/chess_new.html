@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="{{ page.language }}">
+
+  <head>
+    {% include head.html %}
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Segoe UI'
+        , Tahoma
+        , Geneva
+        , Verdana
+        , sans-serif;
+        background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 50%, #16213e 100%);
+        color: #e0e0e0;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* 棋盘背景 */
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: repeating-linear-gradient(0deg, transparent, transparent 50px, rgba(255,215,0,0.03) 50px, rgba(255,215,0,0.03) 100px), repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(255, 215, 0, 0.03) 50px, rgba(255, 215, 0, 0.03) 100px);
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      /* 棋子装饰 */
+      body::after {
+        content: '♔ ♕ ♖ ♗ ♘ ♙';
+        position: fixed;
+        bottom: -30px;
+        right: -30px;
+        font-size: 140px;
+        color: rgba(255, 215, 0, 0.06);
+        pointer-events: none;
+        z-index: 0;
+        white-space: nowrap;
+        font-weight: bold;
+      }
+
+      /* 简洁的页头 */
+      .header {
+        background: rgba(26, 26, 46, 0.8);
+        backdrop-filter: blur(20px);
+        padding: 30px 20px;
+        border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .header-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .back-link a {
+        color: #b8c5d1;
+        text-decoration: none;
+        font-size: 0.95em;
+        transition: color 0.3s;
+      }
+
+      .back-link a:hover {
+        color: #ffd700;
+      }
+
+      .header h1 {
+        color: #ffffff;
+        font-size: 2em;
+        font-weight: 400;
+        letter-spacing: 1px;
+      }
+
+      .header h1 span {
+        color: #ffd700;
+        font-weight: 600;
+      }
+
+      /* 主容器 */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
+      }
+
+      /* 规则区域 - 可折叠 */
+      .rules-toggle {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 40px;
+        cursor: default;
+        transition: all 0.3s;
+      }
+
+      .rules-toggle:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.1);
+      }
+
+      .rules-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .rules-header:hover {
+        opacity: 0.8;
+      }
+
+      .rules-header h2 {
+        color: #ffd700;
+        font-size: 1.3em;
+        font-weight: 500;
+        margin: 0;
+      }
+
+      .rules-icon {
+        color: #b8c5d1;
+        transition: transform 0.3s;
+      }
+
+      .rules-icon.expanded {
+        transform: rotate(180deg);
+      }
+
+      .rules-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.35s ease-in-out
+        , padding 0.35s ease-in-out;
+        padding-top: 0;
+        font-size: 1.05em;
+      }
+
+      .rules-content.expanded {
+        max-height: 600px;
+        padding-top: 20px;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+
+      /* 美化滚动条 */
+      .rules-content.expanded::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .rules-content.expanded::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+      }
+
+      .rules-content.expanded::-webkit-scrollbar-thumb {
+        background: rgba(102, 126, 234, 0.4);
+        border-radius: 10px;
+      }
+
+      .rules-content.expanded::-webkit-scrollbar-thumb:hover {
+        background: rgba(102, 126, 234, 0.6);
+      }
+
+      .rules-content h2 {
+        font-size: 1.3em;
+        font-weight: 600;
+        color: #b8c5d1;
+        margin-bottom: 20px;
+        margin-top: 0;
+      }
+
+      .rules-content p {
+        line-height: 2;
+        color: #d0d0d0;
+        margin-bottom: 12px;
+        letter-spacing: 0.3px;
+      }
+
+      .rules-content ol {
+        padding-left: 40px;
+        margin: 10px 0;
+      }
+
+      .rules-content li {
+        line-height: 2.2;
+        color: #d0d0d0;
+        margin-bottom: 16px;
+        letter-spacing: 0.3px;
+      }
+
+      .rules-content li p {
+        margin: 0;
+      }
+
+      .rules-content strong {
+        color: #ffffff;
+        font-weight: 600;
+      }
+
+      /* 时间轴容器 */
+      .timeline {
+        position: relative;
+        margin: 40px 0;
+      }
+
+      .timeline::before {
+        content: '';
+        position: absolute;
+        left: 30px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: linear-gradient(to bottom, transparent, rgba(255, 215, 0, 0.3), transparent);
+      }
+
+      /* 时间分组 */
+      .time-group {
+        margin-bottom: 60px;
+      }
+
+      .time-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: linear-gradient(45deg, #ffd700, #ffed4e);
+        color: #1a1a2e;
+        padding: 10px 25px;
+        border-radius: 25px;
+        font-weight: 600;
+        font-size: 1.1em;
+        margin-bottom: 30px;
+        margin-left: 60px;
+        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+      }
+
+      /* 比赛卡片 */
+      .match-item {
+        position: relative;
+        margin-bottom: 30px;
+        padding-left: 80px;
+      }
+
+      .match-marker {
+        position: absolute;
+        left: 22px;
+        top: 20px;
+        width: 18px;
+        height: 18px;
+        background: #ffd700;
+        border: 3px solid #1a1a2e;
+        border-radius: 50%;
+        box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.2);
+        z-index: 2;
+      }
+
+      .match-card {
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 15px;
+        padding: 25px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .match-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: #667eea;
+      }
+
+      .match-card:hover {
+        background: rgba(255, 255, 255, 0.11);
+        border-color: rgba(102, 126, 234, 0.5);
+      }
+
+      /* 比赛类型样式 */
+      /* E.C. 系列 - 青铜级 */.match-card.type-ec::before {
+        background: #cd7f32;
+      }
+
+      .match-card.type-ec {
+        border-color: rgba(205, 127, 50, 0.2);
+      }
+
+      .match-card.type-ec:hover {
+        border-color: rgba(205, 127, 50, 0.4);
+        background: rgba(205, 127, 50, 0.05);
+      }
+
+      /* PRO LEAGUE 系列 - 白银升级版（蓝紫渐变+发光） */
+      .match-card.type-pro::before {
+        background: linear-gradient(90deg, #00d4ff, #0099ff);
+        box-shadow: 0 0 8px rgba(0, 212, 255, 0.5);
+      }
+
+      .match-card.type-pro {
+        border: 1px solid rgba(0, 212, 255, 0.3);
+        position: relative;
+      }
+
+      .match-card.type-pro::after {
+        content: '⭐';
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 1.2em;
+        color: rgba(0, 212, 255, 0.6);
+      }
+
+      .match-card.type-pro:hover {
+        border-color: rgba(0, 212, 255, 0.5);
+        background: rgba(0, 212, 255, 0.05);
+        box-shadow: inset 0 0 20px rgba(0, 212, 255, 0.1);
+      }
+
+      /* Champions 系列 - 黄金级（发光强化） */
+      .match-card.type-champions::before {
+        background: linear-gradient(90deg, #ffd700, #ffed4e);
+        box-shadow: 0 0 12px rgba(255, 215, 0, 0.6);
+      }
+
+      .match-card.type-champions {
+        border: 1px solid rgba(255, 215, 0, 0.4);
+        position: relative;
+      }
+
+      .match-card.type-champions::after {
+        content: '👑';
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 1.3em;
+        color: rgba(255, 215, 0, 0.8);
+      }
+
+      .match-card.type-champions:hover {
+        border-color: rgba(255, 215, 0, 0.6);
+        background: rgba(255, 215, 0, 0.08);
+        box-shadow: inset 0 0 20px rgba(255, 215, 0, 0.15);
+      }
+
+      /* 特殊活动样式 - 粉红发光 */
+      .match-card.type-special::before {
+        background: linear-gradient(90deg, #ff1493, #ff69b4);
+        box-shadow: 0 0 10px rgba(255, 20, 147, 0.5);
+      }
+
+      .match-card.type-special {
+        border-color: rgba(255, 20, 147, 0.3);
+      }
+
+      .match-card.type-special:hover {
+        border-color: rgba(255, 20, 147, 0.5);
+        background: rgba(255, 20, 147, 0.05);
+        box-shadow: inset 0 0 20px rgba(255, 20, 147, 0.1);
+      }
+      .match-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 15px;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+
+      .match-title {
+        flex: 1;
+        min-width: 200px;
+      }
+
+      .match-title h3 {
+        color: #ffffff;
+        font-size: 1.3em;
+        font-weight: 500;
+        margin-bottom: 8px;
+      }
+
+      .match-time {
+        color: #b8c5d1;
+        font-size: 0.95em;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .match-time::before {
+        content: '🕐';
+      }
+
+      .match-action {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .match-btn {
+        padding: 10px 24px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.95em;
+        transition: all 0.3s;
+        border: none;
+        cursor: pointer;
+      }
+
+      .match-btn.primary {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+      }
+
+      .match-btn.primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+      }
+
+      .match-btn.secondary {
+        background: rgba(255, 255, 255, 0.1);
+        color: #b8c5d1;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .match-btn.secondary:hover {
+        background: rgba(255, 255, 255, 0.15);
+      }
+
+      /* 奖金信息 */
+      .prize-info {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 15px 0;
+      }
+
+      .prize-badge {
+        background: linear-gradient(45deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.1));
+        border: 1px solid rgba(255, 215, 0, 0.3);
+        color: #ffd700;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 0.9em;
+        font-weight: 600;
+      }
+
+      /* 获奖者信息 */
+      .winners {
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .winners-title {
+        color: #ffd700;
+        font-size: 0.95em;
+        font-weight: 600;
+        margin-bottom: 10px;
+      }
+
+      .winner-item {
+        background: rgba(255, 215, 0, 0.1);
+        border-left: 3px solid #ffd700;
+        padding: 8px 12px;
+        margin: 6px 0;
+        border-radius: 4px;
+        font-size: 0.9em;
+      }
+
+      /* 响应式 */
+      @media (max-width: 768px) {
+        .header-content {
+          flex-direction: column;
+          text-align: center;
+          gap: 15px;
+        }
+
+        .header h1 {
+          font-size: 1.5em;
+        }
+
+        .timeline::before {
+          left: 15px;
+        }
+
+        .time-label {
+          margin-left: 45px;
+          font-size: 1em;
+          padding: 8px 20px;
+        }
+
+        .match-item {
+          padding-left: 50px;
+        }
+
+        .match-marker {
+          left: 7px;
+        }
+
+        .match-header {
+          flex-direction: column;
+        }
+
+        .match-action {
+          width: 100%;
+        }
+
+        .match-btn {
+          flex: 1;
+          text-align: center;
+        }
+
+        .rules-toggle {
+          padding: 15px;
+        }
+
+        .rules-header h2 {
+          font-size: 1.1em;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .container {
+          padding: 20px 10px;
+        }
+
+        .match-card {
+          padding: 20px 15px;
+        }
+
+        .match-title h3 {
+          font-size: 1.1em;
+        }
+
+        .password-banner {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 15px;
+        }
+
+        .password-display {
+          flex-direction: column;
+        }
+
+        .copy-btn {
+          width: 100%;
+          text-align: center;
+        }
+
+        .match-card:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 16px rgba(102, 126, 234, 0.15);
+        }
+      } /* 空状态 */
+      .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #b8c5d1;
+      }
+
+      .empty-state-icon {
+        font-size: 4em;
+        margin-bottom: 20px;
+        opacity: 0.5;
+      }
+
+      /* 密码提示横幅 */
+      .password-banner {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
+        border: 1px solid rgba(102, 126, 234, 0.3);
+        border-radius: 15px;
+        padding: 20px 25px;
+        margin-bottom: 35px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .password-banner::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: linear-gradient(180deg, #667eea, #764ba2);
+      }
+
+      .password-banner-content {
+        flex: 1;
+        padding-left: 15px;
+      }
+
+      .password-banner-title {
+        font-size: 1.1em;
+        font-weight: 600;
+        color: #ffffff;
+        margin-bottom: 8px;
+      }
+
+      .password-banner-text {
+        color: #b8c5d1;
+        font-size: 0.95em;
+        margin-bottom: 8px;
+      }
+
+      .password-display {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: rgba(0, 0, 0, 0.3);
+        padding: 10px 15px;
+        border-radius: 8px;
+        font-family: 'Courier New'
+        , monospace;
+        font-size: 0.95em;
+        color: #7cf57f;
+        border: 1px solid rgba(76, 175, 80, 0.2);
+      }
+
+      .password-display code {
+        font-weight: 600;
+        flex: 1;
+      }
+
+      .copy-btn {
+        padding: 6px 12px;
+        background: rgba(102, 126, 234, 0.3);
+        border: 1px solid rgba(102, 126, 234, 0.5);
+        color: #667eea;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.85em;
+        transition: all 0.3s;
+        white-space: nowrap;
+      }
+
+      .copy-btn:hover {
+        background: rgba(102, 126, 234, 0.5);
+        border-color: #667eea;
+      }
+
+      .copy-btn:disabled {
+        cursor: not-allowed;
+      }
+
+      .copy-btn.copied {
+        background: rgba(100, 100, 100, 0.4);
+        border-color: rgba(150, 150, 150, 0.5);
+        color: #888888;
+      }
+
+      .copy-btn.copied:hover {
+        background: rgba(100, 100, 100, 0.4);
+        border-color: rgba(150, 150, 150, 0.5);
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- 页头 -->
+    <div class="header">
+      <div class="header-content">
+        <div class="back-link">
+          <a href="/">← 返回首页</a>
+        </div>
+        <h1>KC Gaming
+          <span>Chess</span>
+        </h1>
+        <div style="width: 80px;"></div>
+      <!-- 占位，保持居中 -->
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- 密码提示横幅 -->
+      <div class="password-banner">
+        <div class="password-banner-content">
+          <div class="password-banner-title">🔑 比赛密码</div>
+          <div class="password-banner-text">所有比赛使用相同密码，点击复制</div>
+          <div class="password-display">
+            <code id="passwordCode">KangChiaoInternationalSchool</code>
+            <button class="copy-btn" onclick="copyPassword()">复制</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 可折叠规则 -->
+      <div class="rules-toggle">
+        <div class="rules-header" onclick="toggleRules()">
+          <h2>📋 比赛规则</h2>
+          <span class="rules-icon" id="rulesIcon">▼</span>
+        </div>
+        <div class="rules-content" id="rulesContent">
+          {{ site.data.chess.rules | markdownify }}
+        </div>
+      </div>
+
+      <!-- 时间轴 -->
+      <div class="timeline" id="matchesTimeline">
+        <!-- 将由 JavaScript 动态生成 -->
+      </div>
+    </div>
+
+    <script src="/assets/js/main.js"></script>
+    <script>
+      // 页面加载时确保规则初始收起
+      document.addEventListener('DOMContentLoaded', function() {
+        const rulesContent = document.getElementById('rulesContent');
+        const rulesIcon = document.getElementById('rulesIcon');
+        
+        // 移除展开状态
+        rulesContent.classList.remove('expanded');
+        rulesIcon.classList.remove('expanded');
+      });
+      
+      // 复制密码功能
+      function copyPassword() {
+        const password = document.getElementById('passwordCode').textContent;
+        const btn = document.querySelector('.copy-btn');
+        
+        navigator.clipboard.writeText(password).then(() => {
+          const originalText = btn.textContent;
+          btn.textContent = '✓ 已复制';
+          btn.classList.add('copied');
+          btn.disabled = true;
+          
+          setTimeout(() => {
+            btn.textContent = originalText;
+            btn.classList.remove('copied');
+            btn.disabled = false;
+          }, 3000);
+        }).catch(err => {
+          console.error('复制失败:', err);
+        });
+      }
+      
+      // 折叠/展开规则
+      function toggleRules() {
+        const content = document.getElementById('rulesContent');
+        const icon = document.getElementById('rulesIcon');
+        content.classList.toggle('expanded');
+        icon.classList.toggle('expanded');
+      }
+      
+          // 动态生成时间轴
+          (function() {
+      console.log('Script started');
+      
+      try {
+        const matches = [
+          {% for match in site.data.chess.matches %}
+          {
+            name: {{ match.name | jsonify }},
+            startTime: {{ match.start_time | jsonify }},
+            endTime: {{ match.end_time | jsonify }},
+            link: {{ match.link | jsonify }},
+            special_type: {{ match.special_type | jsonify }},
+            prizes: [
+              {% if match.prize_distribution %}
+                {% for prize in match.prize_distribution %}
+                { position: {{ prize.position | jsonify }}, amount: {{ prize.amount | jsonify }} }{% unless forloop.last %},{% endunless %}
+                {% endfor %}
+              {% endif %}
+            ],
+            winners: [
+              {% if match.winner %}
+                {% for winner in match.winner %}
+                { position: {{ winner.position | jsonify }}, name: {{ winner.name | jsonify }} }{% unless forloop.last %},{% endunless %}
+                {% endfor %}
+              {% endif %}
+            ]
+          }{% unless forloop.last %},{% endunless %}
+          {% endfor %}
+        ];
+      
+        console.log('Matches loaded:', matches.length);
+        
+        if (matches.length === 0) {
+          document.getElementById('matchesTimeline').innerHTML = `
+            <div class="empty-state">
+              <div class="empty-state-icon">♟️</div>
+              <p>暂无比赛安排</p>
+            </div>
+          `;
+          return;
+        }
+      
+      // 解析日期字符串（支持多种格式）
+      function parseMatchDate(dateStr) {
+        // 尝试标准格式：2025-10-28 18:00
+        let date = new Date(dateStr);
+        if (!isNaN(date.getTime())) {
+          return date;
+        }
+        
+        // 尝试格式：10/28 6:00 PM
+        const match = dateStr.match(/(\d{1,2})\/(\d{1,2})\s+(\d{1,2}):(\d{2})\s*(AM|PM)?/i);
+        if (match) {
+          const month = parseInt(match[1]) - 1; // 月份从0开始
+          const day = parseInt(match[2]);
+          let hour = parseInt(match[3]);
+          const minute = parseInt(match[4]);
+          const meridiem = match[5];
+          
+          // 处理12小时制
+          if (meridiem) {
+            if (meridiem.toUpperCase() === 'PM' && hour !== 12) {
+              hour += 12;
+            } else if (meridiem.toUpperCase() === 'AM' && hour === 12) {
+              hour = 0;
+            }
+          }
+          
+          // 假设是当前年份
+          const year = new Date().getFullYear();
+          return new Date(year, month, day, hour, minute);
+        }
+        
+        return new Date(dateStr);
+      }
+      
+      const now = new Date();
+      const timeline = document.getElementById('matchesTimeline');
+      
+      // 调试信息（可选）
+      console.log('Current time:', now.toLocaleString('zh-CN'));
+      console.log('Matches:', matches.map(m => ({
+        name: m.name,
+        endTime: parseMatchDate(m.endTime).toLocaleString('zh-CN'),
+        isPast: parseMatchDate(m.endTime) < now
+      })));
+      
+      // 分类比赛
+      const upcoming = [];
+      const past = [];
+      
+      matches.forEach(match => {
+        const endTime = parseMatchDate(match.endTime);
+        if (endTime < now) {
+          past.push(match);
+        } else {
+          upcoming.push(match);
+        }
+      });
+      
+      // 按时间排序
+      upcoming.sort((a, b) => parseMatchDate(a.startTime) - parseMatchDate(b.startTime));
+      past.sort((a, b) => parseMatchDate(b.startTime) - parseMatchDate(a.startTime)); // 最新的在前
+      
+      // 渲染即将开始的比赛
+      if (upcoming.length > 0) {
+        const upcomingGroup = document.createElement('div');
+        upcomingGroup.className = 'time-group';
+        upcomingGroup.innerHTML = '<div class="time-label">⚡ 即将开始</div>';
+        
+        upcoming.forEach(match => {
+          upcomingGroup.innerHTML += createMatchCard(match, false);
+        });
+        
+        timeline.appendChild(upcomingGroup);
+      }
+      
+      // 渲染已结束的比赛
+      if (past.length > 0) {
+        const pastGroup = document.createElement('div');
+        pastGroup.className = 'time-group';
+        pastGroup.innerHTML = '<div class="time-label">🏆 已结束</div>';
+        
+        past.forEach(match => {
+          pastGroup.innerHTML += createMatchCard(match, true);
+        });
+        
+        timeline.appendChild(pastGroup);
+      }
+      
+      // 空状态
+      if (matches.length === 0) {
+        timeline.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">♟️</div>
+            <p>暂无比赛安排</p>
+          </div>
+        `;
+      }
+      
+      console.log('Timeline rendering complete');
+      
+      } catch (error) {
+        console.error('Error rendering timeline:', error);
+        document.getElementById('matchesTimeline').innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">⚠️</div>
+            <p>加载比赛数据时出错</p>
+            <p style="font-size: 0.85em; color: #888;">${error.message}</p>
+          </div>
+        `;
+      }
+      
+      // 创建比赛卡片HTML
+      function createMatchCard(match, isPast) {
+        const startDate = parseMatchDate(match.startTime);
+        const endDate = parseMatchDate(match.endTime);
+        const dateStr = formatDate(startDate);
+        const timeStr = formatTime(startDate, endDate);
+        
+        // 判断比赛类型
+        let matchType = 'type-ec'; // 默认
+        if (match.name.includes('Champions')) {
+          matchType = 'type-champions';
+        } else if (match.name.includes('PRO LEAGUE')) {
+          matchType = 'type-pro';
+        } else if (match.name.includes('E.C.')) {
+          matchType = 'type-ec';
+        }
+        // 如果需要特殊类型，可在YAML中添加 special_type 字段
+        if (match.special_type) {
+          matchType = `type-${match.special_type}`;
+        }
+        
+        let prizesHTML = '';
+        if (match.prizes.length > 0) {
+          const totalPrize = match.prizes.reduce((sum, p) => {
+            const amount = parseInt(p.amount.replace(/[^0-9]/g, '')) || 0;
+            return sum + amount;
+          }, 0);
+          
+          prizesHTML = `
+            <div class="prize-info">
+              <div class="prize-badge">💰 总奖金: ￥${totalPrize}</div>
+              ${match.prizes.map(p => `<div class="prize-badge">${p.position} ${p.amount}</div>`).join('')}
+            </div>
+          `;
+        }
+      
+        let winnersHTML = '';
+        if (match.winners.length > 0 && isPast) {
+          winnersHTML = `
+            <div class="winners">
+              <div class="winners-title">🎯 获奖名单</div>
+              ${match.winners.map(w => {
+                let prizeAmount = '';
+                const prize = match.prizes.find(p => p.position === w.position);
+                if (prize) {
+                  prizeAmount = ` <span style="color: #ffd700;">(${prize.amount})</span>`;
+                }
+                return `<div class="winner-item">${w.position}: ${w.name}${prizeAmount}</div>`;
+              }).join('')}
+            </div>
+          `;
+        }
+      
+        const buttonHTML = isPast 
+          ? `<a href="${match.link}" target="_blank" class="match-btn secondary">查看结果</a>`
+          : `<a href="${match.link}" target="_blank" class="match-btn primary">立即报名</a>`;
+      
+        return `
+          <div class="match-item">
+            <div class="match-marker"></div>
+            <div class="match-card ${matchType}">
+              <div class="match-header">
+                <div class="match-title">
+                  <h3>${match.name}</h3>
+                  <div class="match-time">${dateStr} ${timeStr}</div>
+                </div>
+                <div class="match-action">
+                  ${buttonHTML}
+                </div>
+              </div>
+              ${prizesHTML}
+              ${winnersHTML}
+            </div>
+          </div>
+        `;
+      }
+      
+      // 格式化日期
+      function formatDate(date) {
+        const months = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'];
+        const days = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+        return `${months[date.getMonth()]}${date.getDate()}日 ${days[date.getDay()]}`;
+      }
+      
+      // 格式化时间
+      function formatTime(start, end) {
+        const pad = n => n.toString().padStart(2, '0');
+        return `${pad(start.getHours())}:${pad(start.getMinutes())} - ${pad(end.getHours())}:${pad(end.getMinutes())}`;
+      }
+          })();
+      
+          // 加载语言切换和UI按钮
+          try {
+      if (typeof load_switch_language_btn === 'function') {
+        load_switch_language_btn('{{ page.language }}');
+      }
+      if (typeof load_ui_toggle_btn === 'function') {
+        load_ui_toggle_btn('{{ page.language }}');
+      }
+      if (typeof bind_onclick_btn === 'function') {
+        bind_onclick_btn();
+      }
+          } catch (e) {
+      console.log('Optional UI functions not available:', e);
+          }
+    </script>
+  </body>
+
+</html>

@@ -1,5 +1,5 @@
 ---
-layout: chess
+layout: chess_new
 title: KC Gaming Chess
 language: zh_CN
 ---
