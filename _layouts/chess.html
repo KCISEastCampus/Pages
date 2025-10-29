@@ -165,6 +165,9 @@
       letter-spacing: 15px;
       text-shadow: 0 2px 10px rgba(0,0,0,0.5);
       font-weight: bold;
+      white-space: nowrap;
+      max-width: 90%;
+      overflow: hidden;
     }
 
     .rules-section h2 {
@@ -488,31 +491,234 @@
 
     /* 响应式设计 */
     @media (max-width: 768px) {
-      .header h1 {
-        font-size: 2.2em;
+      /* 头部优化 */
+      .header {
+        padding: 30px 15px;
       }
+
+      .header h1 {
+        font-size: 2em;
+        padding: 0 10px;
+      }
+
       .header h1::before, .header h1::after {
         display: none;
       }
-      .matches-grid {
-        grid-template-columns: 1fr;
+
+      .header p {
+        font-size: 1em;
+        padding: 0 10px;
       }
+
+      .back-link {
+        position: static;
+        margin-bottom: 15px;
+        text-align: left;
+      }
+
+      /* 容器优化 */
+      .container {
+        padding: 20px 10px;
+      }
+
+      /* 规则区域优化 */
       .rules-section {
-        padding: 25px;
+        padding: 20px 15px;
+        border-radius: 15px;
+        margin-bottom: 30px;
       }
-      .match-card {
-        padding: 20px;
+
+      .rules-section::before {
+        content: '♜ ♞ ♝ ♛ ♚ ♝ ♞ ♜';
+        font-size: 1em;
+        letter-spacing: 5px;
+        top: -18px;
       }
+
+      .rules-section h2 {
+        font-size: 1.5em;
+      }
+
+      .rules-section p, .rules-section ul, .rules-section li {
+        font-size: 0.95em;
+      }
+
+      /* 比赛区域标题 */
+      .matches-section h2 {
+        font-size: 1.8em;
+        margin-bottom: 30px;
+      }
+
+      /* 日历容器优化 */
+      .calendar-container {
+        padding: 20px 15px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+      }
+
+      .calendar-container h3 {
+        font-size: 1.3em;
+        margin-bottom: 20px;
+      }
+
       .calendar-grid {
         grid-template-columns: 1fr;
+        gap: 15px;
       }
+
       .calendar-item {
         flex-direction: column;
         text-align: center;
         gap: 15px;
+        padding: 15px;
       }
+
       .calendar-date {
         min-width: auto;
+      }
+
+      .calendar-content h4 {
+        font-size: 1.1em;
+      }
+
+      .calendar-time {
+        font-size: 0.85em;
+      }
+
+      .prize-badge {
+        font-size: 0.85em;
+        padding: 5px 10px;
+      }
+
+      .calendar-link {
+        font-size: 0.85em;
+        padding: 6px 14px;
+      }
+
+      /* 周标题优化 */
+      .week-group {
+        margin-bottom: 40px;
+      }
+
+      .week-title {
+        font-size: 1em;
+        padding: 12px 25px;
+        margin-bottom: 20px;
+      }
+
+      .week-title::before {
+        font-size: 1em;
+      }
+
+      /* 比赛卡片优化 */
+      .matches-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .match-card {
+        padding: 20px 15px;
+        border-radius: 15px;
+      }
+
+      .match-card h3 {
+        font-size: 1.2em;
+        margin-bottom: 12px;
+      }
+
+      .match-card h3::before {
+        font-size: 0.9em;
+        margin-right: 8px;
+      }
+
+      .match-time {
+        font-size: 1em;
+        margin: 12px 0;
+      }
+
+      .match-prize-distribution {
+        margin: 12px 0;
+      }
+
+      .prize-item {
+        font-size: 0.9em;
+        margin: 4px 0;
+      }
+
+      .match-link {
+        padding: 12px 25px;
+        font-size: 0.95em;
+        border-radius: 25px;
+      }
+
+      /* 获奖者信息优化 */
+      .match-winners {
+        margin: 12px 0;
+      }
+
+      .match-winners h4 {
+        font-size: 0.95em;
+        margin-bottom: 8px;
+      }
+
+      .winner-item {
+        font-size: 0.85em;
+        padding: 6px 10px;
+        margin: 4px 0;
+      }
+
+      /* 页脚优化 */
+      .footer {
+        padding: 30px 15px;
+        margin-top: 40px;
+        font-size: 0.9em;
+      }
+
+      /* 浮动棋子在移动端减小尺寸 */
+      .floating-piece {
+        font-size: 1.5em;
+        opacity: 0.08;
+      }
+    }
+
+    /* 小屏幕手机优化 */
+    @media (max-width: 480px) {
+      .header h1 {
+        font-size: 1.6em;
+      }
+
+      .header p {
+        font-size: 0.9em;
+      }
+
+      .rules-section::before {
+        content: '♜♞♝♛♚♝♞♜';
+        font-size: 0.8em;
+        letter-spacing: 3px;
+        top: -16px;
+      }
+
+      .matches-section h2 {
+        font-size: 1.5em;
+      }
+
+      .calendar-container h3 {
+        font-size: 1.1em;
+      }
+
+      .match-card h3 {
+        font-size: 1.1em;
+      }
+
+      .week-title {
+        font-size: 0.9em;
+        padding: 10px 20px;
+      }
+
+      /* 确保按钮不会太宽 */
+      .match-link, .calendar-link {
+        max-width: 100%;
+        box-sizing: border-box;
       }
     }
   </style>
