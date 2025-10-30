@@ -36,6 +36,14 @@ matches:
         amount: "￥10"
       - position: "🥉 第三名"
         amount: "￥5"
+    winner:
+      - position: "🥇 第一名"
+        name: "Jimmy \"Hurr1can333333\" Yu"
+      - position: "🥈 第二名"
+        name: "Eason \"ENAOS\" Wang"
+      - position: "🥉 第三名"
+        name: "Eric \"EricStoneChina\" Shi"
+
   - name: "KC Gaming Chess E.C. Season 1"
     start_time: "2025-11-04 18:00"
     end_time: "2025-11-04 20:00"
