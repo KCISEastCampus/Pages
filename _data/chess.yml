@@ -1,31 +1,79 @@
-matches:
-  # - name: "Example Tournament"
-  #   start_time: "2025-10-28 18:00"
-  #   end_time: "2025-10-28 20:00"
-  #   special_type: "special" (optional)
-  #   link: "https://lichess.org/tournament/HffQoOUd"
-  #   prize_distribution:
-  #     - position: "🥇 第一名"
-  #       amount: "￥10"
-  #     - position: "🥈 第二名" 
-  #       amount: "￥5"
-  #   winner:
-  #     - position: "🥇 第一名"
-  #       name: "Player A"
+# 循环比赛系列定义
+recurring_series:
+  # E.C. 系列 - 每周一次
+  - id: "ec"
+    name_template: "KC Gaming Chess E.C. Season {season}"
+    display_name: "E.C."
+    frequency: "weekly"  # weekly, biweekly, monthly
+    day_of_week: 1  # 0=周日, 1=周一, ..., 6=周六
+    start_time: "18:00"
+    duration_hours: 2
+    start_date: "2025-11-04"  # 第一场比赛日期
+    end_date: "2026-06-30"    # 系列结束日期
+    prize_distribution: []    # 无奖金
 
-
-
-  - name: "KCG E.C. Pre-season S1"
-    start_time: "2025-10-28 18:00"
-    end_time: "2025-10-28 20:00"
-    link: "https://lichess.org/tournament/HffQoOUd"
-    winner:
+  # PRO LEAGUE 系列 - 每两周一次
+  - id: "pro"
+    name_template: "KC Gaming Chess PRO LEAGUE S{season}"
+    display_name: "PRO LEAGUE"
+    frequency: "biweekly"
+    day_of_week: 3  # 周三
+    start_time: "15:45"
+    duration_hours: 4.5
+    start_date: "2025-11-13"
+    end_date: "2026-06-30"
+    prize_distribution:
       - position: "🥇 第一名"
-        name: "Jimmy \"Hurr1can333333\" Yu"
+        amount: "￥10"
       - position: "🥈 第二名"
-        name: "Eric \"EricStoneChina\" Shi"
+        amount: "￥3"
+      - position: "🥉 第三名"
+        amount: "￥2"
 
+  # Champions 系列 - 每两个月一次
+  - id: "champions"
+    name_template: "KC Gaming Chess Champions {month}"
+    display_name: "Champions"
+    frequency: "bimonthly"
+    day_of_week: 6  # 周六
+    start_time: "15:45"
+    duration_hours: 4.5
+    start_date: "2025-12-28"
+    end_date: "2026-06-30"
+    prize_distribution:
+      - position: "🥇 第一名"
+        amount: "￥15"
+      - position: "🥈 第二名"
+        amount: "￥10"
+      - position: "🥉 第三名"
+        amount: "￥5"
+
+# 单次比赛实例（从系列生成或特殊活动）
+matches:
+  # 说明：
+  # 1. 属于系列的比赛：使用 series_id + season/date，系统会自动从 recurring_series 填充时间和奖金信息
+  # 2. 特殊活动：使用完整的 name + start_time + end_time，保持原有格式
+
+  # === 未来的比赛 ===
+  - series_id: "ec"
+    season: 2
+    date: "2025-11-11"
+    link: "https://lichess.org/tournament/xvxFmQ4x"
+
+  - series_id: "pro"
+    season: 1
+    date: "2025-11-13"
+    link: "https://lichess.org/tournament/nG4jAyVW"
+
+  # === 已完成的比赛 ===
+  - series_id: "ec"
+    season: 1
+    date: "2025-11-04"
+    link: "https://lichess.org/tournament/pS1fvKBH"
+
+  # === Pre-season 特殊活动 ===
   - name: "KCG Champions Pre-season Oct."
+    special_type: "champions"
     start_time: "2025-10-30 15:45"
     end_time: "2025-10-30 20:15"
     link: "https://lichess.org/tournament/IW81tWDY"
@@ -44,27 +92,15 @@ matches:
       - position: "🥉 第三名"
         name: "Eric \"EricStoneChina\" Shi"
 
-  - name: "KC Gaming Chess E.C. Season 1"
-    start_time: "2025-11-04 18:00"
-    end_time: "2025-11-04 20:00"
-    link: "https://lichess.org/tournament/pS1fvKBH"
-
-  - name: "KC Gaming Chess PRO LEAGUE S1"
-    start_time: "2025-11-13 15:45"
-    end_time: "2025-11-13 20:15"
-    link: "https://lichess.org/tournament/nG4jAyVW"
-    prize_distribution:
+  - name: "KCG E.C. Pre-season S1"
+    start_time: "2025-10-28 18:00"
+    end_time: "2025-10-28 20:00"
+    link: "https://lichess.org/tournament/HffQoOUd"
+    winner:
       - position: "🥇 第一名"
-        amount: "￥10"
+        name: "Jimmy \"Hurr1can333333\" Yu"
       - position: "🥈 第二名"
-        amount: "￥3"
-      - position: "🥉 第三名"
-        amount: "￥2"
-
-  - name: "KC Gaming Chess E.C. Season 2"
-    start_time: "2025-11-11 18:00"
-    end_time: "2025-11-11 20:00"
-    link: "https://lichess.org/tournament/xvxFmQ4x"
+        name: "Eric \"EricStoneChina\" Shi"
 
 
 rules: |

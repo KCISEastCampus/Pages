@@ -256,6 +256,81 @@
         padding-left: 80px;
       }
 
+      .series-extra {
+        margin-top: 10px;
+        max-height: 2000px;
+        overflow: hidden;
+        transition: max-height 0.35s ease-in-out
+        , opacity 0.35s ease-in-out;
+        opacity: 1;
+      }
+
+      .series-extra.hidden {
+        max-height: 0;
+        opacity: 0;
+      }
+
+      /* 卡片内的展开链接区域 */
+      .card-extras-footer {
+        border-top: 1px solid rgba(102, 224, 255, 0.2);
+        padding-top: 12px;
+        margin-top: 12px;
+      }
+
+      .card-toggle-link {
+        background: linear-gradient(135deg, rgba(102, 224, 255, 0.1), rgba(0, 212, 255, 0.08));
+        border: 1px solid rgba(102, 224, 255, 0.35);
+        color: #a8f3ff;
+        padding: 6px 12px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.85em;
+        letter-spacing: 0.3px;
+        border-radius: 6px;
+        text-decoration: none;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card-toggle-link::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.4s ease;
+        z-index: 1;
+      }
+
+      .card-toggle-link:hover {
+        background: linear-gradient(135deg, rgba(102, 224, 255, 0.18), rgba(0, 212, 255, 0.14));
+        border-color: rgba(102, 224, 255, 0.55);
+        color: #e5fbff;
+        box-shadow: 0 4px 12px rgba(102, 224, 255, 0.2);
+        transform: translateY(-1px);
+      }
+
+      .card-toggle-link:hover::before {
+        left: 100%;
+      }
+
+      .card-toggle-link[data-expanded="true"] {
+        background: linear-gradient(135deg, rgba(255, 216, 117, 0.12), rgba(255, 198, 95, 0.08));
+        border-color: rgba(255, 216, 117, 0.4);
+        color: #ffe7aa;
+      }
+
+      .card-toggle-link[data-expanded="true"]:hover {
+        background: linear-gradient(135deg, rgba(255, 216, 117, 0.2), rgba(255, 198, 95, 0.15));
+        border-color: rgba(255, 216, 117, 0.6);
+        box-shadow: 0 4px 12px rgba(255, 198, 95, 0.2);
+      }
+
       .match-marker {
         position: absolute;
         left: 22px;
@@ -773,13 +848,39 @@
       console.log('Script started');
       
       try {
-        const matches = [
+        // 循环系列定义
+        const recurringSeries = {
+          {% for series in site.data.chess.recurring_series %}
+          {{ series.id | jsonify }}: {
+            nameTemplate: {{ series.name_template | jsonify }},
+            displayName: {{ series.display_name | default: series.id | jsonify }},
+            frequency: {{ series.frequency | jsonify }},
+            dayOfWeek: {{ series.day_of_week | jsonify }},
+            startTime: {{ series.start_time | jsonify }},
+            durationHours: {{ series.duration_hours | jsonify }},
+            prizes: [
+              {% if series.prize_distribution %}
+                {% for prize in series.prize_distribution %}
+                { position: {{ prize.position | jsonify }}, amount: {{ prize.amount | jsonify }} }{% unless forloop.last %},{% endunless %}
+                {% endfor %}
+              {% endif %}
+            ]
+          }{% unless forloop.last %},{% endunless %}
+          {% endfor %}
+        };
+      
+        // 处理比赛实例，合并系列信息
+        const rawMatches = [
           {% for match in site.data.chess.matches %}
           {
+            {% if match.series_id %}
+            seriesId: {{ match.series_id | jsonify }},
+            season: {{ match.season | jsonify }},
+            date: {{ match.date | jsonify }},
+            {% else %}
             name: {{ match.name | jsonify }},
             startTime: {{ match.start_time | jsonify }},
             endTime: {{ match.end_time | jsonify }},
-            link: {{ match.link | jsonify }},
             special_type: {{ match.special_type | jsonify }},
             prizes: [
               {% if match.prize_distribution %}
@@ -788,6 +889,8 @@
                 {% endfor %}
               {% endif %}
             ],
+            {% endif %}
+            link: {{ match.link | jsonify }},
             winners: [
               {% if match.winner %}
                 {% for winner in match.winner %}
@@ -798,6 +901,44 @@
           }{% unless forloop.last %},{% endunless %}
           {% endfor %}
         ];
+      
+        // 构建完整的比赛列表
+        const matches = rawMatches.map(match => {
+          if (match.seriesId && recurringSeries[match.seriesId]) {
+            const series = recurringSeries[match.seriesId];
+            const matchDate = new Date(match.date);
+            const [startHour, startMinute] = series.startTime.split(':').map(Number);
+            
+            // 计算开始和结束时间
+            const startTime = new Date(matchDate);
+            startTime.setHours(startHour, startMinute, 0);
+            
+            const endTime = new Date(startTime);
+            endTime.setHours(endTime.getHours() + Math.floor(series.durationHours));
+            endTime.setMinutes(endTime.getMinutes() + (series.durationHours % 1) * 60);
+            
+            // 生成比赛名称
+            let name = series.nameTemplate.replace('{season}', match.season);
+            name = name.replace('{month}', (matchDate.getMonth() + 1) + '月');
+            
+            return {
+              name: name,
+              startTime: startTime.toISOString().slice(0, 16).replace('T', ' '),
+              endTime: endTime.toISOString().slice(0, 16).replace('T', ' '),
+              link: match.link,
+              seriesId: match.seriesId,
+              seriesName: series.displayName || match.seriesId,
+              prizes: Array.isArray(series.prizes) ? series.prizes : [],
+              winners: Array.isArray(match.winners) ? match.winners : []
+            };
+          } else {
+            // 非系列比赛，保持原样
+            return Object.assign({}, match, {
+              prizes: Array.isArray(match.prizes) ? match.prizes : [],
+              winners: Array.isArray(match.winners) ? match.winners : []
+            });
+          }
+        });
       
         console.log('Matches loaded:', matches.length);
         
@@ -878,9 +1019,64 @@
         const upcomingGroup = document.createElement('div');
         upcomingGroup.className = 'time-group';
         upcomingGroup.innerHTML = '<div class="time-label">⚡ 即将开始</div>';
-        
+      
+        // 按系列预分组，便于生成折叠区域
+        const seriesMatches = new Map();
         upcoming.forEach(match => {
-          upcomingGroup.innerHTML += createMatchCard(match, false);
+          if (match.seriesId) {
+            if (!seriesMatches.has(match.seriesId)) {
+              seriesMatches.set(match.seriesId, []);
+            }
+            seriesMatches.get(match.seriesId).push(match);
+          }
+        });
+      
+        const renderedSeries = new Set();
+      
+        upcoming.forEach(match => {
+          if (match.seriesId) {
+            if (renderedSeries.has(match.seriesId)) {
+              return;
+            }
+      
+            const groupMatches = seriesMatches.get(match.seriesId) || [];
+            const extras = groupMatches.slice(1);
+            const toggleId = `series-extra-${match.seriesId}`;
+            const seriesLabel = match.seriesName || (recurringSeries[match.seriesId]?.displayName) || match.seriesId.toUpperCase();
+      
+            // 创建主卡片，如果有额外比赛则标记 hasExtras
+            const cardOptions = extras.length > 0 ? {
+              hasExtras: true,
+              toggleId: toggleId,
+              seriesLabel: seriesLabel,
+              extrasCount: extras.length
+            } : {};
+            
+            const matchItemDiv = document.createElement('div');
+            matchItemDiv.innerHTML = createMatchCard(match, false, cardOptions);
+            upcomingGroup.appendChild(matchItemDiv.firstElementChild);
+      
+            if (extras.length > 0) {
+              // 创建隐藏容器放额外卡片
+              const extrasContainer = document.createElement('div');
+              extrasContainer.id = toggleId;
+              extrasContainer.className = 'series-extra hidden';
+              extras.forEach(extraMatch => {
+                const extraDiv = document.createElement('div');
+                extraDiv.innerHTML = createMatchCard(extraMatch, false);
+                extrasContainer.appendChild(extraDiv.firstElementChild);
+              });
+              upcomingGroup.appendChild(extrasContainer);
+            }
+      
+            renderedSeries.add(match.seriesId);
+            return;
+          }
+      
+          // 非循环比赛保持原样
+          const matchItemDiv = document.createElement('div');
+          matchItemDiv.innerHTML = createMatchCard(match, false);
+          upcomingGroup.appendChild(matchItemDiv.firstElementChild);
         });
         
         timeline.appendChild(upcomingGroup);
@@ -909,6 +1105,38 @@
         `;
       }
       
+      // 绑定系列折叠按钮（卡片内和独立）
+      document.querySelectorAll('.series-toggle, .card-toggle-link').forEach(button => {
+        button.addEventListener('click', () => {
+          const targetId = button.getAttribute('data-target');
+          const container = document.getElementById(targetId);
+          if (!container) {
+            return;
+          }
+      
+          const expanded = button.getAttribute('data-expanded') === 'true';
+          
+          if (expanded) {
+            // 收起
+            container.classList.add('hidden');
+          } else {
+            // 展开
+            container.classList.remove('hidden');
+          }
+      
+          button.setAttribute('data-expanded', expanded ? 'false' : 'true');
+      
+          const seriesLabel = button.getAttribute('data-series-label') || '';
+          const extrasCount = button.getAttribute('data-extras-count') || '';
+          
+          if (expanded) {
+            button.textContent = `展开更多「${seriesLabel}」比赛 (${extrasCount})`;
+          } else {
+            button.textContent = `收起「${seriesLabel}」比赛`;
+          }
+        });
+      });
+      
       console.log('Timeline rendering complete');
       
       } catch (error) {
@@ -923,29 +1151,46 @@
       }
       
       // 创建比赛卡片HTML
-      function createMatchCard(match, isPast) {
+      function createMatchCard(match, isPast, options = {}) {
         const startDate = parseMatchDate(match.startTime);
         const endDate = parseMatchDate(match.endTime);
         const dateStr = formatDate(startDate);
         const timeStr = formatTime(startDate, endDate);
+        const prizes = Array.isArray(match.prizes) ? match.prizes : [];
+        const winners = Array.isArray(match.winners) ? match.winners : [];
+        const { hasExtras = false, toggleId = '', seriesLabel = '', extrasCount = 0 } = options;
         
         // 判断比赛类型
         let matchType = 'type-ec'; // 默认
-        if (match.name.includes('Champions')) {
-          matchType = 'type-champions';
-        } else if (match.name.includes('PRO LEAGUE')) {
-          matchType = 'type-pro';
-        } else if (match.name.includes('E.C.')) {
-          matchType = 'type-ec';
+        
+        // 优先通过 seriesId 判断
+        if (match.seriesId) {
+          if (match.seriesId === 'champions') {
+            matchType = 'type-champions';
+          } else if (match.seriesId === 'pro') {
+            matchType = 'type-pro';
+          } else if (match.seriesId === 'ec') {
+            matchType = 'type-ec';
+          }
+        } else {
+          // 通过名称判断（兼容旧的特殊活动）
+          if (match.name.includes('Champions')) {
+            matchType = 'type-champions';
+          } else if (match.name.includes('PRO LEAGUE')) {
+            matchType = 'type-pro';
+          } else if (match.name.includes('E.C.')) {
+            matchType = 'type-ec';
+          }
         }
-        // 如果需要特殊类型，可在YAML中添加 special_type 字段
+        
+        // 特殊类型覆盖（用于特殊活动）
         if (match.special_type) {
           matchType = `type-${match.special_type}`;
         }
         
         let prizesHTML = '';
-        if (match.prizes.length > 0) {
-          const totalPrize = match.prizes.reduce((sum, p) => {
+        if (prizes.length > 0) {
+          const totalPrize = prizes.reduce((sum, p) => {
             const amount = parseInt(p.amount.replace(/[^0-9]/g, '')) || 0;
             return sum + amount;
           }, 0);
@@ -953,24 +1198,35 @@
           prizesHTML = `
             <div class="prize-info">
               <div class="prize-badge">💰 总奖金: ￥${totalPrize}</div>
-              ${match.prizes.map(p => `<div class="prize-badge">${p.position} ${p.amount}</div>`).join('')}
+              ${prizes.map(p => `<div class="prize-badge">${p.position} ${p.amount}</div>`).join('')}
             </div>
           `;
         }
       
         let winnersHTML = '';
-        if (match.winners.length > 0 && isPast) {
+        if (winners.length > 0 && isPast) {
           winnersHTML = `
             <div class="winners">
               <div class="winners-title">🎯 获奖名单</div>
-              ${match.winners.map(w => {
+              ${winners.map(w => {
                 let prizeAmount = '';
-                const prize = match.prizes.find(p => p.position === w.position);
+                const prize = prizes.find(p => p.position === w.position);
                 if (prize) {
                   prizeAmount = ` <span style="color: #ffd700;">(${prize.amount})</span>`;
                 }
                 return `<div class="winner-item">${w.position}: ${w.name}${prizeAmount}</div>`;
               }).join('')}
+            </div>
+          `;
+        }
+      
+        let extrasHTML = '';
+        if (hasExtras && toggleId) {
+          extrasHTML = `
+            <div class="card-extras-footer">
+              <button class="card-toggle-link" data-target="${toggleId}" data-expanded="false" data-series-label="${seriesLabel}" data-extras-count="${extrasCount}">
+                展开更多「${seriesLabel}」比赛 (${extrasCount})
+              </button>
             </div>
           `;
         }
@@ -994,6 +1250,7 @@
               </div>
               ${prizesHTML}
               ${winnersHTML}
+              ${extrasHTML}
             </div>
           </div>
         `;
