@@ -4,6 +4,7 @@ recurring_series:
   - id: "ec"
     name_template: "KC Gaming Chess E.C. Season {season}"
     display_name: "E.C."
+    icon: ""
     frequency: "weekly"  # weekly, biweekly, monthly
     day_of_week: 1  # 0=周日, 1=周一, ..., 6=周六
     start_time: "18:00"
@@ -16,6 +17,7 @@ recurring_series:
   - id: "pro"
     name_template: "KC Gaming Chess PRO LEAGUE S{season}"
     display_name: "PRO LEAGUE"
+    icon: "⭐"
     frequency: "biweekly"
     day_of_week: 3  # 周三
     start_time: "15:45"
@@ -34,6 +36,7 @@ recurring_series:
   - id: "champions"
     name_template: "KC Gaming Chess Champions {month}"
     display_name: "Champions"
+    icon: "👑"
     frequency: "bimonthly"
     day_of_week: 6  # 周六
     start_time: "15:45"
@@ -75,10 +78,21 @@ matches:
     date: "2025-11-18"
     link: "https://lichess.org/tournament/LeZ0oA0j"
 
+  - series_id: "ec"
+    season: 4
+    date: "2025-11-25"
+    link: "https://lichess.org/tournament/YX02PK9h"
+
+  - series_id: "pro"
+    season: 2
+    date: "2025-11-27"
+    link: "https://lichess.org/tournament/RJENMeFx"
+
   - name: "KC Gaming Chess Special Event Dec."
     start_time: "2025-12-20 10:00"
     end_time: "2025-12-20 16:00"
     special_type: "special"
+    special_icon: "🎄"
     link: "https://lichess.org/tournament/6jrHWb0r"
     prize_distribution:
       - position: "🥇 第一名"
@@ -87,7 +101,9 @@ matches:
         amount: "￥6"
       - position: "🥉 第三名"
         amount: "￥3"
-      - position: "🏅 第四-五名"
+      - position: "🏅 第四名"
+        amount: "￥2"
+      - position: "🏅 第五名"
         amount: "￥2"
 
 
