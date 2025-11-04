@@ -791,6 +791,40 @@
         background: rgba(100, 100, 100, 0.4);
         border-color: rgba(150, 150, 150, 0.5);
       }
+
+      /* 自定义详情内容 */
+      .match-description {
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: #c5d1e0;
+        font-size: 0.95em;
+        line-height: 1.6;
+      }
+
+      .match-description p {
+        margin: 8px 0;
+      }
+
+      .match-description strong {
+        color: #ffffff;
+        font-weight: 600;
+      }
+
+      .match-description em {
+        color: #a8f3ff;
+        font-style: italic;
+      }
+
+      .match-description ul,
+      .match-description ol {
+        margin: 10px 0 10px 20px;
+        padding-left: 20px;
+      }
+
+      .match-description li {
+        margin: 6px 0;
+      }
     </style>
   </head>
 
@@ -921,6 +955,7 @@
             endTime: {{ match.end_time | jsonify }},
             special_type: {{ match.special_type | jsonify }},
             special_icon: {{ match.special_icon | default: "" | jsonify }},
+            description: {{ match.description | jsonify }},
             prizes: [
               {% if match.prize_distribution %}
                 {% for prize in match.prize_distribution %}
@@ -986,6 +1021,7 @@
         });
       
         console.log('Matches loaded:', matches.length);
+        console.log('Sample match with description:', matches.find(m => m.description));
         
         if (matches.length === 0) {
           document.getElementById('matchesTimeline').innerHTML = `
@@ -1302,6 +1338,21 @@
           `;
         }
       
+        let descriptionHTML = '';
+        if (match.description) {
+          // 简单的 markdown 转 HTML（支持 **粗体** 和 *斜体*）
+          let desc = match.description;
+          // 处理 | 作为段落分隔符
+          desc = desc.split(' | ').join('</p><p>');
+          desc = desc.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+          desc = desc.replace(/\*(.*?)\*/g, '<em>$1</em>');
+          desc = desc.replace(/^### (.*?)$/gm, '<h4 style="color: #ffd700; margin: 12px 0 8px 0; font-size: 1em;">$1</h4>');
+          desc = desc.replace(/^- (.*?)$/gm, '<li>$1</li>');
+          desc = desc.replace(/(<li>.*?<\/li>)/s, '<ul>$1</ul>');
+          
+          descriptionHTML = `<div class="match-description"><p>${desc}</p></div>`;
+        }
+      
         const buttonHTML = isPast 
           ? `<a href="${match.link}" target="_blank" class="match-btn secondary">查看结果</a>`
           : `<a href="${match.link}" target="_blank" class="match-btn primary">立即报名</a>`;
@@ -1320,6 +1371,7 @@
                   ${buttonHTML}
                 </div>
               </div>
+              ${descriptionHTML}
               ${prizesHTML}
               ${winnersHTML}
               ${extrasHTML}
