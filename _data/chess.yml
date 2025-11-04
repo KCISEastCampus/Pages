@@ -70,9 +70,28 @@ matches:
     date: "2025-11-13"
     link: "https://lichess.org/tournament/nG4jAyVW"
 
+  - series_id: "ec"
+    season: 3
+    date: "2025-11-18"
+    link: "https://lichess.org/tournament/LeZ0oA0j"
+
+  - name: "KC Gaming Chess Special Event Dec."
+    start_time: "2025-12-20 10:00"
+    end_time: "2025-12-20 16:00"
+    special_type: "special"
+    link: "https://lichess.org/tournament/6jrHWb0r"
+    prize_distribution:
+      - position: "🥇 第一名"
+        amount: "￥12"
+      - position: "🥈 第二名"
+        amount: "￥6"
+      - position: "🥉 第三名"
+        amount: "￥3"
+      - position: "🏅 第四-五名"
+        amount: "￥2"
 
 
-  # === Pre-season 特殊活动 ===
+  # === 特殊活动 ===
   - name: "KCG Champions Pre-season Oct."
     special_type: "champions"
     start_time: "2025-10-30 15:45"
