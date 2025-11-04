@@ -95,12 +95,13 @@ matches:
     date: "2025-11-27"
     link: "https://lichess.org/tournament/RJENMeFx"
 
-  - name: "KC Gaming Chess Special Event Dec."
+  - name: "KC Gaming Chess Christmas Special Event"
     start_time: "2025-12-20 10:00"
     end_time: "2025-12-20 16:00"
     special_type: "special"
     special_icon: "🎄"
     link: "https://lichess.org/tournament/6jrHWb0r"
+    description: "🎄 **圣诞特别赛事** | 这是我们为圣诞节特别设计的赛事！参赛者将有机会赢得丰厚奖金。 | **比赛特色：** | - 更多奖金名额，人人有份； | - 圣诞主题，热烈欢迎参加！"
     prize_distribution:
       - position: "🥇 第一名"
         amount: "￥12"
@@ -115,11 +116,12 @@ matches:
 
 
   # === 特殊活动 ===
-  - name: "KCG Champions Pre-season Oct."
+  - name: "KC Gaming Chess Champions Pre-season Oct."
     special_type: "champions"
     start_time: "2025-10-30 15:45"
     end_time: "2025-10-30 20:15"
     link: "https://lichess.org/tournament/IW81tWDY"
+    description: "👑 **Champions 赛季前赛** | 这是 Champions 系列正式赛季开始前的热身赛事。为最高级别的赛事做好准备！ | **赛事信息：** | - 与正式赛季的Champions系列一样 | - 赛季前赛事，为后续大赛做准备 | - 奖金充足，共计**30**元奖池"
     prize_distribution:
       - position: "🥇 第一名"
         amount: "￥15"
@@ -135,7 +137,7 @@ matches:
       - position: "🥉 第三名"
         name: "Eric \"EricStoneChina\" Shi"
 
-  - name: "KCG E.C. Pre-season S1"
+  - name: "KC Gaming Chess E.C. Pre-season"
     start_time: "2025-10-28 18:00"
     end_time: "2025-10-28 20:00"
     link: "https://lichess.org/tournament/HffQoOUd"
