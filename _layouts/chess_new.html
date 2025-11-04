@@ -331,6 +331,24 @@
         box-shadow: 0 4px 12px rgba(255, 198, 95, 0.2);
       }
 
+      /* 动态 icon 样式 */
+      .card-icon {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 1.2em;
+        opacity: 0.7;
+      }
+
+      .match-card.type-pro .card-icon {
+        color: rgba(0, 212, 255, 0.6);
+      }
+
+      .match-card.type-champions .card-icon {
+        color: rgba(255, 215, 0, 0.8);
+        font-size: 1.3em;
+      }
+
       .match-marker {
         position: absolute;
         left: 22px;
@@ -395,15 +413,6 @@
         position: relative;
       }
 
-      .match-card.type-pro::after {
-        content: '⭐';
-        position: absolute;
-        top: 10px;
-        right: 15px;
-        font-size: 1.2em;
-        color: rgba(0, 212, 255, 0.6);
-      }
-
       .match-card.type-pro:hover {
         border-color: rgba(0, 212, 255, 0.5);
         background: rgba(0, 212, 255, 0.05);
@@ -419,15 +428,6 @@
       .match-card.type-champions {
         border: 1px solid rgba(255, 215, 0, 0.4);
         position: relative;
-      }
-
-      .match-card.type-champions::after {
-        content: '👑';
-        position: absolute;
-        top: 10px;
-        right: 15px;
-        font-size: 1.3em;
-        color: rgba(255, 215, 0, 0.8);
       }
 
       .match-card.type-champions:hover {
@@ -854,6 +854,7 @@
           {{ series.id | jsonify }}: {
             nameTemplate: {{ series.name_template | jsonify }},
             displayName: {{ series.display_name | default: series.id | jsonify }},
+            icon: {{ series.icon | default: "" | jsonify }},
             frequency: {{ series.frequency | jsonify }},
             dayOfWeek: {{ series.day_of_week | jsonify }},
             startTime: {{ series.start_time | jsonify }},
@@ -882,6 +883,7 @@
             startTime: {{ match.start_time | jsonify }},
             endTime: {{ match.end_time | jsonify }},
             special_type: {{ match.special_type | jsonify }},
+            special_icon: {{ match.special_icon | default: "" | jsonify }},
             prizes: [
               {% if match.prize_distribution %}
                 {% for prize in match.prize_distribution %}
@@ -1049,14 +1051,18 @@
             const extras = groupMatches.slice(1);
             const toggleId = `series-extra-${match.seriesId}`;
             const seriesLabel = match.seriesName || (recurringSeries[match.seriesId]?.displayName) || match.seriesId.toUpperCase();
+            const seriesIcon = recurringSeries[match.seriesId]?.icon || '';
       
             // 创建主卡片，如果有额外比赛则标记 hasExtras
             const cardOptions = extras.length > 0 ? {
               hasExtras: true,
               toggleId: toggleId,
               seriesLabel: seriesLabel,
-              extrasCount: extras.length
-            } : {};
+              extrasCount: extras.length,
+              seriesIcon: seriesIcon
+            } : {
+              seriesIcon: seriesIcon
+            };
             
             const matchItemDiv = document.createElement('div');
             matchItemDiv.innerHTML = createMatchCard(match, false, cardOptions);
@@ -1080,8 +1086,9 @@
           }
       
           // 非循环比赛保持原样
+          const specialIcon = match.special_icon || '';
           const matchItemDiv = document.createElement('div');
-          matchItemDiv.innerHTML = createMatchCard(match, false);
+          matchItemDiv.innerHTML = createMatchCard(match, false, { seriesIcon: specialIcon });
           upcomingGroup.appendChild(matchItemDiv.firstElementChild);
         });
         
@@ -1164,7 +1171,7 @@
         const timeStr = formatTime(startDate, endDate);
         const prizes = Array.isArray(match.prizes) ? match.prizes : [];
         const winners = Array.isArray(match.winners) ? match.winners : [];
-        const { hasExtras = false, toggleId = '', seriesLabel = '', extrasCount = 0 } = options;
+        const { hasExtras = false, toggleId = '', seriesLabel = '', extrasCount = 0, seriesIcon = '' } = options;
         
         // 判断比赛类型
         let matchType = 'type-ec'; // 默认
@@ -1245,6 +1252,7 @@
           <div class="match-item">
             <div class="match-marker"></div>
             <div class="match-card ${matchType}">
+              ${seriesIcon ? `<div class="card-icon">${seriesIcon}</div>` : ''}
               <div class="match-header">
                 <div class="match-title">
                   <h3>${match.name}</h3>
