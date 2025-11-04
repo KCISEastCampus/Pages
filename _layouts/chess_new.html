@@ -249,6 +249,27 @@
         box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
       }
 
+      /* 正在进行的比赛标签 */
+      .running-group .time-label {
+        background: linear-gradient(135deg, rgba(52, 211, 153, 0.2), rgba(34, 197, 94, 0.15));
+        color: #10b981;
+        border: 1px solid rgba(16, 185, 129, 0.4);
+        box-shadow: 0 4px 20px rgba(16, 185, 129, 0.25);
+        animation: pulse-glow 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse-glow {
+        0,
+        100% {
+          box-shadow: 0 4px 20px rgba(16, 185, 129, 0.25);
+          transform: scale(1);
+        }
+        50% {
+          box-shadow: 0 8px 30px rgba(16, 185, 129, 0.4);
+          transform: scale(1.02);
+        }
+      }
+
       /* 比赛卡片 */
       .match-item {
         position: relative;
@@ -386,6 +407,22 @@
       .match-card:hover {
         background: rgba(255, 255, 255, 0.11);
         border-color: rgba(102, 126, 234, 0.5);
+      }
+
+      /* 正在进行的比赛卡片特殊样式 */
+      .running-group .match-card::before {
+        background: linear-gradient(90deg, #10b981, #34d399);
+        box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+      }
+
+      .running-group .match-card {
+        border: 1px solid rgba(16, 185, 129, 0.3);
+      }
+
+      .running-group .match-card:hover {
+        border-color: rgba(16, 185, 129, 0.5);
+        background: rgba(16, 185, 129, 0.06);
+        box-shadow: inset 0 0 20px rgba(16, 185, 129, 0.12);
       }
 
       /* 比赛类型样式 */
@@ -1001,18 +1038,24 @@
       console.log('Current time:', now.toLocaleString('zh-CN'));
       console.log('Matches:', matches.map(m => ({
         name: m.name,
+        startTime: parseMatchDate(m.startTime).toLocaleString('zh-CN'),
         endTime: parseMatchDate(m.endTime).toLocaleString('zh-CN'),
+        isRunning: parseMatchDate(m.startTime) <= now && now < parseMatchDate(m.endTime),
         isPast: parseMatchDate(m.endTime) < now
       })));
       
       // 分类比赛
+      const running = [];
       const upcoming = [];
       const past = [];
       
       matches.forEach(match => {
+        const startTime = parseMatchDate(match.startTime);
         const endTime = parseMatchDate(match.endTime);
         if (endTime < now) {
           past.push(match);
+        } else if (startTime <= now && now < endTime) {
+          running.push(match);
         } else {
           upcoming.push(match);
         }
@@ -1021,6 +1064,21 @@
       // 按时间排序
       upcoming.sort((a, b) => parseMatchDate(a.startTime) - parseMatchDate(b.startTime));
       past.sort((a, b) => parseMatchDate(b.startTime) - parseMatchDate(a.startTime)); // 最新的在前
+      
+      // 渲染正在进行的比赛
+      if (running.length > 0) {
+        const runningGroup = document.createElement('div');
+        runningGroup.className = 'time-group running-group';
+        runningGroup.innerHTML = '<div class="time-label">🔴 正在进行</div>';
+        
+        running.forEach(match => {
+          const matchItemDiv = document.createElement('div');
+          matchItemDiv.innerHTML = createMatchCard(match, false);
+          runningGroup.appendChild(matchItemDiv.firstElementChild);
+        });
+        
+        timeline.appendChild(runningGroup);
+      }
       
       // 渲染即将开始的比赛
       if (upcoming.length > 0) {
