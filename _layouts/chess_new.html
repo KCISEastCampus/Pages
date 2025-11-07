@@ -106,12 +106,32 @@
         padding: 20px;
         margin-bottom: 40px;
         cursor: default;
-        transition: all 0.3s;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .rules-toggle::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: linear-gradient(180deg, #ffd700, #ffed4e);
+        opacity: 0;
+        transition: opacity 0.3s ease;
       }
 
       .rules-toggle:hover {
-        background: rgba(255, 255, 255, 0.05);
-        border-color: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.07);
+        border-color: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .rules-toggle:hover::before {
+        opacity: 1;
       }
 
       .rules-header {
@@ -612,219 +632,616 @@
           font-size: 1.5em;
         }
 
-        .timeline::before {
-          left: 15px;
+        /* 移动端改为单栏布局 */
+        .content-wrapper {
+          grid-template-columns: 1fr;
+          gap: 20px;
         }
 
-        .time-label {
-          margin-left: 45px;
-          font-size: 1em;
-          padding: 8px 20px;
-        }
-
-        .match-item {
-          padding-left: 50px;
-        }
-
-        .match-marker {
-          left: 7px;
-        }
-
-        .match-header {
-          flex-direction: column;
-        }
-
-        .match-action {
-          width: 100%;
-        }
-
-        .match-btn {
-          flex: 1;
-          text-align: center;
-        }
-
-        .rules-toggle {
-          padding: 15px;
-        }
-
-        .rules-header h2 {
-          font-size: 1.1em;
-        }
+        .main-content {
+        ;
+        /* 快速信息卡片在移动端保持原位 */
       }
 
-      @media (max-width: 480px) {
-        .container {
-          padding: 20px 10px;
-        }
-
-        .match-card {
-          padding: 20px 15px;
-        }
-
-        .match-title h3 {
-          font-size: 1.1em;
-        }
-
-        .password-banner {
-          flex-direction: column;
-          align-items: stretch;
-          gap: 15px;
-        }
-
-        .password-display {
-          flex-direction: column;
-        }
-
-        .copy-btn {
-          width: 100%;
-          text-align: center;
-        }
-
-        .match-card:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 16px rgba(102, 126, 234, 0.15);
-        }
-      } /* 空状态 */
-      .empty-state {
-        text-align: center;
-        padding: 60px 20px;
-        color: #b8c5d1;
+      .sidebar-content {
+        position: static;
+        /* LiChess TV 在移动端移到底部 */
+        order: 1;
       }
 
-      .empty-state-icon {
-        font-size: 4em;
+      /* 移动端优化快速信息卡片 */
+      .quick-info-card {
         margin-bottom: 20px;
-        opacity: 0.5;
       }
 
-      /* 密码提示横幅 */
-      .password-banner {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
-        border: 1px solid rgba(102, 126, 234, 0.3);
-        border-radius: 15px;
-        padding: 20px 25px;
-        margin-bottom: 35px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 20px;
-        backdrop-filter: blur(10px);
-        position: relative;
-        overflow: hidden;
+      .lichess-tv-frame iframe {
+        max-width: 100%;
       }
 
-      .password-banner::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 3px;
-        background: linear-gradient(180deg, #667eea, #764ba2);
+      .timeline::before {
+        left: 15px;
       }
 
-      .password-banner-content {
+      .time-label {
+        margin-left: 45px;
+        font-size: 1em;
+        padding: 8px 20px;
+      }
+
+      .match-item {
+        padding-left: 50px;
+      }
+
+      .match-marker {
+        left: 7px;
+      }
+
+      .match-header {
+        flex-direction: column;
+      }
+
+      .match-action {
+        width: 100%;
+      }
+
+      .match-btn {
         flex: 1;
-        padding-left: 15px;
+        text-align: center;
       }
 
-      .password-banner-title {
+      .rules-toggle {
+        padding: 15px;
+      }
+
+      .rules-header h2 {
         font-size: 1.1em;
-        font-weight: 600;
-        color: #ffffff;
-        margin-bottom: 8px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 20px 10px;
       }
 
-      .password-banner-text {
-        color: #b8c5d1;
-        font-size: 0.95em;
-        margin-bottom: 8px;
+      .match-card {
+        padding: 20px 15px;
+      }
+
+      .match-title h3 {
+        font-size: 1.1em;
+      }
+
+      .password-banner {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+        padding: 18px 20px;
       }
 
       .password-display {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        background: rgba(0, 0, 0, 0.3);
-        padding: 10px 15px;
-        border-radius: 8px;
-        font-family: 'Courier New'
-        , monospace;
-        font-size: 0.95em;
-        color: #7cf57f;
-        border: 1px solid rgba(76, 175, 80, 0.2);
-      }
-
-      .password-display code {
-        font-weight: 600;
-        flex: 1;
+        flex-direction: column;
+        align-items: stretch;
       }
 
       .copy-btn {
-        padding: 6px 12px;
-        background: rgba(102, 126, 234, 0.3);
-        border: 1px solid rgba(102, 126, 234, 0.5);
-        color: #667eea;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 0.85em;
-        transition: all 0.3s;
-        white-space: nowrap;
+        width: 100%;
+        text-align: center;
       }
 
-      .copy-btn:hover {
-        background: rgba(102, 126, 234, 0.5);
-        border-color: #667eea;
+      .match-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(102, 126, 234, 0.15);
       }
 
-      .copy-btn:disabled {
-        cursor: not-allowed;
+      /* 移动端字体优化 */
+      .quick-info-header h3 {
+        font-size: 1em;
       }
 
-      .copy-btn.copied {
-        background: rgba(100, 100, 100, 0.4);
-        border-color: rgba(150, 150, 150, 0.5);
-        color: #888888;
+      .quick-match-name {
+        font-size: 0.9em;
       }
 
-      .copy-btn.copied:hover {
-        background: rgba(100, 100, 100, 0.4);
-        border-color: rgba(150, 150, 150, 0.5);
+      .quick-match-time {
+        font-size: 0.8em;
       }
 
-      /* 自定义详情内容 */
-      .match-description {
-        margin-top: 15px;
-        padding-top: 15px;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        color: #c5d1e0;
-        font-size: 0.95em;
-        line-height: 1.6;
+      .lichess-tv-header h2 {
+        font-size: 1.1em;
       }
+    } /* 空状态 */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #b8c5d1;
+    }
 
-      .match-description p {
-        margin: 8px 0;
-      }
+    .empty-state-icon {
+      font-size: 4em;
+      margin-bottom: 20px;
+      opacity: 0.5;
+    }
 
-      .match-description strong {
-        color: #ffffff;
-        font-weight: 600;
-      }
+    /* 密码提示横幅 */
+    .password-banner {
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
+      border: 1px solid rgba(102, 126, 234, 0.3);
+      border-radius: 15px;
+      padding: 20px 25px;
+      margin-bottom: 35px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
 
-      .match-description em {
-        color: #a8f3ff;
-        font-style: italic;
-      }
+    .password-banner:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
 
-      .match-description ul,
-      .match-description ol {
-        margin: 10px 0 10px 20px;
-        padding-left: 20px;
-      }
+    .password-banner::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, #667eea, #764ba2);
+      box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+    }
 
-      .match-description li {
-        margin: 6px 0;
+    .password-banner-content {
+      flex: 1;
+      padding-left: 15px;
+    }
+
+    .password-banner-title {
+      font-size: 1.1em;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .password-banner-text {
+      color: #b8c5d1;
+      font-size: 0.95em;
+      margin-bottom: 8px;
+    }
+
+    .password-display {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-family: 'Courier New'
+      , monospace;
+      font-size: 0.95em;
+      color: #7cf57f;
+      border: 1px solid rgba(76, 175, 80, 0.3);
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .password-display:hover {
+      border-color: rgba(76, 175, 80, 0.5);
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3)
+      , 0 0 15px rgba(76, 175, 80, 0.2);
+    }
+
+    .password-display code {
+      font-weight: 600;
+      flex: 1;
+    }
+
+    .copy-btn {
+      padding: 8px 16px;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+      border: 1px solid rgba(102, 126, 234, 0.5);
+      color: #a8b3ff;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85em;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+    }
+
+    .copy-btn:hover {
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.5));
+      border-color: #667eea;
+      color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+
+    .copy-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 6px rgba(102, 126, 234, 0.2);
+    }
+
+    .copy-btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    .copy-btn.copied {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(52, 211, 153, 0.3));
+      border-color: rgba(16, 185, 129, 0.5);
+      color: #10b981;
+    }
+
+    .copy-btn.copied:hover {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(52, 211, 153, 0.3));
+      border-color: rgba(16, 185, 129, 0.5);
+    }
+
+    /* 自定义详情内容 */
+    .match-description {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: #c5d1e0;
+      font-size: 0.95em;
+      line-height: 1.6;
+    }
+
+    .match-description p {
+      margin: 8px 0;
+    }
+
+    .match-description strong {
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .match-description em {
+      color: #a8f3ff;
+      font-style: italic;
+    }
+
+    .match-description ul,
+    .match-description ol {
+      margin: 10px 0 10px 20px;
+      padding-left: 20px;
+    }
+
+    .match-description li {
+      margin: 6px 0;
+    }
+
+    /* 两栏布局 */
+    .content-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .main-content {
+      min-width: 0;
+    }
+
+    .sidebar-content {
+      position: sticky;
+      top: 120px;
+      align-self: start;
+    }
+
+    /* 快速信息卡片 */
+    .quick-info-card {
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.08));
+      border: 1px solid rgba(102, 126, 234, 0.25);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 25px;
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .quick-info-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, #667eea, #764ba2);
+      box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+    }
+
+    .quick-info-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .quick-info-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+      padding-left: 10px;
+    }
+
+    .quick-info-icon {
+      font-size: 1.3em;
+      animation: pulse-icon 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-icon {
+      0,
+      100% {
+        transform: scale(1);
+        opacity: 1;
       }
+      50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+      }
+    }
+
+    .quick-info-header h3 {
+      color: #ffffff;
+      font-size: 1.1em;
+      font-weight: 500;
+      margin: 0;
+    }
+
+    .quick-info-content {
+      padding-left: 10px;
+    }
+
+    .quick-info-loading {
+      color: #b8c5d1;
+      font-size: 0.9em;
+      text-align: center;
+      padding: 10px;
+    }
+
+    .quick-match-item {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      padding: 12px 15px;
+      margin-bottom: 10px;
+      border-left: 3px solid #667eea;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+      color: inherit;
+      position: relative;
+    }
+
+    .quick-match-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateX(3px);
+      border-left-color: #ffd700;
+    }
+
+    .quick-match-item:last-child {
+      margin-bottom: 0;
+    }
+
+    /* 正在进行的比赛 - 特殊样式 */
+    .quick-match-item.ongoing {
+      background: linear-gradient(90deg, rgba(16, 185, 129, 0.12), rgba(16, 185, 129, 0.05));
+      border-left: 3px solid #10b981;
+      animation: pulse-glow-subtle 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-glow-subtle {
+      0,
+      100% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+      }
+      50% {
+        box-shadow: 0 0 15px 0 rgba(16, 185, 129, 0.3);
+      }
+    }
+
+    .quick-match-item.ongoing:hover {
+      border-left-color: #34d399;
+      background: linear-gradient(90deg, rgba(16, 185, 129, 0.18), rgba(16, 185, 129, 0.08));
+    }
+
+    /* 即将开始的比赛 - 保持原样式 */
+    .quick-match-item.upcoming {
+      border-left-color: #667eea;
+    }
+
+    .quick-match-item.upcoming:hover {
+      border-left-color: #ffd700;
+    }
+
+    /* 分隔线 */
+    .quick-info-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.3), transparent);
+      margin: 18px 0;
+      position: relative;
+    }
+
+    .quick-info-divider::after {
+      content: attr(data-label);
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background: linear-gradient(135deg, rgba(26, 26, 46, 0.95), rgba(26, 26, 46, 0.9));
+      padding: 4px 12px;
+      font-size: 0.7em;
+      color: #667eea;
+      white-space: nowrap;
+      border-radius: 8px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      border: 1px solid rgba(102, 126, 234, 0.3);
+    }
+
+    .quick-match-name {
+      color: #ffffff;
+      font-size: 0.95em;
+      font-weight: 500;
+      margin-bottom: 6px;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .quick-match-time {
+      color: #b8c5d1;
+      font-size: 0.85em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .quick-match-time::before {
+      content: '🕐';
+      font-size: 0.95em;
+      opacity: 0.8;
+    }
+
+    .quick-match-badge {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(255, 215, 0, 0.15);
+      color: #ffd700;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.75em;
+      font-weight: 600;
+      margin-left: auto;
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      box-shadow: 0 2px 8px rgba(255, 215, 0, 0.15);
+      white-space: nowrap;
+    }
+
+    .quick-no-matches {
+      color: #b8c5d1;
+      font-size: 0.9em;
+      text-align: center;
+      padding: 15px;
+      opacity: 0.7;
+    }
+
+    /* 规则展开时的特殊样式 */
+    .rules-content.expanded ~ .quick-info-card {
+    ;
+    /* 当规则展开时，可以添加特殊效果 */
+  }
+
+  /* 添加平滑过渡动画 */
+  .quick-info-card,
+  .password-banner,
+  .rules-toggle,
+  .lichess-tv-container {
+    transition: all 0.3s ease;
+  }
+
+  /* 大屏幕优化：当规则展开时，调整布局 */
+  @media (min-width: 1400px) {
+    .content-wrapper {
+      grid-template-columns: 1fr 400px;
+    }
+
+    /* 规则展开时可以并排显示更多内容 */
+    .rules-content.expanded {
+      max-height: 800px;
+    }
+  }
+
+  /* 中等屏幕优化 */
+  @media (min-width: 769px) and (max-width: 1399px) {
+    .content-wrapper {
+      grid-template-columns: 1fr 350px;
+    }
+
+    .lichess-tv-container {
+      padding: 15px;
+    }
+  }
+
+  /* LiChess TV 容器样式 - 更紧凑 */
+  .lichess-tv-container {
+    background: linear-gradient(135deg, rgba(139, 69, 19, 0.12), rgba(101, 67, 33, 0.08));
+    border: 1px solid rgba(139, 69, 19, 0.25);
+    border-radius: 12px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .lichess-tv-container:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .lichess-tv-container::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, #8b4513, #cd853f);
+    box-shadow: 0 0 10px rgba(139, 69, 19, 0.5);
+  }
+
+  .lichess-tv-header {
+    text-align: center;
+    margin-bottom: 15px;
+    padding-left: 10px;
+  }
+
+  .lichess-tv-header h2 {
+    color: #ffd700;
+    font-size: 1.2em;
+    font-weight: 500;
+    margin-bottom: 5px;
+    letter-spacing: 0.5px;
+  }
+
+  .lichess-tv-header p {
+    color: #b8c5d1;
+    font-size: 0.85em;
+    margin: 0;
+  }
+
+  .lichess-tv-frame {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .lichess-tv-frame iframe {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease
+    , box-shadow 0.3s ease;
+  }
+
+  .lichess-tv-frame iframe:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+  }
     </style>
   </head>
 
@@ -844,26 +1261,61 @@
     </div>
 
     <div class="container">
-      <!-- 密码提示横幅 -->
-      <div class="password-banner">
-        <div class="password-banner-content">
-          <div class="password-banner-title">🔑 比赛密码</div>
-          <div class="password-banner-text">所有比赛使用相同密码，点击复制</div>
-          <div class="password-display">
-            <code id="passwordCode">KangChiaoInternationalSchool</code>
-            <button class="copy-btn" onclick="copyPassword()">复制</button>
+      <!-- 主要内容区 - 两栏布局 -->
+      <div class="content-wrapper">
+        <!-- 左侧主要内容 -->
+        <div class="main-content">
+          <!-- 快速信息卡片 -->
+          <div class="quick-info-card" id="quickInfoCard">
+            <div class="quick-info-header">
+              <span class="quick-info-icon">⚡</span>
+              <h3 id="quickInfoTitle">近期比赛</h3>
+            </div>
+            <div class="quick-info-content" id="quickInfoContent">
+              <!-- 将由 JavaScript 动态填充 -->
+              <div class="quick-info-loading">加载中...</div>
+            </div>
+          </div>
+
+          <!-- 密码提示横幅 -->
+          <div class="password-banner">
+            <div class="password-banner-content">
+              <div class="password-banner-title">🔑 比赛密码</div>
+              <div class="password-banner-text">所有比赛使用相同密码，点击复制</div>
+              <div class="password-display">
+                <code id="passwordCode">KangChiaoInternationalSchool</code>
+                <button class="copy-btn" onclick="copyPassword()">复制</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 可折叠规则 -->
+          <div class="rules-toggle">
+            <div class="rules-header" onclick="toggleRules()">
+              <h2>📋 比赛规则</h2>
+              <span class="rules-icon" id="rulesIcon">▼</span>
+            </div>
+            <div class="rules-content" id="rulesContent">
+              {{ site.data.chess.rules | markdownify }}
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- 可折叠规则 -->
-      <div class="rules-toggle">
-        <div class="rules-header" onclick="toggleRules()">
-          <h2>📋 比赛规则</h2>
-          <span class="rules-icon" id="rulesIcon">▼</span>
-        </div>
-        <div class="rules-content" id="rulesContent">
-          {{ site.data.chess.rules | markdownify }}
+        <!-- 右侧 LiChess TV -->
+        <div class="sidebar-content">
+          <div class="lichess-tv-container">
+            <div class="lichess-tv-header">
+              <h2>🎬 热门对局</h2>
+              <p>LiChess TV 直播</p>
+            </div>
+            <div class="lichess-tv-frame">
+              <iframe
+                src="https://lichess.org/tv/frame?theme=brown&bg=dark"
+                style="width: 100%; aspect-ratio: 10/11; border-radius: 10px;"
+                allowtransparency="true"
+                frameborder="0"></iframe>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -883,7 +1335,182 @@
         // 移除展开状态
         rulesContent.classList.remove('expanded');
         rulesIcon.classList.remove('expanded');
+        
+        // 填充快速信息卡片
+        populateQuickInfo();
+        
+        // 每分钟更新一次快速信息（更新倒计时）
+        setInterval(() => {
+          populateQuickInfo();
+        }, 60000); // 60秒
       });
+      
+      // 填充快速信息（显示最近3场即将开始的比赛）
+      function populateQuickInfo() {
+        const quickInfoContent = document.getElementById('quickInfoContent');
+        const quickInfoTitle = document.getElementById('quickInfoTitle');
+        if (!quickInfoContent) {
+          console.log('Quick info content element not found');
+          return;
+        }
+        
+        console.log('Populating quick info, globalMatches length:', globalMatches.length);
+        
+        try {
+          // 获取即将开始和正在进行的比赛
+          const now = new Date();
+          const relevantMatches = [];
+          
+          console.log('Current time:', now.toLocaleString('zh-CN'));
+          
+          // 从全局 matches 中筛选
+          if (globalMatches && globalMatches.length > 0) {
+            globalMatches.forEach(match => {
+              const startTime = parseMatchDate(match.startTime);
+              const endTime = parseMatchDate(match.endTime);
+              
+              console.log(`Match: ${match.name}, Start: ${startTime.toLocaleString('zh-CN')}, End: ${endTime.toLocaleString('zh-CN')}`);
+              
+              // 包含：正在进行的比赛 或 即将开始的比赛（未来7天内）
+              const isOngoing = startTime <= now && now < endTime;
+              const isUpcoming = startTime > now && (startTime - now) < (7 * 24 * 60 * 60 * 1000);
+              
+              console.log(`  isOngoing: ${isOngoing}, isUpcoming: ${isUpcoming}`);
+              
+              if (isOngoing || isUpcoming) {
+                relevantMatches.push({
+                  name: match.name,
+                  startTime: startTime,
+                  endTime: endTime,
+                  match: match,
+                  isOngoing: isOngoing
+                });
+              }
+            });
+          } else {
+            console.log('No matches available');
+          }
+          
+          console.log('Relevant matches found:', relevantMatches.length);
+          
+          // 按优先级排序：正在进行的优先，然后按开始时间排序
+          relevantMatches.sort((a, b) => {
+            if (a.isOngoing && !b.isOngoing) return -1;
+            if (!a.isOngoing && b.isOngoing) return 1;
+            return a.startTime - b.startTime;
+          });
+          
+          const topMatches = relevantMatches.slice(0, 3);
+          
+          if (topMatches.length === 0) {
+            quickInfoContent.innerHTML = '<div class="quick-no-matches">暂无即将开始的比赛</div>';
+            if (quickInfoTitle) quickInfoTitle.textContent = '近期比赛';
+            return;
+          }
+          
+          // 分组：正在进行 vs 即将开始
+          const ongoingMatches = topMatches.filter(m => m.isOngoing);
+          const upcomingMatches = topMatches.filter(m => !m.isOngoing);
+          
+          // 动态更新标题和图标
+          const hasOngoing = ongoingMatches.length > 0;
+          const quickInfoIcon = document.querySelector('.quick-info-icon');
+          
+          if (quickInfoTitle) {
+            if (hasOngoing && upcomingMatches.length > 0) {
+              quickInfoTitle.textContent = '近期比赛';
+              if (quickInfoIcon) quickInfoIcon.textContent = '📅';
+            } else if (hasOngoing) {
+              quickInfoTitle.textContent = '正在进行';
+              if (quickInfoIcon) quickInfoIcon.textContent = '🔴';
+            } else {
+              quickInfoTitle.textContent = '即将开始';
+              if (quickInfoIcon) quickInfoIcon.textContent = '⚡';
+            }
+          }
+          
+          // 生成HTML
+          let html = '';
+          
+          // 先显示正在进行的
+          if (ongoingMatches.length > 0) {
+            ongoingMatches.forEach((item) => {
+              const timeStr = formatQuickTime(item.startTime);
+              const link = item.match.link || '#';
+              
+              html += `
+                <a href="${link}" target="_blank" class="quick-match-item ongoing" title="点击查看比赛详情">
+                  <div class="quick-match-name">${item.name}</div>
+                  <div class="quick-match-time">
+                    ${timeStr}
+                    <span class="quick-match-badge" style="background: rgba(16, 185, 129, 0.25); color: #10b981; font-weight: 600;">● 进行中</span>
+                  </div>
+                </a>
+              `;
+            });
+            
+            // 如果两种都有，添加分隔线
+            if (upcomingMatches.length > 0) {
+              html += '<div class="quick-info-divider" data-label="即将开始"></div>';
+            }
+          }
+          
+          // 再显示即将开始的
+          upcomingMatches.forEach((item) => {
+            const timeStr = formatQuickTime(item.startTime);
+            const countdown = getCountdown(item.startTime);
+            const link = item.match.link || '#';
+            
+            console.log(`Upcoming match: ${item.name}, countdown: ${countdown}, startTime: ${item.startTime}`);
+            
+            html += `
+              <a href="${link}" target="_blank" class="quick-match-item upcoming" title="点击查看比赛详情">
+                <div class="quick-match-name">${item.name}</div>
+                <div class="quick-match-time">
+                  ${timeStr}
+                  ${countdown ? `<span class="quick-match-badge">${countdown}</span>` : ''}
+                </div>
+              </a>
+            `;
+          });
+          
+          quickInfoContent.innerHTML = html;
+          console.log('Quick info populated successfully');
+        } catch (error) {
+          console.error('Error populating quick info:', error);
+          quickInfoContent.innerHTML = '<div class="quick-no-matches">加载失败</div>';
+        }
+      }
+      
+      // 格式化快速时间显示
+      function formatQuickTime(date) {
+        const months = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'];
+        const days = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+        const pad = n => n.toString().padStart(2, '0');
+        return `${months[date.getMonth()]}${date.getDate()}日 ${days[date.getDay()]} ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+      }
+      
+      // 获取倒计时文本
+      function getCountdown(targetDate) {
+        const now = new Date();
+        const diff = targetDate - now;
+        
+        if (diff < 0) return null;
+        
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        
+        if (days > 0) {
+          return `${days}天后`;
+        } else if (hours > 0) {
+          return `${hours}小时后`;
+        } else if (minutes > 0) {
+          return `${minutes}分钟后`;
+        } else {
+          return '即将开始';
+        }
+      }
       
       // 复制密码功能
       function copyPassword() {
@@ -914,7 +1541,57 @@
         icon.classList.toggle('expanded');
       }
       
-          // 动态生成时间轴
+          // 全局变量存储比赛数据
+      let globalMatches = [];
+      
+      // 解析日期字符串（支持多种格式）- 全局函数
+      function parseMatchDate(dateStr) {
+        // 尝试标准格式：2025-10-28 18:00
+        let date = new Date(dateStr);
+        if (!isNaN(date.getTime())) {
+          return date;
+        }
+        
+        // 尝试格式：10/28 6:00 PM
+        const match = dateStr.match(/(\d{1,2})\/(\d{1,2})\s+(\d{1,2}):(\d{2})\s*(AM|PM)?/i);
+        if (match) {
+          const month = parseInt(match[1]) - 1; // 月份从0开始
+          const day = parseInt(match[2]);
+          let hour = parseInt(match[3]);
+          const minute = parseInt(match[4]);
+          const meridiem = match[5];
+          
+          // 处理12小时制
+          if (meridiem) {
+            if (meridiem.toUpperCase() === 'PM' && hour !== 12) {
+              hour += 12;
+            } else if (meridiem.toUpperCase() === 'AM' && hour === 12) {
+              hour = 0;
+            }
+          }
+          
+          // 假设是当前年份
+          const year = new Date().getFullYear();
+          return new Date(year, month, day, hour, minute);
+        }
+        
+        return new Date(dateStr);
+      }
+      
+      // 格式化日期 - 全局函数
+      function formatDate(date) {
+        const months = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'];
+        const days = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+        return `${months[date.getMonth()]}${date.getDate()}日 ${days[date.getDay()]}`;
+      }
+      
+      // 格式化时间 - 全局函数
+      function formatTime(start, end) {
+        const pad = n => n.toString().padStart(2, '0');
+        return `${pad(start.getHours())}:${pad(start.getMinutes())} - ${pad(end.getHours())}:${pad(end.getMinutes())}`;
+      }
+      
+      // 动态生成时间轴
           (function() {
       console.log('Script started');
       
@@ -1023,6 +1700,9 @@
         console.log('Matches loaded:', matches.length);
         console.log('Sample match with description:', matches.find(m => m.description));
         
+        // 保存到全局变量
+        globalMatches = matches;
+        
         if (matches.length === 0) {
           document.getElementById('matchesTimeline').innerHTML = `
             <div class="empty-state">
@@ -1032,40 +1712,6 @@
           `;
           return;
         }
-      
-      // 解析日期字符串（支持多种格式）
-      function parseMatchDate(dateStr) {
-        // 尝试标准格式：2025-10-28 18:00
-        let date = new Date(dateStr);
-        if (!isNaN(date.getTime())) {
-          return date;
-        }
-        
-        // 尝试格式：10/28 6:00 PM
-        const match = dateStr.match(/(\d{1,2})\/(\d{1,2})\s+(\d{1,2}):(\d{2})\s*(AM|PM)?/i);
-        if (match) {
-          const month = parseInt(match[1]) - 1; // 月份从0开始
-          const day = parseInt(match[2]);
-          let hour = parseInt(match[3]);
-          const minute = parseInt(match[4]);
-          const meridiem = match[5];
-          
-          // 处理12小时制
-          if (meridiem) {
-            if (meridiem.toUpperCase() === 'PM' && hour !== 12) {
-              hour += 12;
-            } else if (meridiem.toUpperCase() === 'AM' && hour === 12) {
-              hour = 0;
-            }
-          }
-          
-          // 假设是当前年份
-          const year = new Date().getFullYear();
-          return new Date(year, month, day, hour, minute);
-        }
-        
-        return new Date(dateStr);
-      }
       
       const now = new Date();
       const timeline = document.getElementById('matchesTimeline');
@@ -1246,6 +1892,13 @@
       
       console.log('Timeline rendering complete');
       
+      // 填充快速信息卡片
+      setTimeout(() => {
+        if (typeof populateQuickInfo === 'function') {
+          populateQuickInfo();
+        }
+      }, 100);
+      
       } catch (error) {
         console.error('Error rendering timeline:', error);
         document.getElementById('matchesTimeline').innerHTML = `
@@ -1378,19 +2031,6 @@
             </div>
           </div>
         `;
-      }
-      
-      // 格式化日期
-      function formatDate(date) {
-        const months = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'];
-        const days = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
-        return `${months[date.getMonth()]}${date.getDate()}日 ${days[date.getDay()]}`;
-      }
-      
-      // 格式化时间
-      function formatTime(start, end) {
-        const pad = n => n.toString().padStart(2, '0');
-        return `${pad(start.getHours())}:${pad(start.getMinutes())} - ${pad(end.getHours())}:${pad(end.getMinutes())}`;
       }
           })();
       
