@@ -623,6 +623,87 @@
         font-size: 0.9em;
       }
 
+      /* 已结束比赛 - 历史区样式 */
+      .past-section {
+        margin-top: 10px;
+      }
+      .past-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 10px 0 14px 60px;
+        gap: 10px;
+      }
+      .leaderboard-section {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 12px;
+        padding: 14px 16px;
+        margin: 0 0 18px 60px;
+        backdrop-filter: blur(10px);
+      }
+      .leaderboard-title { color: #ffd700; font-size: 1em; font-weight: 600; margin-bottom: 8px; }
+      .leaderboard-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+      .leaderboard-modes { display: flex; gap: 8px; margin-bottom: 10px; }
+      .mode-tab { padding: 6px 10px; border-radius: 8px; cursor: pointer; font-size: 0.85em; background: rgba(255,255,255,0.08); color: #e0e6f1; border: 1px solid rgba(255,255,255,0.2); transition: all 0.2s ease; }
+      .mode-tab.active { background: rgba(255,215,0,0.18); color: #ffd700; border-color: rgba(255,215,0,0.45); }
+      .leaderboard-tab {
+        padding: 6px 10px; border-radius: 8px; cursor: pointer; font-size: 0.85em;
+        background: rgba(102,126,234,0.12); color: #a8b3ff; border: 1px solid rgba(102,126,234,0.35);
+        transition: all 0.2s ease;
+      }
+      .leaderboard-tab.active { background: rgba(255,215,0,0.18); color: #ffd700; border-color: rgba(255,215,0,0.45); }
+      .leaderboard-list { display: none; }
+      .leaderboard-list.active { display: block; }
+      .leaderboard-item { display: flex; align-items: center; gap: 10px; padding: 8px 6px; border-bottom: 1px dashed rgba(255,255,255,0.15); }
+      .leaderboard-item:last-child { border-bottom: none; }
+      .lb-rank { width: 26px; text-align: center; font-weight: 700; }
+      .lb-name { flex: 1; color: #e9eef5; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .lb-count { font-weight: 700; color: #ffd700; min-width: 28px; text-align: right; }
+      .lb-series-badge { font-size: 0.75em; color: #b8c5d1; margin-left: 6px; }
+
+      .rule-card {
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 10px;
+        padding: 12px 14px;
+        margin: 0 0 14px 60px;
+      }
+      .rule-card h4 { color: #ffd700; margin: 0 0 6px 0; font-size: 1em; }
+      .rule-card ul { margin: 6px 0 0 18px; color: #cfd7e4; }
+      .rule-card li { margin: 4px 0; }
+
+      .past-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+        margin: 0 0 0 60px;
+      }
+      @media (max-width: 768px) {
+        .past-grid { grid-template-columns: 1fr; margin-left: 0; }
+        .leaderboard-section { margin-left: 0; }
+        .past-header { margin-left: 0; }
+      }
+      .past-card {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 12px;
+        padding: 14px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.25s ease;
+      }
+      .past-card:hover { transform: translateY(-2px); background: rgba(255,255,255,0.11); border-color: rgba(102,126,234,0.45); }
+      .past-card .pc-title { color: #fff; font-weight: 600; font-size: 1em; margin-bottom: 6px; }
+      .past-card .pc-time { color: #b8c5d1; font-size: 0.85em; margin-bottom: 8px; display: flex; gap: 6px; align-items: center; }
+      .past-card .pc-time::before { content: '🕐'; }
+      .past-card .pc-winners { display: flex; flex-wrap: wrap; gap: 6px; }
+      .badge-win { background: rgba(255,215,0,0.12); color: #ffd700; border: 1px solid rgba(255,215,0,0.35); padding: 4px 8px; border-radius: 10px; font-size: 0.8em; }
+      .badge-2 { background: rgba(102,126,234,0.15); color: #a8b3ff; border: 1px solid rgba(102,126,234,0.35); padding: 4px 8px; border-radius: 10px; font-size: 0.8em; }
+      .badge-3 { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.35); padding: 4px 8px; border-radius: 10px; font-size: 0.8em; }
+      .past-card .pc-link { margin-top: 10px; display: inline-flex; gap: 6px; align-items: center; color: #b8c5d1; font-size: 0.85em; text-decoration: none; }
+      .past-card .pc-link:hover { color: #fff; }
+
       /* 响应式 */
       @media (max-width: 768px) {
         .header-content {
@@ -1895,17 +1976,156 @@
         timeline.appendChild(upcomingGroup);
       }
       
-      // 渲染已结束的比赛
+      // 渲染已结束的比赛（新增：紧凑卡片 + 胜场榜/积分榜）
       if (past.length > 0) {
+        const seriesLabelMap = {
+          ec: (recurringSeries['ec']?.displayName || 'E.C.'),
+          pro: (recurringSeries['pro']?.displayName || 'PRO LEAGUE'),
+          champions: (recurringSeries['champions']?.displayName || 'Champions')
+        };
+
+        // 规则：E.C. 小比赛；PRO LEAGUE 宏大；Champions 更大；特殊赛事不计分
+        const basePoints = { first: 10, second: 6, third: 4 };
+        const multiplier = { ec: 1, pro: 2, champions: 3 };
+
+        const countsWins = { all: new Map(), ec: new Map(), pro: new Map(), champions: new Map() };
+        const points = { all: new Map(), ec: new Map(), pro: new Map(), champions: new Map() };
+
+        const norm = (s) => (s || '').trim().replace(/\s+/g, ' ');
+
+        past.forEach(m => {
+          const key = getSeriesKey(m);
+          if (key === 'other' || m.special_type === 'special') return; // 特殊不计分
+          const winners = Array.isArray(m.winners) ? m.winners : [];
+          const w1 = winners.find(w => /🥇|第一/.test(w.position || ''));
+          const w2 = winners.find(w => /🥈|第二/.test(w.position || ''));
+          const w3 = winners.find(w => /🥉|第三/.test(w.position || ''));
+
+          // 胜场统计（只统计🥇）
+          if (w1 && w1.name) {
+            const name = norm(w1.name);
+            countsWins.all.set(name, (countsWins.all.get(name) || 0) + 1);
+            if (countsWins[key]) countsWins[key].set(name, (countsWins[key].get(name) || 0) + 1);
+          }
+
+          // 积分统计（前三名，根据系列加权）
+          const addP = (winner, posKey) => {
+            if (!winner || !winner.name) return;
+            const name = norm(winner.name);
+            const add = (basePoints[posKey] || 0) * (multiplier[key] || 1);
+            if (add <= 0) return;
+            points.all.set(name, (points.all.get(name) || 0) + add);
+            if (points[key]) points[key].set(name, (points[key].get(name) || 0) + add);
+          };
+          addP(w1, 'first');
+          addP(w2, 'second');
+          addP(w3, 'third');
+        });
+
         const pastGroup = document.createElement('div');
         pastGroup.className = 'time-group';
         pastGroup.innerHTML = '<div class="time-label">🏆 已结束</div>';
-        
+
+        // 规则说明
+        const rule = document.createElement('div');
+        rule.className = 'rule-card';
+        rule.innerHTML = `
+          <h4>🎯 计分规则</h4>
+          <ul>
+            <li>仅统计 E.C. / PRO LEAGUE / Champions 三大系列，特殊赛事不参与积分。</li>
+            <li>基础分（E.C.）：🥇10分、🥈6分、🥉4分。</li>
+            <li>系列加权：PRO ×2；Champions ×3（例如：Champions 🥇=30分）。</li>
+            <li>胜场榜：按「🥇第一名次数」排名（与积分无关）。</li>
+            <li>名称按报名名单原样统计，若需合并同一选手不同写法，请统一姓名。</li>
+          </ul>
+        `;
+        pastGroup.appendChild(rule);
+
+        // 胜场榜（按系列切换）
+        const availableSeries = ['all', 'ec', 'pro', 'champions'].filter(k => k === 'all' || countsWins[k].size > 0 || points[k].size > 0);
+
+        // 模式切换：积分榜 / 胜场榜
+        const modeHtml = `
+          <div class="leaderboard-modes">
+            <button class="mode-tab active" data-mode="points">积分榜</button>
+            <button class="mode-tab" data-mode="wins">胜场榜</button>
+          </div>
+        `;
+
+        const tabsHtml = availableSeries.map((k, i) => {
+          const label = k === 'all' ? '全部' : seriesLabelMap[k] || k.toUpperCase();
+          const active = i === 0 ? 'active' : '';
+          return `<button class="leaderboard-tab ${active}" data-series="${k}">${label}</button>`;
+        }).join('');
+
+        const buildList = (map, unit) => {
+          const arr = Array.from(map.entries()).sort((a, b) => b[1] - a[1]).slice(0, 10);
+          return arr.map(([name, c], idx) => {
+            const rankIcon = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : (idx + 1);
+            const value = unit === 'pts' ? `${c}` : `${c}`;
+            return `<div class="leaderboard-item"><div class="lb-rank">${rankIcon}</div><div class="lb-name">${name}</div><div class="lb-count">${value}</div></div>`;
+          }).join('') || '<div style="color:#b8c5d1; font-size:0.9em;">暂无数据</div>';
+        };
+
+        const pointsListsHtml = availableSeries.map((k, i) => {
+          const active = i === 0 ? 'active' : '';
+          return `<div class="leaderboard-list ${active}" data-mode="points" data-series="${k}">${buildList(points[k], 'pts')}</div>`;
+        }).join('');
+        const winsListsHtml = availableSeries.map((k, i) => {
+          const active = i === 0 ? '' : '';
+          return `<div class="leaderboard-list" data-mode="wins" data-series="${k}">${buildList(countsWins[k], 'wins')}</div>`;
+        }).join('');
+
+        const leaderboard = document.createElement('div');
+        leaderboard.className = 'leaderboard-section';
+        leaderboard.innerHTML = `
+          <div class="leaderboard-title">🏅 排行（可切换模式）</div>
+          ${modeHtml}
+          <div class="leaderboard-tabs">${tabsHtml}</div>
+          ${pointsListsHtml}
+          ${winsListsHtml}
+        `;
+        pastGroup.appendChild(leaderboard);
+
+        // 过去赛事紧凑卡片网格
+        const grid = document.createElement('div');
+        grid.className = 'past-grid';
         past.forEach(match => {
-          pastGroup.innerHTML += createMatchCard(match, true);
+          const card = document.createElement('div');
+          card.innerHTML = createPastCard(match);
+          grid.appendChild(card.firstElementChild);
         });
-        
+        pastGroup.appendChild(grid);
+
         timeline.appendChild(pastGroup);
+
+        // 绑定模式与系列切换
+        const switchTo = (mode, series) => {
+          pastGroup.querySelectorAll('.mode-tab').forEach(b => b.classList.toggle('active', b.getAttribute('data-mode') === mode));
+          pastGroup.querySelectorAll('.leaderboard-tab').forEach(b => b.classList.toggle('active', b.getAttribute('data-series') === series));
+          pastGroup.querySelectorAll('.leaderboard-list').forEach(list => {
+            const ok = list.getAttribute('data-mode') === mode && list.getAttribute('data-series') === series;
+            list.classList.toggle('active', ok);
+          });
+        };
+
+        let currentMode = 'points';
+        let currentSeries = availableSeries[0] || 'all';
+        switchTo(currentMode, currentSeries);
+
+        pastGroup.querySelectorAll('.mode-tab').forEach(btn => {
+          btn.addEventListener('click', () => {
+            currentMode = btn.getAttribute('data-mode');
+            switchTo(currentMode, currentSeries);
+          });
+        });
+
+        pastGroup.querySelectorAll('.leaderboard-tab').forEach(btn => {
+          btn.addEventListener('click', () => {
+            currentSeries = btn.getAttribute('data-series');
+            switchTo(currentMode, currentSeries);
+          });
+        });
       }
       
       // 空状态
@@ -2091,6 +2311,44 @@
             </div>
           </div>
         `;
+      }
+
+      // 生成紧凑型过去赛事卡片
+      function createPastCard(match) {
+        const startDate = parseMatchDate(match.startTime);
+        const endDate = parseMatchDate(match.endTime);
+        const dateStr = formatDate(startDate);
+        const timeStr = formatTime(startDate, endDate);
+        const winners = Array.isArray(match.winners) ? match.winners : [];
+        const w1 = winners.find(w => /🥇|第一/.test(w.position || ''));
+        const w2 = winners.find(w => /🥈|第二/.test(w.position || ''));
+        const w3 = winners.find(w => /🥉|第三/.test(w.position || ''));
+        const link = match.link || '#';
+        return `
+          <div class="past-card">
+            <div class="pc-title">${match.name}</div>
+            <div class="pc-time">${dateStr} ${timeStr}</div>
+            <div class="pc-winners">
+              ${w1 ? `<span class="badge-win">🥇 ${w1.name}</span>` : `<span class="badge-3">暂无获奖信息</span>`}
+              ${w2 ? `<span class="badge-2">🥈 ${w2.name}</span>` : ''}
+              ${w3 ? `<span class="badge-3">🥉 ${w3.name}</span>` : ''}
+            </div>
+            <a class="pc-link" href="${link}" target="_blank" rel="noopener">查看结果 →</a>
+          </div>
+        `;
+      }
+
+      // 根据比赛推断系列键值（ec/pro/champions/other）
+      function getSeriesKey(match) {
+        if (match.seriesId) return match.seriesId;
+        if (match.special_type) {
+          if (match.special_type === 'champions') return 'champions';
+        }
+        const name = match.name || '';
+        if (/E\.C\./i.test(name)) return 'ec';
+        if (/PRO LEAGUE/i.test(name)) return 'pro';
+        if (/Champions/i.test(name)) return 'champions';
+        return 'other';
       }
           })();
       
