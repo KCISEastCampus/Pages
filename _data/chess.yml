@@ -82,22 +82,17 @@ matches:
       - position: "🥉 第三名"
         name: "Eric \"EricStoneChina\" Shi"
 
-  - series_id: "ec"
-    season: 2
-    date: "2025-11-11"
-    link: "https://lichess.org/tournament/xvxFmQ4x"
-    winner:
-      - position: "🥇 第一名"
-        name: "E1ZZZz"
-      - position: "🥈 第二名"
-        name: "Jimmy \"Hurr1can333333\" Yu"
-      - position: "🥉 第三名"
-        name: "Eason \"ENAOS\" Wang"
-
   - series_id: "pro"
     season: 1
     date: "2025-11-13"
     link: "https://lichess.org/tournament/nG4jAyVW"
+    winner:
+      - position: "🥇 第一名"
+        name: "Eric \"EricStoneChina\" Shi"
+      - position: "🥈 第二名"
+        name: "Eason \"ENAOS\" Wang"
+      - position: "🥉 第三名"
+        name: "Jimmy \"Hurr1can333333\" Yu"
 
   - series_id: "ec"
     season: 3
