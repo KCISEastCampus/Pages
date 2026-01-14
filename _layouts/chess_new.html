@@ -459,7 +459,7 @@
         animation-delay: 0.2s;
       }
 
-      .match-item:nth-child(n+4) {
+      .match-item:nth-child(n + 4) {
         animation-delay: 0.3s;
       }
 
@@ -588,7 +588,8 @@
       }
 
       @keyframes marker-pulse {
-        0%, 100% {
+        0,
+        100% {
           box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.2);
           transform: scale(1);
         }
@@ -1451,18 +1452,22 @@
         position: sticky;
         top: 120px;
         align-self: start;
-        /* animation: slide-in-right 0.6s ease-out;
-      }
 
-      @keyframes slide-in-right {
-        from {
-          opacity: 0;
-          transform: translateX(40px);
-        }
-        to {
-          opacity: 1;
-          transform: translateX(0);
-        } */
+
+        /*
+   animation: slide-in-right 0.6s ease-out; 
+   } 
+
+   @keyframes slide-in-right { 
+   from { 
+   opacity: 0; 
+   transform: translateX(40px); 
+   } 
+   to { 
+   opacity: 1; 
+   transform: translateX(0); 
+   }
+*/
       }
 
       /* 快速信息卡片 */
