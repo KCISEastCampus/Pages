@@ -124,6 +124,8 @@ a {
   flex-grow: 1;
   animation: slide-up 0.6s ease-out;
   position: relative;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 @keyframes slide-up {
@@ -939,10 +941,12 @@ footer a:hover::after {
 
 @media (max-width: 600px) {
   .page-content {
-    margin: 0.5rem;
-    padding: 1rem;
-    width: calc(100% - 1rem);
+    margin: 8px;
+    padding: 16px;
+    width: calc(100% - 16px);
     border-radius: 6px;
+    box-sizing: border-box;
+    overflow-x: hidden;
   }
   
   .page-content h2 {

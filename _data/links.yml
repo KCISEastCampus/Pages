@@ -33,7 +33,7 @@
     - name: PowerSchool
       url: "https://powerschool.kcisec.org.cn/public/"
       icon: "fas fa-user-graduate"
-    - name: 网易企业邮箱(@kcisg.com)
+    - name: 网易企业邮箱
       url: "https://mail.kcisg.com"
       icon: "fas fa-envelope"
     - name: 肺结核自我筛查系统
