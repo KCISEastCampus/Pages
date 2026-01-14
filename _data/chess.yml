@@ -98,36 +98,23 @@ matches:
     season: 3
     date: "2025-11-18"
     link: "https://lichess.org/tournament/LeZ0oA0j"
+    winner:
+      - position: "🥇 第一名"
+        name: "E1ZZZz"
+      - position: "🥈 第二名"
+        name: "Jimmy \"Hurr1can333333\" Yu"
+      - position: "🥉 第三名"
+        name: "Eric \"EricStoneChina\" Shi"
 
   - series_id: "ec"
     season: 4
     date: "2025-11-25"
     link: "https://lichess.org/tournament/YX02PK9h"
-
-  - series_id: "pro"
-    season: 2
-    date: "2025-11-27"
-    link: "https://lichess.org/tournament/RJENMeFx"
-
-  - name: "KC Gaming Chess Christmas Special Event"
-    start_time: "2025-12-20 10:00"
-    end_time: "2025-12-20 16:00"
-    special_type: "special"
-    special_icon: "🎄"
-    link: "https://lichess.org/tournament/6jrHWb0r"
-    description: "🎄 **圣诞特别赛事** | 这是我们为圣诞节特别设计的赛事！参赛者将有机会赢得丰厚奖金。 | **比赛特色：** | - 更多奖金名额，人人有份； | - 圣诞主题，热烈欢迎参加！"
-    prize_distribution:
+    winner:
       - position: "🥇 第一名"
-        amount: "￥12"
+        name: "Eric \"EricStoneChina\" Shi"
       - position: "🥈 第二名"
-        amount: "￥6"
-      - position: "🥉 第三名"
-        amount: "￥3"
-      - position: "🏅 第四名"
-        amount: "￥2"
-      - position: "🏅 第五名"
-        amount: "￥2"
-
+        name: "Jimmy \"Hurr1can333333\" Yu"
 
   # === 特殊活动 ===
   - name: "KC Gaming Chess Champions Pre-season Oct."

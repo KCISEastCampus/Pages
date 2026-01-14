@@ -1,40 +1,19 @@
 {% assign hero = lang.hero %}
 <div class="hero-section">
   <div class="hero-content">
-    <button class="hero-toggle" id="hero-toggle" aria-expanded="true" aria-controls="main-hero" title="{{ hero.toggle }}">
-      <i class="fas fa-chevron-down hero-toggle-icon" aria-hidden="true"></i>
-      <span class="hero-toggle-label">{{ hero.toggle }}</span>
-    </button>
-    <h1>{{ hero.title }}</h1>
-    <p>{{ hero.subtitle }}</p>
-    <div class="hero-cards">
-  <a class="hero-card" href="/app/" data-card="app" target="_blank" rel="noopener noreferrer">
-        <div class="hero-card-icon"><i class="fas fa-download"></i></div>
-        <div class="hero-card-body">
-          <div class="hero-card-title">{{ navibar.button_app }}</div>
-        </div>
-      </a>
-
-  <!-- <a class="hero-card" href="https://blog.kcisec.site" data-card="blog" target="_blank" rel="noopener noreferrer">
-        <div class="hero-card-icon"><i class="fas fa-pen-nib"></i></div>
-        <div class="hero-card-body">
-          <div class="hero-card-title">{{ navibar.button_blog }}</div>
-        </div>
-      </a> -->
-
-  <a class="hero-card" href="https://academic.kcisec.site/" data-card="alevel" target="_blank" rel="noopener noreferrer">
-        <div class="hero-card-icon"><i class="fas fa-school"></i></div>
-        <div class="hero-card-body">
-          <div class="hero-card-title">{{ navibar.button_alevel }}</div>
-        </div>
-      </a>
-
-  <a class="hero-card" href="/chess" data-card="chess">
-        <div class="hero-card-icon"><i class="fas fa-chess"></i></div>
-        <div class="hero-card-body">
-          <div class="hero-card-title">KC Gaming Chess</div>
-        </div>
-      </a>
+    <div class="hero-minimal">
+      <h2>{{ hero.title }}</h2>
+      <div class="hero-quick-links">
+        <a class="hero-quick-link" href="/app/" target="_blank" rel="noopener noreferrer" title="{{ navibar.button_app }}">
+          <i class="fas fa-download"></i>
+        </a>
+        <a class="hero-quick-link" href="https://academic.kcisec.site/" target="_blank" rel="noopener noreferrer" title="{{ navibar.button_alevel }}">
+          <i class="fas fa-school"></i>
+        </a>
+        <a class="hero-quick-link" href="/chess" title="KC Gaming Chess">
+          <i class="fas fa-chess"></i>
+        </a>
+      </div>
     </div>
   </div>
 </div>
