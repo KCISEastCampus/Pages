@@ -4,18 +4,24 @@
 <head>
   {% include head.html %}
   <style>
-    body {
-      font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #1a1a2e 100%);
-      color: #e0e0e0;
+    * {
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 25%, #16213e 50%, #0f3460 75%, #162a3a 100%);
+      background-attachment: fixed;
+      color: #e0e0e0;
+      line-height: 1.6;
       min-height: 100vh;
       position: relative;
       overflow-x: hidden;
     }
 
-    /* 棋盘背景图案 */
+    /* 动画背景 */
     body::before {
       content: '';
       position: fixed;
@@ -24,322 +30,370 @@
       width: 100%;
       height: 100%;
       background-image:
-        /* 棋盘方格 */
-        linear-gradient(45deg, rgba(255,255,255,0.015) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.015) 75%),
-        linear-gradient(-45deg, rgba(255,255,255,0.015) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.015) 75%),
-        /* 网格线 */
-        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-      background-size: 80px 80px, 80px 80px, 40px 40px, 40px 40px;
-      background-position: 0 0, 40px 40px, 0 0, 0 0;
+        radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 40% 0%, rgba(76, 205, 196, 0.08) 0%, transparent 50%);
       pointer-events: none;
-      z-index: -1;
+      z-index: 0;
     }
 
-    /* 浮动棋子装饰 */
-    .floating-pieces {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: -1;
+    body > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ============ 头部区域 ============ */
+    .header {
+      background: linear-gradient(135deg, rgba(26, 31, 58, 0.95) 0%, rgba(22, 33, 62, 0.95) 50%, rgba(15, 52, 96, 0.95) 100%);
+      backdrop-filter: blur(20px);
+      border-bottom: 3px solid rgba(255, 215, 0, 0.4);
+      padding: 60px 20px;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      position: relative;
       overflow: hidden;
     }
 
-    .floating-piece {
+    .header::before {
+      content: '♔ ♛ ♜ ♞ ♝ ♟ ♚ ♕ ♖ ♘ ♗';
       position: absolute;
-      font-size: 2em;
-      opacity: 0.15;
-      animation: float 20s infinite linear;
-      color: rgba(255, 255, 255, 0.4);
+      top: 0;
+      left: 0;
+      right: 0;
+      font-size: 3em;
+      opacity: 0.05;
+      letter-spacing: 15px;
+      white-space: nowrap;
+      overflow: hidden;
+      animation: slide 20s linear infinite;
     }
 
-    .floating-piece:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
-    .floating-piece:nth-child(2) { top: 20%; right: 15%; animation-delay: 5s; }
-    .floating-piece:nth-child(3) { bottom: 30%; left: 20%; animation-delay: 10s; }
-    .floating-piece:nth-child(4) { bottom: 20%; right: 10%; animation-delay: 15s; }
-    .floating-piece:nth-child(5) { top: 60%; left: 80%; animation-delay: 7s; }
-
-    @keyframes float {
-      0% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-15px) rotate(180deg); }
-      100% { transform: translateY(0px) rotate(360deg); }
-    }
-
-    .header {
-      background: linear-gradient(135deg, rgba(26, 26, 46, 0.9) 0%, rgba(22, 33, 62, 0.9) 50%, rgba(15, 52, 96, 0.9) 100%);
-      backdrop-filter: blur(15px);
-      padding: 40px 20px;
-      text-align: center;
-      border-bottom: 2px solid rgba(255, 215, 0, 0.3);
-      position: relative;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    @keyframes slide {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(100vw); }
     }
 
     .back-link {
       position: absolute;
       top: 20px;
       left: 20px;
-      font-size: 1em;
+      z-index: 2;
     }
 
     .back-link a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       color: #ffffff;
       text-decoration: none;
       background: rgba(255, 255, 255, 0.1);
-      padding: 8px 16px;
+      padding: 10px 20px;
       border-radius: 20px;
-      transition: all 0.3s ease;
       border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s ease;
+      font-weight: 500;
     }
 
     .back-link a:hover {
       background: rgba(255, 255, 255, 0.2);
-      color: #ffffff;
       transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 2;
     }
 
     .header h1 {
-      margin: 0;
-      color: #ffffff;
-      font-size: 3em;
+      font-size: 3.5em;
       font-weight: 300;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-      position: relative;
-    }
-
-    .header h1::before {
-      content: '♔';
-      position: absolute;
-      left: -50px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 2em;
-      opacity: 0.7;
-    }
-
-    .header h1::after {
-      content: '♛';
-      position: absolute;
-      right: -50px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 2em;
-      opacity: 0.7;
-    }
-
-    .header p {
-      margin: 10px 0 0 0;
-      color: #b8c5d1;
-      font-size: 1.2em;
-      font-weight: 300;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 40px 20px;
-    }
-
-    .rules-section {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.08) 100%);
-      backdrop-filter: blur(20px);
-      border-radius: 25px;
-      padding: 40px;
-      margin-bottom: 50px;
-      box-shadow: 0 12px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      position: relative;
-    }
-
-    .rules-section::before {
-      content: '♜ ♞ ♝ ♛ ♚ ♝ ♞ ♜';
-      position: absolute;
-      top: -25px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 1.8em;
-      color: rgba(255, 255, 255, 0.4);
-      letter-spacing: 15px;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-      font-weight: bold;
-      white-space: nowrap;
-      max-width: 90%;
-      overflow: hidden;
-    }
-
-    .rules-section h2 {
       color: #ffffff;
-      border-bottom: 3px solid #ffd700;
-      padding-bottom: 15px;
-      margin-top: 0;
-      font-weight: 400;
-      text-align: center;
-    }
-
-    .rules-section p, .rules-section ul, .rules-section li {
-      color: #e0e0e0;
-      line-height: 1.8;
-    }
-
-    .matches-section h2 {
-      color: #ffffff;
-      text-align: center;
-      margin-bottom: 50px;
-      font-weight: 300;
-      font-size: 2.5em;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-    }
-
-    /* 日历样式 */
-    .calendar-container {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.08) 100%);
-      backdrop-filter: blur(20px);
-      border-radius: 25px;
-      padding: 30px;
-      margin-bottom: 50px;
-      box-shadow: 0 12px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .calendar-container h3 {
-      color: #ffffff;
-      text-align: center;
-      margin-bottom: 30px;
-      font-size: 1.8em;
-      font-weight: 400;
-    }
-
-    .calendar-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
-    }
-
-    .calendar-item {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 15px;
-      padding: 20px;
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .calendar-date {
-      text-align: center;
-      min-width: 80px;
-    }
-
-    .calendar-date .date {
-      font-size: 1.5em;
-      font-weight: bold;
-      color: #ffd700;
-      margin-bottom: 5px;
-    }
-
-    .calendar-date .weekday {
-      font-size: 0.9em;
-      color: #b8c5d1;
-      font-weight: 500;
-    }
-
-    .calendar-content {
-      flex: 1;
-    }
-
-    .calendar-content h4 {
-      margin: 0 0 10px 0;
-      color: #ffffff;
-      font-size: 1.2em;
-      font-weight: 500;
-    }
-
-    .calendar-time {
-      color: #b8c5d1;
-      font-size: 0.9em;
       margin-bottom: 10px;
+      text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+      letter-spacing: 2px;
     }
 
-    .calendar-prizes {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 15px;
-      flex-wrap: wrap;
-    }
-
-    .prize-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(45deg, #ffd700, #ffed4e);
-      color: #1a1a2e;
-      padding: 6px 12px;
-      border-radius: 12px;
-      font-size: 0.9em;
-      font-weight: bold;
-      line-height: 1.1;
-      box-shadow: 0 3px 10px rgba(255, 215, 0, 0.35);
-      min-width: 48px;
-    }
-
-    .calendar-link {
+    .season-badge {
       display: inline-block;
       background: linear-gradient(45deg, #667eea, #764ba2);
       color: white;
-      padding: 8px 16px;
-      text-decoration: none;
-      border-radius: 20px;
-      font-size: 0.9em;
+      padding: 8px 20px;
+      border-radius: 50px;
+      font-size: 0.95em;
       font-weight: bold;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .header p {
+      color: #b8c5d1;
+      font-size: 1.3em;
+      margin-bottom: 20px;
+      font-weight: 300;
+    }
+
+    .header-stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 2em;
+      font-weight: bold;
+      color: #ffd700;
+      text-shadow: 0 1px 5px rgba(255, 215, 0, 0.3);
+    }
+
+    .stat-label {
+      color: #b8c5d1;
+      font-size: 0.9em;
+      margin-top: 5px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* ============ 容器 ============ */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 50px 20px;
+    }
+
+    /* ============ 选项卡导航 ============ */
+    .nav-tabs {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 50px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-tab {
+      padding: 12px 30px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      color: #b8c5d1;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: 500;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      text-decoration: none;
     }
 
-    .calendar-link:hover {
-      transform: translateY(-2px);
+    .nav-tab:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 215, 0, 0.5);
+      color: #ffffff;
     }
 
-    .match-link:hover {
-      transform: translateY(-2px);
-      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    .nav-tab.active {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      border-color: rgba(102, 126, 234, 1);
+      color: white;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
     }
 
-    .week-group {
-      margin-bottom: 60px;
+    .tab-content {
+      display: none;
     }
 
-    .week-title {
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* ============ 排名系统 ============ */
+    .rankings-container {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.08) 100%);
+      backdrop-filter: blur(25px);
+      border-radius: 30px;
+      padding: 40px;
+      margin-bottom: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .rankings-title {
+      font-size: 2.2em;
+      color: #ffffff;
+      margin-bottom: 35px;
+      text-align: center;
+      font-weight: 400;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .rankings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 25px;
+    }
+
+    .rank-card {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 25px;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .rank-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #667eea, #764ba2, #ffd700);
+      background-size: 300% 300%;
+      animation: gradientMove 3s ease infinite;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .rank-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .rank-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .rank-badge {
+      font-size: 2em;
+      line-height: 1;
+      min-width: 50px;
+      text-align: center;
+    }
+
+    .rank-badge.rank-1 { font-size: 2.5em; }
+    .rank-badge.rank-2 { font-size: 2.2em; }
+    .rank-badge.rank-3 { font-size: 2em; }
+
+    .rank-info h3 {
+      color: #ffffff;
+      font-size: 1.3em;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+
+    .rank-position {
+      color: #ffd700;
+      font-weight: bold;
+      font-size: 0.95em;
+      text-shadow: 0 1px 3px rgba(255, 215, 0, 0.3);
+    }
+
+    .rank-stats {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 15px;
+      margin-top: 15px;
+    }
+
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.95em;
+    }
+
+    .stat-row:last-child {
+      border-bottom: none;
+    }
+
+    .stat-label {
+      color: #b8c5d1;
+    }
+
+    .stat-value {
+      color: #4ecdc4;
+      font-weight: bold;
+    }
+
+    .points-value {
+      color: #ffd700 !important;
+      font-size: 1.15em;
+    }
+
+    /* ============ 比赛卡片区域 ============ */
+    .matches-section {
+      margin-top: 60px;
+    }
+
+    .section-title {
+      font-size: 2.2em;
+      color: #ffffff;
+      margin-bottom: 40px;
+      text-align: center;
+      font-weight: 400;
+      position: relative;
+      padding-bottom: 20px;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #ffd700, transparent);
+    }
+
+    /* 赛事类型分组 */
+    .event-group {
+      margin-bottom: 50px;
+    }
+
+    .event-type-title {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
       background: linear-gradient(45deg, #ffd700, #ffed4e);
       color: #1a1a2e;
       padding: 15px 30px;
       border-radius: 50px;
-      display: inline-block;
       margin-bottom: 30px;
       font-weight: bold;
-      font-size: 1.2em;
-      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
-      position: relative;
+      font-size: 1.3em;
+      box-shadow: 0 5px 20px rgba(255, 215, 0, 0.3);
     }
 
-    .week-title::before {
-      content: '♟';
-      margin-right: 10px;
-      font-size: 1.2em;
+    .event-type-icon {
+      font-size: 1.5em;
     }
 
-    /* 为不同周标题添加不同棋子 */
-    .week-group:nth-child(1) .week-title::before { content: '♟'; }
-    .week-group:nth-child(2) .week-title::before { content: '♞'; }
-    .week-group:nth-child(3) .week-title::before { content: '♜'; }
-    .week-group:nth-child(4) .week-title::before { content: '♛'; }
-
-    .matches-grid {
+    .events-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 30px;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 25px;
     }
 
     .match-card {
@@ -347,14 +401,14 @@
       backdrop-filter: blur(25px);
       border-radius: 25px;
       padding: 30px;
-      box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 20px rgba(255,215,0,0.1);
-      border: 1px solid rgba(255, 255, 255, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
       transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       position: relative;
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      transform: translateY(0);
+      min-height: 350px;
     }
 
     .match-card::before {
@@ -364,464 +418,705 @@
       left: 0;
       right: 0;
       height: 4px;
-      background: linear-gradient(90deg, #ffd700, #ff6b6b, #4ecdc4, #45b7d1);
+      background: linear-gradient(90deg, #667eea, #764ba2, #ffd700, #4ecdc4);
       background-size: 400% 400%;
-      animation: gradientShift 3s ease infinite;
+      animation: gradientShift 4s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     .match-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 15px 45px rgba(0,0,0,0.4), 0 0 25px rgba(255,215,0,0.15);
-      background: rgba(255, 255, 255, 0.14);
+      transform: translateY(-5px);
+      box-shadow: 0 18px 55px rgba(0, 0, 0, 0.5);
+      background: rgba(255, 255, 255, 0.15);
     }
 
-    .match-card h3 {
-      margin-top: 0;
+    .match-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .match-icon {
+      font-size: 2.2em;
+      line-height: 1;
+    }
+
+    .match-title {
+      flex: 1;
+    }
+
+    .match-title h3 {
       color: #ffffff;
       font-size: 1.4em;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+
+    .match-season {
+      color: #4ecdc4;
+      font-size: 0.9em;
       font-weight: 500;
-      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
-    .match-card h3::before {
-      content: '♘';
-      margin-right: 10px;
-      opacity: 0.8;
+    .match-info {
+      flex: 1;
+    }
+
+    .info-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 12px;
+      align-items: center;
+      font-size: 0.95em;
+    }
+
+    .info-icon {
       color: #ffd700;
-      text-shadow: 0 1px 3px rgba(255, 215, 0, 0.5);
+      min-width: 20px;
     }
 
-    /* 为不同卡片添加不同棋子 */
-    .match-card:nth-child(2) h3::before { content: '♗'; }
-    .match-card:nth-child(3) h3::before { content: '♖'; }
-    .match-card:nth-child(4) h3::before { content: '♕'; }
-    .match-card:nth-child(5) h3::before { content: '♔'; }
-    .match-card:nth-child(6) h3::before { content: '♞'; }
-    .match-card:nth-child(7) h3::before { content: '♝'; }
-
-    .match-time {
+    .info-label {
       color: #b8c5d1;
+      min-width: 80px;
+    }
+
+    .info-value {
+      color: #e0e0e0;
       font-weight: 500;
-      margin: 15px 0;
-      font-size: 1.1em;
     }
 
-    .match-prize {
+    .prize-badge {
+      display: inline-block;
+      background: linear-gradient(45deg, #ffd700, #ffed4e);
+      color: #1a1a2e;
+      padding: 8px 15px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 0.9em;
+      margin-top: 12px;
+      box-shadow: 0 3px 10px rgba(255, 215, 0, 0.3);
+    }
+
+    .results-section {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 15px;
+      margin-top: 15px;
+      flex: 1;
+    }
+
+    .results-title {
       color: #ffd700;
       font-weight: bold;
-      margin: 10px 0;
-      font-size: 1.1em;
-      text-shadow: 0 1px 3px rgba(255, 215, 0, 0.5);
+      margin-bottom: 10px;
+      font-size: 0.95em;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
-    .match-prize-distribution {
-      margin: 15px 0;
+    .result-item {
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.9em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    .prize-item {
+    .result-item:last-child {
+      border-bottom: none;
+    }
+
+    .result-rank {
       color: #ffd700;
       font-weight: bold;
-      font-size: 1em;
-      margin: 5px 0;
-      text-shadow: 0 1px 3px rgba(255, 215, 0, 0.5);
+      min-width: 40px;
     }
 
-    .match-link {
+    .result-name {
+      color: #e0e0e0;
+      flex: 1;
+    }
+
+    .result-points {
+      color: #4ecdc4;
+      font-weight: bold;
+    }
+
+    .empty-results {
+      color: #b8c5d1;
+      font-size: 0.9em;
+      font-style: italic;
+    }
+
+    .register-btn {
       display: inline-block;
       background: linear-gradient(45deg, #667eea, #764ba2);
       color: white;
-      padding: 15px 30px;
+      padding: 12px 28px;
       text-decoration: none;
-      border-radius: 50px;
+      border-radius: 25px;
       font-weight: bold;
+      margin-top: 15px;
       transition: all 0.3s ease;
-      margin-top: auto;
-      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-      align-self: flex-start;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+      border: none;
+      cursor: pointer;
+      font-size: 0.95em;
     }
 
-    .match-winners {
-      margin: 15px 0;
+    .register-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
     }
 
-    .match-winners h4 {
-      color: #ffffff;
-      font-size: 1em;
-      margin-bottom: 10px;
-      font-weight: 500;
+    .register-btn:active {
+      transform: translateY(0);
     }
 
-    .winner-item {
-      color: #ffffff;
-      font-weight: bold;
-      font-size: 0.9em;
-      margin: 5px 0;
-      background: rgba(255, 215, 0, 0.2);
-      padding: 8px 12px;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 215, 0, 0.3);
-    }
-
-    .match-link.ended {
-      display: inline-block;
-      background: rgba(255, 255, 255, 0.1);
-      color: #b8c5d1;
-      padding: 15px 30px;
-      text-decoration: none;
-      border-radius: 50px;
-      font-weight: bold;
-      margin-top: auto;
+    /* ============ 规则部分 ============ */
+    .rules-container {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.08) 100%);
+      backdrop-filter: blur(25px);
+      border-radius: 30px;
+      padding: 50px;
       border: 1px solid rgba(255, 255, 255, 0.2);
-      cursor: default;
-      align-self: flex-start;
-    }
-
-    .match-link.ended:hover {
-      background: rgba(255, 255, 255, 0.15);
-      transform: translateY(-1px);
-    }
-
-    .footer {
-      text-align: center;
-      padding: 40px 20px;
-      color: rgba(255, 255, 255, 0.6);
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
       margin-top: 60px;
     }
 
-    /* 响应式设计 */
+    .rules-container h2 {
+      color: #ffffff;
+      font-size: 2.2em;
+      margin-bottom: 30px;
+      text-align: center;
+      padding-bottom: 20px;
+      border-bottom: 3px solid rgba(255, 215, 0, 0.3);
+      font-weight: 400;
+    }
+
+    .rules-content {
+      color: #e0e0e0;
+      line-height: 1.8;
+    }
+
+    .rules-content h3 {
+      color: #ffd700;
+      font-size: 1.4em;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+
+    .rules-content h4 {
+      color: #4ecdc4;
+      font-size: 1.15em;
+      margin-top: 20px;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .rules-content p {
+      margin-bottom: 12px;
+    }
+
+    .rules-content ul, .rules-content ol {
+      margin-left: 25px;
+      margin-bottom: 15px;
+    }
+
+    .rules-content li {
+      margin-bottom: 8px;
+    }
+
+    .rules-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .rules-content th {
+      background: rgba(102, 126, 234, 0.3);
+      color: #ffd700;
+      padding: 15px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 2px solid rgba(255, 215, 0, 0.2);
+    }
+
+    .rules-content td {
+      padding: 12px 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      color: #e0e0e0;
+    }
+
+    .rules-content tr:hover td {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* ============ 页脚 ============ */
+    .footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: rgba(255, 255, 255, 0.5);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 80px;
+      font-size: 0.95em;
+    }
+
+    /* ============ 响应式设计 ============ */
     @media (max-width: 768px) {
-      /* 头部优化 */
       .header {
-        padding: 30px 15px;
+        padding: 40px 15px;
+      }
+
+      .header h1 {
+        font-size: 2.5em;
+      }
+
+      .header p {
+        font-size: 1.1em;
+      }
+
+      .header-stats {
+        gap: 25px;
+      }
+
+      .stat-value {
+        font-size: 1.5em;
+      }
+
+      .nav-tabs {
+        gap: 10px;
+      }
+
+      .nav-tab {
+        padding: 10px 20px;
+        font-size: 0.9em;
+      }
+
+      .rankings-title, .section-title {
+        font-size: 1.8em;
+      }
+
+      .rankings-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .events-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .match-card {
+        min-height: auto;
+      }
+
+      .rules-container {
+        padding: 30px 20px;
+      }
+
+      .rules-container h2 {
+        font-size: 1.8em;
+      }
+
+      .rules-content h3 {
+        font-size: 1.2em;
+      }
+
+      .rules-content table {
+        font-size: 0.9em;
+      }
+
+      .rules-content th, .rules-content td {
+        padding: 10px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header {
+        padding: 30px 10px;
       }
 
       .header h1 {
         font-size: 2em;
-        padding: 0 10px;
-      }
-
-      .header h1::before, .header h1::after {
-        display: none;
-      }
-
-      .header p {
-        font-size: 1em;
-        padding: 0 10px;
+        letter-spacing: 1px;
       }
 
       .back-link {
         position: static;
         margin-bottom: 15px;
-        text-align: left;
       }
 
-      /* 容器优化 */
-      .container {
-        padding: 20px 10px;
+      .back-link a {
+        font-size: 0.9em;
       }
 
-      /* 规则区域优化 */
-      .rules-section {
-        padding: 20px 15px;
-        border-radius: 15px;
-        margin-bottom: 30px;
-      }
-
-      .rules-section::before {
-        content: '♜ ♞ ♝ ♛ ♚ ♝ ♞ ♜';
-        font-size: 1em;
-        letter-spacing: 5px;
-        top: -18px;
-      }
-
-      .rules-section h2 {
-        font-size: 1.5em;
-      }
-
-      .rules-section p, .rules-section ul, .rules-section li {
-        font-size: 0.95em;
-      }
-
-      /* 比赛区域标题 */
-      .matches-section h2 {
-        font-size: 1.8em;
-        margin-bottom: 30px;
-      }
-
-      /* 日历容器优化 */
-      .calendar-container {
-        padding: 20px 15px;
-        border-radius: 15px;
-        margin-bottom: 30px;
-      }
-
-      .calendar-container h3 {
-        font-size: 1.3em;
-        margin-bottom: 20px;
-      }
-
-      .calendar-grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
-      }
-
-      .calendar-item {
-        flex-direction: column;
-        text-align: center;
-        gap: 15px;
-        padding: 15px;
-      }
-
-      .calendar-date {
-        min-width: auto;
-      }
-
-      .calendar-content h4 {
-        font-size: 1.1em;
-      }
-
-      .calendar-time {
+      .season-badge {
         font-size: 0.85em;
       }
 
-      .prize-badge {
-        font-size: 0.85em;
-        padding: 5px 10px;
-      }
-
-      .calendar-link {
-        font-size: 0.85em;
-        padding: 6px 14px;
-      }
-
-      /* 周标题优化 */
-      .week-group {
-        margin-bottom: 40px;
-      }
-
-      .week-title {
-        font-size: 1em;
-        padding: 12px 25px;
-        margin-bottom: 20px;
-      }
-
-      .week-title::before {
-        font-size: 1em;
-      }
-
-      /* 比赛卡片优化 */
-      .matches-grid {
-        grid-template-columns: 1fr;
+      .header-stats {
         gap: 20px;
+        flex-direction: column;
       }
 
-      .match-card {
-        padding: 20px 15px;
-        border-radius: 15px;
+      .nav-tabs {
+        flex-direction: column;
       }
 
-      .match-card h3 {
-        font-size: 1.2em;
-        margin-bottom: 12px;
+      .nav-tab {
+        width: 100%;
+        text-align: center;
       }
 
-      .match-card h3::before {
-        font-size: 0.9em;
-        margin-right: 8px;
+      .match-header {
+        flex-direction: column;
       }
 
-      .match-time {
-        font-size: 1em;
-        margin: 12px 0;
-      }
-
-      .match-prize-distribution {
-        margin: 12px 0;
-      }
-
-      .prize-item {
-        font-size: 0.9em;
-        margin: 4px 0;
-      }
-
-      .match-link {
-        padding: 12px 25px;
-        font-size: 0.95em;
-        border-radius: 25px;
-      }
-
-      /* 获奖者信息优化 */
-      .match-winners {
-        margin: 12px 0;
-      }
-
-      .match-winners h4 {
-        font-size: 0.95em;
-        margin-bottom: 8px;
-      }
-
-      .winner-item {
-        font-size: 0.85em;
-        padding: 6px 10px;
-        margin: 4px 0;
-      }
-
-      /* 页脚优化 */
-      .footer {
-        padding: 30px 15px;
-        margin-top: 40px;
-        font-size: 0.9em;
-      }
-
-      /* 浮动棋子在移动端减小尺寸 */
-      .floating-piece {
-        font-size: 1.5em;
-        opacity: 0.08;
-      }
-    }
-
-    /* 小屏幕手机优化 */
-    @media (max-width: 480px) {
-      .header h1 {
-        font-size: 1.6em;
-      }
-
-      .header p {
-        font-size: 0.9em;
-      }
-
-      .rules-section::before {
-        content: '♜♞♝♛♚♝♞♜';
-        font-size: 0.8em;
-        letter-spacing: 3px;
-        top: -16px;
-      }
-
-      .matches-section h2 {
-        font-size: 1.5em;
-      }
-
-      .calendar-container h3 {
+      .event-type-title {
         font-size: 1.1em;
+        padding: 12px 20px;
       }
 
-      .match-card h3 {
-        font-size: 1.1em;
+      .rules-container {
+        padding: 20px 12px;
       }
 
-      .week-title {
-        font-size: 0.9em;
-        padding: 10px 20px;
-      }
-
-      /* 确保按钮不会太宽 */
-      .match-link, .calendar-link {
-        max-width: 100%;
-        box-sizing: border-box;
+      .rules-content ul, .rules-content ol {
+        margin-left: 20px;
       }
     }
   </style>
 </head>
 
 <body>
-  <!-- 浮动棋子装饰 -->
-  <div class="floating-pieces">
-    <div class="floating-piece">♔</div>
-    <div class="floating-piece">♛</div>
-    <div class="floating-piece">♜</div>
-    <div class="floating-piece">♞</div>
-    <div class="floating-piece">♝</div>
-  </div>
+  <!-- 顶部导航 -->
   <div class="header">
     <div class="back-link">
       <a href="/">← 回到主页</a>
     </div>
-    <h1>KC Gaming Chess</h1>
-    <p>每周精彩国际象棋赛事，等你来战！</p>
+    <div class="header-content">
+      <div class="season-badge">🎮 2026 赛季</div>
+      <h1>KC Gaming Chess</h1>
+      <p>全新联赛形式 • LiChess平台 • 年度排名</p>
+      <div class="header-stats">
+        <div class="stat-item">
+          <div class="stat-value">12</div>
+          <div class="stat-label">Elite月赛</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">4</div>
+          <div class="stat-label">Master赛季赛</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">￥1400</div>
+          <div class="stat-label">年度奖池</div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="container">
-    <div class="rules-section">
-      {{ site.data.chess.rules | markdownify }}
+    <!-- 选项卡导航 -->
+    <div class="nav-tabs">
+      <button class="nav-tab active" data-tab="rankings">📊 排名</button>
+      <button class="nav-tab" data-tab="master">👑 Master赛季赛</button>
+      <button class="nav-tab" data-tab="elite">⭐ Elite月赛</button>
+      <button class="nav-tab" data-tab="rules">📋 规则</button>
     </div>
 
-    <div class="matches-section">
-      <h2>比赛安排</h2>
+    <!-- 标签页内容 -->
+    <!-- 排名标签页 -->
+    <div id="rankings" class="tab-content active">
+      <div class="rankings-container">
+        <h2 class="rankings-title">📊 2026赛季排名</h2>
 
-      <!-- 日历时间表 -->
-      <div class="calendar-container">
-        <h3>📅 即将开始的比赛</h3>
-        <div class="calendar-grid">
-          {% assign sorted_matches = site.data.chess.matches | sort: "start_time" %}
-          {% for match in sorted_matches %}
-          <div class="calendar-item" data-start-time="{{ match.start_time }}" data-end-time="{{ match.end_time }}">
-            <div class="calendar-date">
-              <div class="date">{{ match.start_time | date: "%m/%d" }}</div>
-              <div class="weekday">{{ match.start_time | date: "%A" | replace: "Monday", "周一" | replace: "Tuesday", "周二" | replace: "Wednesday", "周三" | replace: "Thursday", "周四" | replace: "Friday", "周五" | replace: "Saturday", "周六" | replace: "Sunday", "周日" }}</div>
-            </div>
-            <div class="calendar-content">
-              <h4>{{ match.name }}</h4>
-              <div class="calendar-time">{{ match.start_time | date: "%H:%M" }}-{{ match.end_time | date: "%H:%M" }}</div>
-              {% if match.prize_distribution %}
-              <div class="calendar-prizes">
-                {% assign total_prize = 0 %}
-                {% for prize in match.prize_distribution %}
-                  {% assign amount_num = prize.amount | remove: '￥' | to_integer %}
-                  {% assign total_prize = total_prize | plus: amount_num %}
-                {% endfor %}
-                <span class="prize-badge">总奖金: ￥{{ total_prize }}</span>
-              </div>
-              {% endif %}
-              <a href="{{ match.link }}" target="_blank" class="calendar-link">报名</a>
-            </div>
+        <!-- 总排名 -->
+        <div style="margin-bottom: 50px;">
+          <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid rgba(255, 215, 0, 0.3);">
+            <span style="font-size: 1.5em;">🌟</span>
+            <h3 style="color: #ffd700; font-size: 1.5em; margin: 0; font-weight: 600;">总排名</h3>
           </div>
-          {% endfor %}
+
+          <div class="rankings-grid">
+            {% for player in site.data.chess.rankings.overall_rankings %}
+            <div class="rank-card">
+              <div class="rank-header">
+                <div class="rank-badge {% if player.rank == 1 %}rank-1{% elsif player.rank == 2 %}rank-2{% elsif player.rank == 3 %}rank-3{% endif %}">
+                  {% if player.rank == 1 %}🥇{% elsif player.rank == 2 %}🥈{% elsif player.rank == 3 %}🥉{% else %}#{{ player.rank }}{% endif %}
+                </div>
+                <div class="rank-info">
+                  <h3>{{ player.name }}</h3>
+                  <div class="rank-position">第 {{ player.rank }} 名</div>
+                </div>
+              </div>
+
+              <div class="rank-stats">
+                <div class="stat-row">
+                  <span class="stat-label">总积分</span>
+                  <span class="stat-value points-value">{{ player.total_points }}</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-label">Elite积分</span>
+                  <span class="stat-value">{{ player.elite_points }}</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-label">Master积分</span>
+                  <span class="stat-value">{{ player.master_points }}</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-label">参赛场数</span>
+                  <span class="stat-value">{{ player.events_participated }}</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-label">最佳成绩</span>
+                  <span class="stat-value" style="color: #4ecdc4;">{{ player.best_finish }}</span>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Elite排名 -->
+        <div style="margin-bottom: 50px;">
+          <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid rgba(255, 215, 0, 0.3);">
+            <span style="font-size: 1.5em;">⭐</span>
+            <h3 style="color: #ffd700; font-size: 1.5em; margin: 0; font-weight: 600;">Elite MONTH 排名</h3>
+          </div>
+
+          <div class="rankings-grid">
+            {% for player in site.data.chess.rankings.elite_rankings %}
+            <div class="rank-card">
+              <div class="rank-header">
+                <div class="rank-badge {% if player.rank == 1 %}rank-1{% elsif player.rank == 2 %}rank-2{% elsif player.rank == 3 %}rank-3{% endif %}">
+                  {% if player.rank == 1 %}🥇{% elsif player.rank == 2 %}🥈{% elsif player.rank == 3 %}🥉{% else %}#{{ player.rank }}{% endif %}
+                </div>
+                <div class="rank-info">
+                  <h3>{{ player.name }}</h3>
+                  <div class="rank-position">第 {{ player.rank }} 名</div>
+                </div>
+              </div>
+
+              <div class="rank-stats">
+                <div class="stat-row">
+                  <span class="stat-label">积分</span>
+                  <span class="stat-value points-value">{{ player.points }}</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-label">获胜场数</span>
+                  <span class="stat-value">{{ player.wins }}</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-label">平均排位</span>
+                  <span class="stat-value">{{ player.avg_position }}</span>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Master排名 -->
+        <div>
+          <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid rgba(255, 215, 0, 0.3);">
+            <span style="font-size: 1.5em;">👑</span>
+            <h3 style="color: #ffd700; font-size: 1.5em; margin: 0; font-weight: 600;">Master SEASON 排名</h3>
+          </div>
+
+          <div class="rankings-grid">
+            {% for player in site.data.chess.rankings.master_rankings %}
+            <div class="rank-card">
+              <div class="rank-header">
+                <div class="rank-badge {% if player.rank == 1 %}rank-1{% elsif player.rank == 2 %}rank-2{% elsif player.rank == 3 %}rank-3{% endif %}">
+                  {% if player.rank == 1 %}🥇{% elsif player.rank == 2 %}🥈{% elsif player.rank == 3 %}🥉{% else %}#{{ player.rank }}{% endif %}
+                </div>
+                <div class="rank-info">
+                  <h3>{{ player.name }}</h3>
+                  <div class="rank-position">第 {{ player.rank }} 名</div>
+                </div>
+              </div>
+
+              <div class="rank-stats">
+                <div class="stat-row">
+                  <span class="stat-label">积分</span>
+                  <span class="stat-value points-value">{{ player.points }}</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-label">获胜场数</span>
+                  <span class="stat-value">{{ player.wins }}</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-label">平均排位</span>
+                  <span class="stat-value">{{ player.avg_position }}</span>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
         </div>
       </div>
+    </div>
 
-      <!-- 比赛卡片 - 将由JavaScript动态分组 -->
-      <div id="matches-container">
-        {% assign sorted_matches = site.data.chess.matches | sort: "start_time" %}
-        {% for match in sorted_matches %}
-        <div class="match-card-wrapper" data-start-time="{{ match.start_time }}" data-end-time="{{ match.end_time }}" style="display: none;">
-          <div class="match-card">
-            <h3>{{ match.name }}</h3>
-            <div class="match-time">{{ match.start_time | date: "%m月%d日" }} {{ match.start_time | date: "%H:%M" }}-{{ match.end_time | date: "%H:%M" }}</div>
-            {% if match.prize_distribution %}
-            <div class="match-prize-distribution">
-              {% for prize in match.prize_distribution %}
-              <div class="prize-item">{{ prize.position }}: 奖金 {{ prize.amount }}</div>
-              {% endfor %}
+    <!-- Master赛季赛标签页 -->
+    <div id="master" class="tab-content">
+      <div class="matches-section">
+        <h2 class="section-title">👑 Master SEASON 赛季大师赛</h2>
+
+        {% assign master_events = site.data.chess.competitions.master_events | sort: "date" %}
+        <div class="event-group">
+          <div class="event-type-title">
+            <span class="event-type-icon">👑</span>
+            <span>Master SEASON（权重1.5x）</span>
+          </div>
+
+          <div class="events-grid">
+            {% for event in master_events %}
+            <div class="match-card">
+              <div class="match-header">
+                <div class="match-icon">👑</div>
+                <div class="match-title">
+                  <h3>{{ event.name }}</h3>
+                  <div class="match-season">赛季{{ event.season }}</div>
+                </div>
+              </div>
+
+              <div class="match-info">
+                <div class="info-row">
+                  <span class="info-icon">📅</span>
+                  <span class="info-label">日期</span>
+                  <span class="info-value">{{ event.date | date: "%Y年%m月%d日" }}</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-icon">⏰</span>
+                  <span class="info-label">时间</span>
+                  <span class="info-value">{{ event.start_time | date: "%H:%M" }}-{{ event.end_time | date: "%H:%M" }}</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-icon">💰</span>
+                  <span class="info-label">奖池</span>
+                  <span class="info-value">{{ event.prize_total }}</span>
+                </div>
+                <div class="prize-badge">🥇 ￥80 | 🥈 ￥50 | 🥉 ￥20</div>
+              </div>
+
+              {% if event.results %}
+              <div class="results-section">
+                <div class="results-title">🏆 比赛结果</div>
+                {% for result in event.results %}
+                <div class="result-item">
+                  <span class="result-rank">{{ result.rank }}</span>
+                  <span class="result-name">{{ result.name }}</span>
+                  <span class="result-points">+{{ result.points }}</span>
+                </div>
+                {% endfor %}
+              </div>
+              {% else %}
+              <div class="results-section">
+                <div class="empty-results">比赛尚未开始</div>
+              </div>
+              {% endif %}
+
+              <a href="{{ event.link }}" target="_blank" class="register-btn">立即报名</a>
             </div>
-            {% endif %}
-            {% if match.winner %}
-            <div class="match-winners">
-              <h4>比赛结果</h4>
-              {% for winner in match.winner %}
-                {% if winner.position contains "🥇" or winner.position contains "🥈" or winner.position contains "🥉" %}
-                  {% assign prize_amount = "" %}
-                  {% for prize in match.prize_distribution %}
-                    {% if prize.position == winner.position %}
-                      {% assign prize_amount = prize.amount %}
-                    {% endif %}
-                  {% endfor %}
-                  {% assign stripped_prize = prize_amount | strip %}
-                <div class="winner-item">{{ winner.position }}: {{ winner.name }} {% if stripped_prize != "" %} (奖金: {{ prize_amount }}) {% endif %}</div>
-                {% endif %}
-              {% endfor %}
-            </div>
-            {% endif %}
-            <a href="{{ match.link }}" target="_blank" class="match-link">立即报名</a>
+            {% endfor %}
           </div>
         </div>
-        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Elite月赛标签页 -->
+    <div id="elite" class="tab-content">
+      <div class="matches-section">
+        <h2 class="section-title">⭐ Elite MONTH 月度精英赛</h2>
+
+        {% assign elite_events = site.data.chess.competitions.elite_events | sort: "date" %}
+        <div class="event-group">
+          <div class="event-type-title">
+            <span class="event-type-icon">⭐</span>
+            <span>Elite MONTH（权重1.0x）</span>
+          </div>
+
+          <div class="events-grid">
+            {% for event in elite_events %}
+            <div class="match-card">
+              <div class="match-header">
+                <div class="match-icon">⭐</div>
+                <div class="match-title">
+                  <h3>{{ event.name }}</h3>
+                  <div class="match-season">{{ event.month }} 月赛</div>
+                </div>
+              </div>
+
+              <div class="match-info">
+                <div class="info-row">
+                  <span class="info-icon">📅</span>
+                  <span class="info-label">日期</span>
+                  <span class="info-value">{{ event.date | date: "%Y年%m月%d日" }}</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-icon">⏰</span>
+                  <span class="info-label">时间</span>
+                  <span class="info-value">{{ event.start_time | date: "%H:%M" }}-{{ event.end_time | date: "%H:%M" }}</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-icon">💰</span>
+                  <span class="info-label">奖池</span>
+                  <span class="info-value">{{ event.prize_total }}</span>
+                </div>
+                <div class="prize-badge">🥇 ￥25 | 🥈 ￥15 | 🥉 ￥10</div>
+              </div>
+
+              {% if event.results %}
+              <div class="results-section">
+                <div class="results-title">🏆 比赛结果</div>
+                {% for result in event.results %}
+                <div class="result-item">
+                  <span class="result-rank">{{ result.rank }}</span>
+                  <span class="result-name">{{ result.name }}</span>
+                  <span class="result-points">+{{ result.points }}</span>
+                </div>
+                {% endfor %}
+              </div>
+              {% else %}
+              <div class="results-section">
+                <div class="empty-results">比赛尚未开始</div>
+              </div>
+              {% endif %}
+
+              <a href="{{ event.link }}" target="_blank" class="register-btn">立即报名</a>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 规则标签页 -->
+    <div id="rules" class="tab-content">
+      <div class="rules-container">
+        <div class="rules-content">
+          {{ site.data.chess.rules | markdownify }}
+        </div>
       </div>
     </div>
   </div>
 
   <div class="footer">
-    <p>&copy; 2025 KC Gaming. All rights reserved.</p>
+    <p>&copy; 2026 KC Gaming Chess. 新赛制 • 新体验 • 新排名 | 有任何问题请邮件咨询 info@kcisec.site</p>
   </div>
 
   <script src="/assets/js/main.js"></script>
@@ -830,122 +1125,23 @@
     load_ui_toggle_btn('{{ page.language }}');
     bind_onclick_btn();
 
-    // 客户端动态分组和显示比赛
-    (function() {
-      const now = new Date();
-      
-      // 处理日历中的过期比赛
-      document.querySelectorAll('.calendar-item').forEach(item => {
-        const endTimeStr = item.getAttribute('data-end-time');
-        const endTime = new Date(endTimeStr);
-        if (endTime < now) {
-          item.style.display = 'none';
-        }
+    // 选项卡功能
+    document.querySelectorAll('.nav-tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        const tabName = this.getAttribute('data-tab');
+
+        // 移除所有活跃状态
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+        // 添加活跃状态
+        this.classList.add('active');
+        document.getElementById(tabName).classList.add('active');
+
+        // 滚动到顶部
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       });
-
-      // 检查日历是否为空
-      const calendarGrid = document.querySelector('.calendar-grid');
-      if (calendarGrid) {
-        const visibleItems = Array.from(calendarGrid.children).filter(
-          child => child.style.display !== 'none'
-        );
-        if (visibleItems.length === 0) {
-          document.querySelector('.calendar-container').style.display = 'none';
-        }
-      }
-
-      // 动态分组比赛卡片
-      const matchWrappers = document.querySelectorAll('.match-card-wrapper');
-      const thisWeek = [];
-      const nextWeek = [];
-      const laterMatches = [];
-      const pastMatches = [];
-
-      matchWrappers.forEach(wrapper => {
-        const startTimeStr = wrapper.getAttribute('data-start-time');
-        const endTimeStr = wrapper.getAttribute('data-end-time');
-        const startTime = new Date(startTimeStr);
-        const endTime = new Date(endTimeStr);
-        
-        if (endTime < now) {
-          // 已结束的比赛
-          pastMatches.push(wrapper);
-        } else {
-          // 未来的比赛 - 按距离今天的天数分组
-          const daysUntilStart = Math.floor((startTime - now) / (1000 * 60 * 60 * 24));
-          
-          if (daysUntilStart <= 7) {
-            thisWeek.push(wrapper);
-          } else if (daysUntilStart <= 14) {
-            nextWeek.push(wrapper);
-          } else {
-            laterMatches.push(wrapper);
-          }
-        }
-      });
-
-      // 创建分组容器
-      const matchesContainer = document.getElementById('matches-container');
-      matchesContainer.innerHTML = ''; // 清空容器
-
-      // 创建并添加"本周"分组
-      if (thisWeek.length > 0) {
-        const weekGroup = document.createElement('div');
-        weekGroup.className = 'week-group';
-        weekGroup.innerHTML = '<div class="week-title">本周</div><div class="matches-grid"></div>';
-        const grid = weekGroup.querySelector('.matches-grid');
-        thisWeek.forEach(wrapper => {
-          wrapper.style.display = 'block';
-          grid.appendChild(wrapper);
-        });
-        matchesContainer.appendChild(weekGroup);
-      }
-
-      // 创建并添加"下周"分组
-      if (nextWeek.length > 0) {
-        const weekGroup = document.createElement('div');
-        weekGroup.className = 'week-group';
-        weekGroup.innerHTML = '<div class="week-title">下周</div><div class="matches-grid"></div>';
-        const grid = weekGroup.querySelector('.matches-grid');
-        nextWeek.forEach(wrapper => {
-          wrapper.style.display = 'block';
-          grid.appendChild(wrapper);
-        });
-        matchesContainer.appendChild(weekGroup);
-      }
-
-      // 创建并添加"未来比赛"分组
-      if (laterMatches.length > 0) {
-        const weekGroup = document.createElement('div');
-        weekGroup.className = 'week-group';
-        weekGroup.innerHTML = '<div class="week-title">未来比赛</div><div class="matches-grid"></div>';
-        const grid = weekGroup.querySelector('.matches-grid');
-        laterMatches.forEach(wrapper => {
-          wrapper.style.display = 'block';
-          grid.appendChild(wrapper);
-        });
-        matchesContainer.appendChild(weekGroup);
-      }
-
-      // 创建并添加"已结束比赛"分组
-      if (pastMatches.length > 0) {
-        const weekGroup = document.createElement('div');
-        weekGroup.className = 'week-group';
-        weekGroup.innerHTML = '<div class="week-title">已结束比赛</div><div class="matches-grid"></div>';
-        const grid = weekGroup.querySelector('.matches-grid');
-        pastMatches.forEach(wrapper => {
-          wrapper.style.display = 'block';
-          // 更新按钮为"查看结果"
-          const link = wrapper.querySelector('.match-link');
-          if (link && !link.classList.contains('ended')) {
-            link.textContent = '查看结果';
-            link.classList.add('ended');
-          }
-          grid.appendChild(wrapper);
-        });
-        matchesContainer.appendChild(weekGroup);
-      }
-    })();
+    });
   </script>
 </body>
 
