@@ -3,9 +3,9 @@
 [![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-blue?logo=github)](https://kcisec.site)
 [![Jekyll](https://img.shields.io/badge/Jekyll-4.3.4-red?logo=jekyll)](https://jekyllrb.com/)
 
-> 🎓 **A comprehensive student portal for Kunshan Cambridge International School East Campus**
+> 🎓 **A comprehensive student website for Kang Chiao School Kunshan Campus Middle School Department**
 >
-> **为昆山康桥学校东校区初中部打造的综合学生门户网站**
+> **为昆山康桥学校初中部打造的综合学生网站**
 
 [🌐 Visit Website / 访问网站](https://kcisec.site)
 
@@ -15,11 +15,11 @@
 
 **English:**
 
-KCISEC Navigator is a student-focused web portal designed for the middle school division of Kunshan Cambridge International School East Campus. This website serves as a central hub for students to access essential school resources, links, and tools. It's optimized for morning homeroom announcements and student self-service access.
+KCISEC Navigator is a student-focused website designed for the Middle School Department of Kang Chiao School Kunshan Campus. This website serves as a central hub for students to access essential school resources, links, and tools. It's optimized for morning homeroom announcements and student self-service access.
 
 **中文:**
 
-KCISEC Navigator 是为昆山康桥学校东校区初中部设计的学生门户网站。本网站作为学生访问重要校园资源、链接和工具的中心平台，适合班主任在早自习向学生宣导，也方便学生自主查看。
+KCISEC Navigator 是为昆山康桥学校初中部设计的学生网站。本网站作为学生访问重要校园资源、链接和工具的中心平台，适合班主任在早自习向学生宣导，也方便学生自主查看。
 
 ---
 
@@ -34,7 +34,7 @@ KCISEC Navigator 是为昆山康桥学校东校区初中部设计的学生门户
 - **♟️ KC Gaming Chess** - International chess platform for students
   - 面向学生的国际象棋对战平台
   
-- **🌐 A-Level Portal** - Dedicated A-Level curriculum platform
+- **🌐 A-Level Platform** - Dedicated A-Level curriculum platform
   - A-Level 课程专属平台
   
 - **📧 Resource Hub** - Direct links to:
@@ -161,7 +161,7 @@ Edit `index.md` to modify the homepage content and featured resources.
 
 ## 👥 Contributing | 贡献
 
-Contributions are welcome! This project is maintained by students and staff of KCISEC East Campus.
+Contributions are welcome! This project is maintained by students and staff of Kang Chiao School Kunshan Campus.
 
 ### How to Contribute | 如何贡献
 
@@ -175,13 +175,13 @@ Contributions are welcome! This project is maintained by students and staff of K
 
 ## 📝 License | 许可证
 
-This project is maintained by KCISEC East Campus. Please contact the school administration for usage permissions.
+This project is maintained by Kang Chiao School Kunshan Campus. Please contact the school administration for usage permissions.
 
 ---
 
 ## 📧 Contact | 联系方式
 
-For questions or support, please contact the KCISEC East Campus IT department or open an issue in this repository.
+For questions or support, please contact the Kang Chiao School Kunshan Campus IT department or open an issue in this repository.
 
 **Website:** [https://kcisec.site](https://kcisec.site)
 
