@@ -1,0 +1,157 @@
+# KC Gaming Chess 2025 赛季数据
+# 历史存档
+
+season:
+  year: 2025
+  name: "KC Gaming 2025"
+  subtitle: "E.C., PRO LEAGUE, Champions系列"
+  start_date: "2025-10-28"
+  end_date: "2025-12-31"
+  
+# 2025年赛制（旧系统）
+competition_types:
+  ec:
+    name: "E.C. Series"
+    icon: ""
+    frequency: "weekly"
+    prize_pool: "无奖金"
+    
+  pro:
+    name: "PRO LEAGUE"
+    icon: "⭐"
+    frequency: "biweekly"
+    prize_pool: "¥15"
+    
+  champions:
+    name: "Champions"
+    icon: "👑"
+    frequency: "bimonthly"
+    prize_pool: "¥30"
+
+# 2025年已举办的比赛
+tournaments:
+  - name: "KC Gaming Chess E.C. Pre-season"
+    type: "ec"
+    date: "2025-10-28"
+    time: "18:00"
+    link: "https://lichess.org/tournament/HffQoOUd"
+    status: "completed"
+    results:
+      - position: "🥇 第一名"
+        name: "Jimmy \"Hurr1can333333\" Yu"
+      - position: "🥈 第二名"
+        name: "Eric \"EricStoneChina\" Shi"
+
+  - name: "KC Gaming Chess Champions Pre-season Oct."
+    type: "champions"
+    date: "2025-10-30"
+    time: "15:45"
+    link: "https://lichess.org/tournament/IW81tWDY"
+    status: "completed"
+    results:
+      - position: "🥇 第一名"
+        name: "Jimmy \"Hurr1can333333\" Yu"
+      - position: "🥈 第二名"
+        name: "Eason \"ENAOS\" Wang"
+      - position: "🥉 第三名"
+        name: "Eric \"EricStoneChina\" Shi"
+
+  - name: "KC Gaming Chess E.C. Season 1"
+    type: "ec"
+    date: "2025-11-04"
+    time: "18:00"
+    link: "https://lichess.org/tournament/pS1fvKBH"
+    status: "completed"
+    results:
+      - position: "🥇 第一名"
+        name: "E1ZZZz"
+      - position: "🥈 第二名"
+        name: "Jimmy \"Hurr1can333333\" Yu"
+      - position: "🥉 第三名"
+        name: "Eason \"ENAOS\" Wang"
+
+  - name: "KC Gaming Chess E.C. Season 2"
+    type: "ec"
+    date: "2025-11-11"
+    time: "18:00"
+    link: "https://lichess.org/tournament/xvxFmQ4x"
+    status: "completed"
+    results:
+      - position: "🥇 第一名"
+        name: "E1ZZZz"
+      - position: "🥈 第二名"
+        name: "Jimmy \"Hurr1can333333\" Yu"
+      - position: "🥉 第三名"
+        name: "Eric \"EricStoneChina\" Shi"
+
+  - name: "KC Gaming Chess PRO LEAGUE S1"
+    type: "pro"
+    date: "2025-11-13"
+    time: "15:45"
+    link: "https://lichess.org/tournament/nG4jAyVW"
+    status: "completed"
+    results:
+      - position: "🥇 第一名"
+        name: "Eric \"EricStoneChina\" Shi"
+      - position: "🥈 第二名"
+        name: "Eason \"ENAOS\" Wang"
+      - position: "🥉 第三名"
+        name: "Jimmy \"Hurr1can333333\" Yu"
+
+  - name: "KC Gaming Chess E.C. Season 3"
+    type: "ec"
+    date: "2025-11-18"
+    time: "18:00"
+    link: "https://lichess.org/tournament/LeZ0oA0j"
+    status: "completed"
+    results:
+      - position: "🥇 第一名"
+        name: "E1ZZZz"
+      - position: "🥈 第二名"
+        name: "Jimmy \"Hurr1can333333\" Yu"
+      - position: "🥉 第三名"
+        name: "Eric \"EricStoneChina\" Shi"
+
+  - name: "KC Gaming Chess E.C. Season 4"
+    type: "ec"
+    date: "2025-11-25"
+    time: "18:00"
+    link: "https://lichess.org/tournament/YX02PK9h"
+    status: "completed"
+    results:
+      - position: "🥇 第一名"
+        name: "Eric \"EricStoneChina\" Shi"
+      - position: "🥈 第二名"
+        name: "Jimmy \"Hurr1can333333\" Yu"
+
+# 2025年积分统计
+# 简化的积分系统：第一名3分，第二名2分，第三名1分
+leaderboard:
+  - rank: 1
+    name: "Eric \"EricStoneChina\" Shi"
+    tournaments_played: 6
+    first_place: 2
+    second_place: 1
+    third_place: 3
+    total_points: 10
+    
+  - rank: 2
+    name: "Jimmy \"Hurr1can333333\" Yu"
+    tournaments_played: 7
+    first_place: 2
+    second_place: 4
+    third_place: 1
+    total_points: 9
+    
+  - rank: 3
+    name: "E1ZZZz"
+    tournaments_played: 3
+    first_place: 3
+    second_place: 0
+    third_place: 0
+    total_points: 9
+
+season_summary: |
+  2025赛季是KC Gaming Chess的开创之年，我们成功举办了7场比赛，包括E.C.系列、PRO LEAGUE和Champions系列。
+  
+  感谢所有参与的选手，让我们在2026赛季继续精彩！

@@ -1,207 +1,494 @@
-# 循环比赛系列定义
-recurring_series:
-  # E.C. 系列 - 每周一次
-  - id: "ec"
-    name_template: "KC Gaming Chess E.C. Season {season}"
-    display_name: "E.C."
-    icon: ""
-    frequency: "weekly"  # weekly, biweekly, monthly
-    day_of_week: 1  # 0=周日, 1=周一, ..., 6=周六
-    start_time: "18:00"
-    duration_hours: 2
-    start_date: "2025-11-04"  # 第一场比赛日期
-    end_date: "2026-06-30"    # 系列结束日期
-    prize_distribution: []    # 无奖金
+# KC Gaming Chess 2026 - 全新赛季数据结构
+# 2026年全面采用LiChess线上赛制
+# 赛制：每月Elite竞赛 + 每季度Master竞赛
 
-  # PRO LEAGUE 系列 - 每两周一次
-  - id: "pro"
-    name_template: "KC Gaming Chess PRO LEAGUE S{season}"
-    display_name: "PRO LEAGUE"
-    icon: "⭐"
-    frequency: "biweekly"
-    day_of_week: 3  # 周三
-    start_time: "15:45"
-    duration_hours: 4.5
-    start_date: "2025-11-13"
-    end_date: "2026-06-30"
-    prize_distribution:
-      - position: "🥇 第一名"
-        amount: "￥10"
-      - position: "🥈 第二名"
-        amount: "￥3"
-      - position: "🥉 第三名"
-        amount: "￥2"
-
-  # Champions 系列 - 每两个月一次
-  - id: "champions"
-    name_template: "KC Gaming Chess Champions {month}"
-    display_name: "Champions"
-    icon: "👑"
-    frequency: "bimonthly"
-    day_of_week: 6  # 周六
-    start_time: "15:45"
-    duration_hours: 4.5
-    start_date: "2025-12-28"
-    end_date: "2026-06-30"
-    prize_distribution:
-      - position: "🥇 第一名"
-        amount: "￥15"
-      - position: "🥈 第二名"
-        amount: "￥10"
-      - position: "🥉 第三名"
-        amount: "￥5"
-
-# 单次比赛实例（从系列生成或特殊活动）
-matches:
-  # 说明：
-  # 1. 属于系列的比赛：使用 series_id + season/date，系统会自动从 recurring_series 填充时间和奖金信息
-  # 2. 特殊活动：使用完整的 name + start_time + end_time，保持原有格式
-
-  # === 未来的比赛 ===
-  - series_id: "ec"
-    season: 1
-    date: "2025-11-04"
-    link: "https://lichess.org/tournament/pS1fvKBH"
-    winner:
-      - position: "🥇 第一名"
-        name: "E1ZZZz"
-      - position: "🥈 第二名"
-        name: "Jimmy \"Hurr1can333333\" Yu"
-      - position: "🥉 第三名"
-        name: "Eason \"ENAOS\" Wang"
-
-  - series_id: "ec"
-    season: 2
-    date: "2025-11-11"
-    link: "https://lichess.org/tournament/xvxFmQ4x"
-    winner:
-      - position: "🥇 第一名"
-        name: "E1ZZZz"
-      - position: "🥈 第二名"
-        name: "Jimmy \"Hurr1can333333\" Yu"
-      - position: "🥉 第三名"
-        name: "Eric \"EricStoneChina\" Shi"
-
-  - series_id: "pro"
-    season: 1
-    date: "2025-11-13"
-    link: "https://lichess.org/tournament/nG4jAyVW"
-    winner:
-      - position: "🥇 第一名"
-        name: "Eric \"EricStoneChina\" Shi"
-      - position: "🥈 第二名"
-        name: "Eason \"ENAOS\" Wang"
-      - position: "🥉 第三名"
-        name: "Jimmy \"Hurr1can333333\" Yu"
-
-  - series_id: "ec"
-    season: 3
-    date: "2025-11-18"
-    link: "https://lichess.org/tournament/LeZ0oA0j"
-    winner:
-      - position: "🥇 第一名"
-        name: "E1ZZZz"
-      - position: "🥈 第二名"
-        name: "Jimmy \"Hurr1can333333\" Yu"
-      - position: "🥉 第三名"
-        name: "Eric \"EricStoneChina\" Shi"
-
-  - series_id: "ec"
-    season: 4
-    date: "2025-11-25"
-    link: "https://lichess.org/tournament/YX02PK9h"
-    winner:
-      - position: "🥇 第一名"
-        name: "Eric \"EricStoneChina\" Shi"
-      - position: "🥈 第二名"
-        name: "Jimmy \"Hurr1can333333\" Yu"
-
-  # === 特殊活动 ===
-  - name: "KC Gaming Chess Champions Pre-season Oct."
-    special_type: "champions"
-    start_time: "2025-10-30 15:45"
-    end_time: "2025-10-30 20:15"
-    link: "https://lichess.org/tournament/IW81tWDY"
-    description: "👑 **Champions 赛季前赛** | 这是 Champions 系列正式赛季开始前的热身赛事。为最高级别的赛事做好准备！ | **赛事信息：** | - 与正式赛季的Champions系列一样 | - 赛季前赛事，为后续大赛做准备 | - 奖金充足，共计**30**元奖池"
-    prize_distribution:
-      - position: "🥇 第一名"
-        amount: "￥15"
-      - position: "🥈 第二名"
-        amount: "￥10"
-      - position: "🥉 第三名"
-        amount: "￥5"
-    winner:
-      - position: "🥇 第一名"
-        name: "Jimmy \"Hurr1can333333\" Yu"
-      - position: "🥈 第二名"
-        name: "Eason \"ENAOS\" Wang"
-      - position: "🥉 第三名"
-        name: "Eric \"EricStoneChina\" Shi"
-
-  - name: "KC Gaming Chess E.C. Pre-season"
-    start_time: "2025-10-28 18:00"
-    end_time: "2025-10-28 20:00"
-    link: "https://lichess.org/tournament/HffQoOUd"
-    winner:
-      - position: "🥇 第一名"
-        name: "Jimmy \"Hurr1can333333\" Yu"
-      - position: "🥈 第二名"
-        name: "Eric \"EricStoneChina\" Shi"
-
-
-rules: |
-  ## KC Gaming Chess 比赛规则
-
-  ### 📋 基本信息
+# ============ 赛季信息 ============
+season:
+  year: 2026
+  name: "KC Gaming Chess 2026"
+  subtitle: "智慧·策略·荣耀"
+  start_date: "2026-01-01"
+  theme_color: "#ffd700"
   
-  **KC Gaming Chess** 是KC Gaming举办的系列竞技活动，致力于为校内棋手提供展示才华、交流棋艺的平台。我们设立了三个不同等级的赛事，满足各水平棋手的需求。
+# ============ 2026赛制系统 ============
+# Elite系列：每月月底举行（12场/年）
+# Master系列：每季度末举行（4场/年）
 
-  ### 🏆 赛事体系
+competition_types:
+  elite:
+    name: "Elite"
+    icon: "👑"
+    description: "每月月底举行的精英赛事"
+    frequency: "monthly"
+    prize_pool: "¥15"
+    time_control: "10+5"  # 10分钟 + 5秒增时
+    format: "竞技场 Arena"
+    duration: "120分钟"
+    prize_distribution:
+      - position: "🥇 冠军"
+        amount: "¥25"
+        points: 100
+      - position: "🥈 亚军"
+        amount: "¥15"
+        points: 70
+      - position: "🥉 季军"
+        amount: "¥10"
+        points: 50
+      - position: "第4名"
+        points: 35
+      - position: "第5名"
+        points: 25
+      - position: "第6-10名"
+        points: 15
+      - position: "参赛奖"
+        points: 5
+        
+  master:
+    name: "Master Championship"
+    icon: "⭐"
+    description: "季度总决赛，一决高下"
+    frequency: "quarterly"
+    prize_pool: "¥50"
+    time_control: "15+10"  # 15分钟 + 10秒增时
+    format: "瑞士轮 Swiss"
+    duration: "4小时"
+    prize_distribution:
+      - position: "🥇 冠军"
+        amount: "¥70"
+        points: 200
+      - position: "🥈 亚军"
+        amount: "¥50"
+        points: 150
+      - position: "🥉 季军"
+        amount: "¥30"
+        points: 100
+      - position: "第4名"
+        points: 70
+      - position: "第5名"
+        points: 50
+      - position: "第6-10名"
+        points: 30
+      - position: "参赛奖"
+        points: 10
 
-  - **E.C. 系列**（Evening Class）：每周晚自习时间举办一次，面向所有人群的基础赛事
-  - **PRO LEAGUE 系列**：每两周举办一次，面向进阶棋手的专业联赛
-  - **Champions 系列**：每两个月举办一次，最高级别赛事
+# ============ 2026年度赛程 ============
+# Elite系列 - 每月最后一个周六
+tournaments:
+  # === Elite Jan. 26 ===
+  - id: "elite_2026_01"
+    type: "elite"
+    name: "Elite Jan. 26"
+    date: "2026-01-31"
+    time: "15:00"
+    status: "completed"  # upcoming, ongoing, completed
+    link: ""
+    password: "KCIS2026"
+    # results: []
+    # 比赛结束后，将results改为以下格式：
+    results:
+      - position: "🥇 冠军"
+        name: "Eric Shi"
+      - position: "🥈 亚军"
+        name: "Jimmy Yu"
+      - position: "🥉 季军"
+        name: "Eason Wang"
+    
+  # # === Elite Feb. 26 ===
+  # - id: "elite_2026_02"
+  #   type: "elite"
+  #   name: "Elite Feb. 26"
+  #   date: "2026-02-28"
+  #   time: "15:00"
+  #   status: "upcoming"
+  #   link: ""
+  #   password: "KCIS2026"
+  #   results: []
+    
+  # # === Master Winter 26 ===
+  # - id: "master_2026_q1"
+  #   type: "master"
+  #   name: "Master Winter 26"
+  #   date: "2026-03-21"  # Q1结束前
+  #   time: "13:00"
+  #   status: ""
+  #   link: ""
+  #   password: "KCIS2026"
+  #   results: []
+    
+  # # === Elite Mar. 26 ===
+  # - id: "elite_2026_03"
+  #   type: "elite"
+  #   name: "Elite Mar. 26"
+  #   date: "2026-03-28"
+  #   time: "15:00"
+  #   status: "upcoming"
+  #   link: ""
+  #   password: "KCIS2026"
+  #   results: []
+    
+  # # === Elite Apr. 26 ===
+  # - id: "elite_2026_04"
+  #   type: "elite"
+  #   name: "Elite Apr. 26"
+  #   date: "2026-04-25"
+  #   time: "15:00"
+  #   status: "upcoming"
+  #   link: ""
+  #   password: "KCIS2026"
+  #   results: []
+    
+  # # === Elite May. 26 ===
+  # - id: "elite_2026_05"
+  #   type: "elite"
+  #   name: "Elite May. 26"
+  #   date: "2026-05-30"
+  #   time: "15:00"
+  #   status: "upcoming"
+  #   link: ""
+  #   password: "KCIS2026"
+  #   results: []
+    
+  # # === Master Spring 26 ===
+  # - id: "master_2026_q2"
+  #   type: "master"
+  #   name: "Master Spring 26"
+  #   date: "2026-06-20"  # Q2结束前
+  #   time: "13:00"
+  #   status: "upcoming"
+  #   link: ""
+  #   password: "KCIS2026"
+  #   results: []
+    
+  # # === Elite Jun. 26 ===
+  # - id: "elite_2026_06"
+  #   type: "elite"
+  #   name: "Elite Jun. 26"
+  #   date: "2026-06-27"
+  #   time: "15:00"
+  #   status: "upcoming"
+  #   link: ""
+  #   password: "KCIS2026"
+  #   results: []
+    
+  # # === Elite Jul. 26 ===
+  # - id: "elite_2026_07"
+  #   type: "elite"
+  #   name: "Elite Jul. 26"
+  #   date: "2026-07-25"
+  #   time: "15:00"
+  #   status: "upcoming"
+  #   link: ""
+  #   password: "KCIS2026"
+  #   results: []
+    
+  # # === Elite Aug. 26 ===
+  # - id: "elite_2026_08"
+  #   type: "elite"
+  #   name: "Elite Aug. 26"
+  #   date: "2026-08-29"
+  #   time: "15:00"
+  #   status: "upcoming"
+  #   link: ""
+  #   password: "KCIS2026"
+  #   results: []
+    
+  # # === Master Summer 26 ===
+  # - id: "master_2026_q3"
+  #   type: "master"
+  #   name: "Master Summer 26"
+  #   date: "2026-09-19"  # Q3结束前
+  #   time: "13:00"
+  #   status: "upcoming"
+  #   link: ""
+  #   password: "KCIS2026"
+  #   results: []
+    
+  # # === Elite Sep. 26 ===
+  # - id: "elite_2026_09"
+  #   type: "elite"
+  #   name: "Elite Sep. 26"
+  #   date: "2026-09-26"
+  #   time: "15:00"
+  #   status: "upcoming"
+  #   link: ""
+  #   password: "KCIS2026"
+  #   results: []
+    
+  # # === Elite Oct. 26 ===
+  # - id: "elite_2026_10"
+  #   type: "elite"
+  #   name: "Elite Oct. 26"
+  #   date: "2026-10-31"
+  #   time: "15:00"
+  #   status: "upcoming"
+  #   link: ""
+  #   password: "KCIS2026"
+  #   results: []
+    
+  # # === Elite Nov. 26 ===
+  # - id: "elite_2026_11"
+  #   type: "elite"
+  #   name: "Elite Nov. 26"
+  #   date: "2026-11-28"
+  #   time: "15:00"
+  #   status: "upcoming"
+  #   link: ""
+  #   password: "KCIS2026"
+  #   results: []
+    
+  # # === Master Autumn 26 ===
+  # - id: "master_2026_q4"
+  #   type: "master"
+  #   name: "Master Autumn 26"
+  #   date: "2026-12-19"  # Q4结束前
+  #   time: "13:00"
+  #   status: "upcoming"
+  #   link: ""
+  #   password: "KCIS2026"
+  #   results: []
+    
+  # # === Elite Dec. 26 ===
+  # - id: "elite_2026_12"
+  #   type: "elite"
+  #   name: "Elite Dec. 26"
+  #   date: "2026-12-26"
+  #   time: "15:00"
+  #   status: "upcoming"
+  #   link: ""
+  #   password: "KCIS2026"
+  #   results: []
 
-  ### ⚙️ 竞技规则
+# ============ 示例：已完成的比赛（供参考） ============
+# 当比赛结束后，按以下格式更新：
+#
+# - id: "elite_2026_01"
+#   type: "elite"
+#   name: "Elite Jan. 26"
+#   date: "2026-01-31"
+#   time: "15:00"
+#   status: "completed"  # 改为completed
+#   link: "https://lichess.org/tournament/xxxxx"  # 填入实际链接
+#   password: "KCIS2026"
+#   results:  # 填入获奖选手（按排名顺序）
+#     - position: "🥇 冠军"
+#       name: "Eric \"EricStoneChina\" Shi"
+#     - position: "🥈 亚军"
+#       name: "Jimmy \"Hurr1can333333\" Yu"
+#     - position: "🥉 季军"
+#       name: "Eason \"ENAOS\" Wang"
+#     # 可以继续添加更多名次
+#     - position: "第4名"
+#       name: "Player Name"
+#
+# Master赛事示例：
+# - id: "master_2026_q1"
+#   type: "master"
+#   name: "Master Winter 26"
+#   date: "2026-03-21"
+#   time: "13:00"
+#   status: "completed"
+#   link: "https://lichess.org/tournament/xxxxx"
+#   password: "KCIS2026"
+#   results:
+#     - position: "🥇 冠军"
+#       name: "Alice Chen"
+#     - position: "🥈 亚军"
+#       name: "Bob Wang"
+#     - position: "🥉 季军"
+#       name: "Charlie Liu"
+#     - position: "第4名"
+#       name: "David Zhang"
+#     - position: "第5名"
+#       name: "Emma Li"
 
-  1. **参赛资格**：所有昆山康桥学校学生均可参赛。无报名时间限制，只要在结束时间前都能参与。
+# ============ 选手排名系统 ============
+# 2026年度积分榜（会自动计算）
+players_2026:
+  # 示例数据结构
+  # - id: "player_001"
+  #   name: "Player Name"
+  #   lichess_id: "LichessUsername"
+  #   total_points: 0
+  #   tournaments_participated: 0
+  #   elite_wins: 0
+  #   master_wins: 0
+  #   history: []
 
-  2. **报名方式**：点击每个赛事下方的链接报名。建议提前报名，但是比赛开始后临时加入也可以。
+# ============ 历史数据（2025及之前） ============
+history:
+  2025:
+    description: "2025赛季 - E.C., PRO LEAGUE, Champions系列"
+    total_tournaments: 8
+    champion: "Eric \"EricStoneChina\" Shi"
+    # 可在此添加2025年的详细数据
 
-  3. **时间控制**：每方 15 分钟 + 10 秒增时。此控制时间适合快速对局，考验棋手的即时判断能力。
+# ============ 比赛规则 ============
+rules: |
+  # KC Gaming Chess 2026 - 全新赛制
+  
+  ## 🎮 赛季简介
+  
+  欢迎来到 **KC Gaming Chess 2026**！这是一个全新的竞技赛季，我们对赛制进行了全面升级。所有比赛将在全球领先的国际象棋平台 **LiChess.org** 上举行，为参赛者提供公平、专业、流畅的竞技体验。
 
-  4. **平台说明**：
-     - 比赛在 **Lichess.org** 平台进行（免费国际象棋平台）
-     - 建议使用真实姓名（英文）作为用户名，便于识别和颁奖
-     - 账号需提前注册，比赛前建议熟悉平台操作
+  ---
 
-  5. **比赛规则**：
-     - 遵循国际象棋规则（FIDE Rules）；
-     - **禁止**使用任何外部辅助工具（如棋引擎、AI等）；
-     - 违反此规则的参赛者将被禁赛并取消所有奖项；
-     - 除E.C.系列外，其他系列比赛（有奖金的系列赛事）要求参赛者使用真名作为用户名，并在管理员（EricStoneChina）通过LiChess.com的内部聊天进行身份验证。
+  ## 🏆 赛制体系
 
-  ### 💰 奖励制度
+  ### 👑 Elite Championship（精英月赛）
+  
+  - **频率**：每月最后一个周六举行
+  - **时间**：15:00 开始，持续2小时
+  - **时间控制**：10分钟 + 5秒增时
+  - **赛制**：Arena竞技场模式
+  - **奖金池**：¥50
+  - **参赛要求**：所有KC学生均可参加
+  
+  **奖励分配**：
+  - 🥇 冠军：¥25 + 100积分
+  - 🥈 亚军：¥15 + 70积分
+  - 🥉 季军：¥10 + 50积分
+  - 第4名：35积分
+  - 第5名：25积分
+  - 第6-10名：15积分
+  - 参赛奖：5积分
+  
+  ### ⭐ Master Championship（季度大师赛）
+  
+  - **频率**：每季度举行一次（3月、6月、9月、12月）
+  - **时间**：13:00 开始，持续4小时
+  - **时间控制**：15分钟 + 10秒增时
+  - **赛制**：瑞士制锦标赛
+  - **奖金池**：¥150
+  - **参赛要求**：本季度至少参加过一场Elite赛事
+  
+  **奖励分配**：
+  - 🥇 冠军：¥70 + 200积分
+  - 🥈 亚军：¥50 + 150积分
+  - 🥉 季军：¥30 + 100积分
+  - 第4名：70积分
+  - 第5名：50积分
+  - 第6-10名：30积分
+  - 参赛奖：10积分
 
-  - **奖金发放**：根据最终排名发放奖金，奖金于比赛结束后 72 小时内发放
-  - **发放方式**：通过学生账户或现金支付
-  - **特殊说明**：由于系统需要进行反作弊检查和参赛信息核实，敬请谅解发放延迟
+  ---
 
-  ### 🔐 比赛密码
+  ## 📊 积分排名系统
 
-  **所有比赛统一使用相同密码：** `KangChiaoInternationalSchool`
+  ### 年度积分榜
+  
+  - 积分按**自然年度**（1月1日 - 12月31日）统计
+  - 每位选手的积分由所有参加的比赛累计
+  - 可通过页面菜单切换查看不同年份的排名
+  - 年度总积分最高者将获得"年度总冠军"称号
+  
+  ### 积分计算规则
+  
+  - Elite赛事：根据排名获得5-100积分不等
+  - Master赛事：根据排名获得10-200积分不等
+  - 参赛即有积分奖励，鼓励持续参与
+  - 积分实时更新，赛后自动计算
+  
+  ### 特殊成就
+  
+  - **Grand Slam**：在一个赛季中赢得所有4场Master赛事
+  - **Elite Master**：赢得6场或以上Elite赛事
+  - **Consistency Award**：参加全年所有16场比赛
+  - **Rapid Rise**：单季度积分增长最快
 
-  ### ❓ 常见问题
+  ---
 
-  **Q: 如果迟到了还能参赛吗？**
-  A: 可以，只要在比赛结束前进入房间即可。但不建议太迟加入，因为可能错过对手分配。
+  ## ⚙️ 比赛规则
 
-  **Q: 可以在比赛中使用笔记或参考资料吗？**
-  A: 不可以。这违反了公平竞技的原则。
+  ### 参赛资格
+  
+  1. **Elite Championship**：所有昆山康桥学校学生均可参加
+  2. **Master Championship**：需在本季度至少参加过一场Elite赛事
+  3. 首次参赛需注册LiChess账号，建议使用真实英文姓名
 
-  **Q: 如果对方弃赛或掉线怎么办？**
-  A: Lichess系统会自动判负。请确保网络稳定。
+  ### 报名方式
+  
+  1. 点击比赛卡片上的"立即报名"链接
+  2. 进入LiChess比赛页面
+  3. 输入比赛密码：`KCIS2026`
+  4. 确认报名
+  
+  **重要提示**：
+  - 建议提前30分钟报名
+  - 比赛开始后仍可加入，但会错过部分对局
+  - 首次参赛请提前熟悉LiChess平台操作
 
-  ### 📞 联系方式
+  ### 比赛规则
+  
+  1. **公平竞技**：
+     - 严禁使用任何外部辅助工具（引擎、AI等）
+     - LiChess拥有先进的反作弊系统
+     - 违规者将被永久禁赛，取消所有成绩和奖励
+  
+  2. **身份验证**：
+     - 有奖金的比赛需要身份验证
+     - 管理员会在比赛前/后通过LiChess聊天验证身份
+     - 使用真实姓名作为用户名可加快验证流程
+  
+  3. **时间控制**：
+     - Elite：10+5（10分钟基础时间 + 每步5秒增时）
+     - Master：15+10（15分钟基础时间 + 每步10秒增时）
+     - 超时判负，请确保网络稳定
+  
+  4. **对局规则**：
+     - 遵循国际象棋联合会（FIDE）标准规则
+     - 和棋需双方同意
+     - 对手掉线/弃赛由系统自动判定
 
-  有任何问题或疑惑，欢迎邮件咨询info@kcisec.site。
+  ### 奖金发放
+  
+  - **发放时间**：比赛结束后3个工作日内
+  - **发放方式**：通过微信/支付宝转账
+  - **身份核实**：需完成身份验证后才能领取奖金
+
+  ---
+
+  ## 📱 技术支持
+
+  ### 平台说明
+  
+  - **比赛平台**：LiChess.org（免费、无广告、开源）
+  - **推荐浏览器**：Chrome、Edge、Safari、Firefox
+  - **移动设备**：支持iOS/Android LiChess App
+  - **网络要求**：稳定的互联网连接（建议Wi-Fi）
+
+  ### 常见问题
+
+  **Q: 我是新手，能参加吗？**  
+  A: 当然可以！Elite赛事欢迎所有水平的选手。建议先参加几场Elite积累经验后再挑战Master。
+
+  **Q: 如果迟到了还能参赛吗？**  
+  A: 可以，但会错过开始时的部分对局，影响总分。建议准时参加。
+
+  **Q: 比赛中网络断线怎么办？**  
+  A: LiChess会保留你的时间，重新连接后可继续比赛。但超时仍会判负，请确保网络稳定。
+
+  **Q: 如何查看我的积分？**  
+  A: 比赛结束后，积分会自动更新到排行榜上。你可以在网页上查看实时排名。
+
+  **Q: 可以同时参加Elite和Master吗？**  
+  A: 可以！我们鼓励选手参加所有比赛，积累更多积分和经验。
+
+  ---
+
+  ## 📞 联系我们
+
+  如有任何问题、建议或需要技术支持，欢迎联系：
+
+  - **邮箱**：info@kcisec.site
+  - **LiChess管理员**：EricStoneChina
+  - **QQ群**：[待公布]
+
+  ---
+
+  ## 🎯 寄语
+
+  KC Gaming Chess 2026是一个全新的开始。我们致力于为所有热爱国际象棋的同学提供一个公平、专业、有趣的竞技平台。无论你是初学者还是高手，都欢迎加入我们的大家庭！
+
+  让我们一起在棋盘上展现智慧与策略，在竞技中收获成长与友谊。
+
+  **2026，让我们开始全新的征程！** ♔♕♖♗♘♙
