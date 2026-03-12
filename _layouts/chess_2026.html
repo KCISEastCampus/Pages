@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="{{ page.language }}">
+<head>
+  {% include head.html %}
+  <meta name="description" content="KC Gaming Chess 2026 - 全新赛制，竞技升级">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary-gold: #ffd700;
+      --dark-bg: #0a0e1a;
+      --card-bg: rgba(20, 25, 45, 0.95);
+      --elite-color: #ffd700;
+      --master-color: #00d4ff;
+      --text-primary: #ffffff;
+      --text-secondary: #b8c5d1;
+      --border-light: rgba(255, 255, 255, 0.1);
+    }
+
+    body {
+      font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #0a0e1a 0%, #1a1f3a 25%, #0f1729 50%, #1a1f3a 75%, #0a0e1a 100%);
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* 棋盘网格背景 */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(255, 215, 0, 0.02) 80px, rgba(255, 215, 0, 0.02) 81px),
+        repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(255, 215, 0, 0.02) 80px, rgba(255, 215, 0, 0.02) 81px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.5;
+    }
+
+    /* 国际象棋装饰元素 */
+    body::after {
+      content: '♔';
+      position: fixed;
+      bottom: -80px;
+      right: -80px;
+      font-size: 400px;
+      color: rgba(255, 215, 0, 0.03);
+      pointer-events: none;
+      z-index: 0;
+      animation: float 20s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-30px) rotate(5deg); }
+    }
+
+    /* ========== 头部区域 ========== */
+    .header {
+      background: linear-gradient(135deg, rgba(15, 23, 41, 0.98) 0%, rgba(26, 31, 58, 0.98) 100%);
+      backdrop-filter: blur(20px);
+      border-bottom: 2px solid var(--primary-gold);
+      padding: 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    }
+
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 25px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+
+    .back-link a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: 1px solid var(--border-light);
+      background: rgba(255, 255, 255, 0.05);
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.95em;
+    }
+
+    .back-link a:hover {
+      background: rgba(255, 215, 0, 0.1);
+      border-color: var(--primary-gold);
+      color: var(--primary-gold);
+      transform: translateX(-5px);
+    }
+
+    .header-title {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .header-title h1 {
+      font-size: 2em;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ffd700, #ffed4e, #ffd700);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradient-flow 3s ease infinite;
+      letter-spacing: 2px;
+    }
+
+    @keyframes gradient-flow {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .year-selector {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .year-button {
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.9em;
+      font-weight: 500;
+    }
+
+    .year-button:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .year-button.active {
+      background: linear-gradient(135deg, var(--primary-gold), #ffed4e);
+      color: #0a0e1a;
+      border-color: var(--primary-gold);
+      font-weight: 600;
+    }
+
+    /* ========== 主容器 ========== */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 40px 30px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ========== 赛季横幅 ========== */
+    .season-banner {
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(0, 212, 255, 0.1));
+      border: 2px solid var(--primary-gold);
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      margin-bottom: 50px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(255, 215, 0, 0.2);
+    }
+
+    .season-banner::before {
+      content: '♔ ♕ ♖ ♗ ♘ ♙';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 8em;
+      color: rgba(255, 215, 0, 0.05);
+      letter-spacing: 30px;
+      pointer-events: none;
+    }
+
+    .season-banner h2 {
+      font-size: 3em;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffd700, #ffed4e);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 15px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .season-banner p {
+      font-size: 1.3em;
+      color: var(--text-secondary);
+      position: relative;
+      z-index: 1;
+      font-weight: 300;
+      letter-spacing: 2px;
+    }
+
+    /* ========== 赛制说明 ========== */
+    .competition-overview {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+      margin-bottom: 50px;
+    }
+
+    .competition-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 35px;
+      border: 2px solid transparent;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .competition-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--elite-color), var(--master-color));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .competition-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    }
+
+    .competition-card:hover::before {
+      opacity: 1;
+    }
+
+    .competition-card.elite {
+      border-color: rgba(255, 215, 0, 0.3);
+    }
+
+    .competition-card.master {
+      border-color: rgba(0, 212, 255, 0.3);
+    }
+
+    .competition-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .competition-icon {
+      font-size: 3em;
+      filter: drop-shadow(0 5px 15px rgba(255, 215, 0, 0.5));
+    }
+
+    .competition-title {
+      flex: 1;
+    }
+
+    .competition-title h3 {
+      font-size: 1.8em;
+      margin-bottom: 5px;
+      font-weight: 700;
+    }
+
+    .competition-card.elite h3 {
+      color: var(--elite-color);
+    }
+
+    .competition-card.master h3 {
+      color: var(--master-color);
+    }
+
+    .competition-title .subtitle {
+      color: var(--text-secondary);
+      font-size: 0.9em;
+    }
+
+    .competition-details {
+      display: grid;
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .detail-label {
+      color: var(--text-secondary);
+      font-size: 0.95em;
+    }
+
+    .detail-value {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .prize-highlight {
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.1));
+      padding: 15px;
+      border-radius: 12px;
+      text-align: center;
+      margin-top: 20px;
+      border: 1px solid rgba(255, 215, 0, 0.3);
+    }
+
+    .prize-highlight .amount {
+      font-size: 2em;
+      font-weight: 800;
+      color: var(--primary-gold);
+    }
+
+    /* ========== 规则区域 ========== */
+    .rules-section {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 50px;
+      border: 1px solid var(--border-light);
+    }
+
+    .rules-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 10px;
+      transition: background 0.3s ease;
+    }
+
+    .rules-header:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .rules-header h2 {
+      font-size: 1.8em;
+      color: var(--primary-gold);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .toggle-icon {
+      font-size: 1.5em;
+      color: var(--text-secondary);
+      transition: transform 0.3s ease;
+    }
+
+    .toggle-icon.expanded {
+      transform: rotate(180deg);
+    }
+
+    .rules-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease-in-out;
+    }
+
+    .rules-content.expanded {
+      max-height: 2000px;
+      padding-top: 20px;
+    }
+
+    .rules-content h2 {
+      color: var(--primary-gold);
+      font-size: 1.5em;
+      margin: 30px 0 15px 0;
+    }
+
+    .rules-content h3 {
+      color: var(--master-color);
+      font-size: 1.2em;
+      margin: 20px 0 10px 0;
+    }
+
+    .rules-content p {
+      line-height: 1.8;
+      color: var(--text-secondary);
+      margin-bottom: 15px;
+    }
+
+    .rules-content ul, .rules-content ol {
+      margin: 15px 0 15px 30px;
+      line-height: 2;
+    }
+
+    .rules-content li {
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+    }
+
+    .rules-content strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .rules-content hr {
+      border: none;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--primary-gold), transparent);
+      margin: 30px 0;
+    }
+
+    /* ========== 赛程时间轴 ========== */
+    .timeline-section {
+      margin-top: 60px;
+    }
+
+    .section-title {
+      font-size: 2.5em;
+      text-align: center;
+      margin-bottom: 50px;
+      color: var(--primary-gold);
+      font-weight: 700;
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, var(--primary-gold), transparent);
+    }
+
+    .timeline {
+      position: relative;
+      padding: 20px 0;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, transparent, var(--primary-gold), transparent);
+    }
+
+    .timeline-item {
+      display: flex;
+      margin-bottom: 50px;
+      position: relative;
+      opacity: 0;
+      animation: fade-in-up 0.6s ease forwards;
+    }
+
+    .timeline-item:nth-child(odd) {
+      flex-direction: row;
+    }
+
+    .timeline-item:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    @keyframes fade-in-up {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+    .timeline-item:nth-child(2) { animation-delay: 0.2s; }
+    .timeline-item:nth-child(3) { animation-delay: 0.3s; }
+    .timeline-item:nth-child(4) { animation-delay: 0.4s; }
+    .timeline-item:nth-child(5) { animation-delay: 0.5s; }
+
+    .timeline-content {
+      flex: 1;
+      max-width: calc(50% - 50px);
+    }
+
+    .timeline-marker {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary-gold), #ffed4e);
+      border: 4px solid var(--dark-bg);
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+      z-index: 2;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+    }
+
+    .timeline-marker.master {
+      background: linear-gradient(135deg, var(--master-color), #00ffff);
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+    }
+
+    .tournament-card {
+      background: var(--card-bg);
+      border-radius: 15px;
+      padding: 25px;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tournament-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .tournament-card:hover::before {
+      left: 100%;
+    }
+
+    .tournament-card.elite {
+      border-color: rgba(255, 215, 0, 0.3);
+    }
+
+    .tournament-card.master {
+      border-color: rgba(0, 212, 255, 0.3);
+    }
+
+    .tournament-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .tournament-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 15px;
+    }
+
+    .tournament-name {
+      font-size: 1.5em;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .tournament-card.elite .tournament-name {
+      color: var(--elite-color);
+    }
+
+    .tournament-card.master .tournament-name {
+      color: var(--master-color);
+    }
+
+    .tournament-status {
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.85em;
+      font-weight: 600;
+    }
+
+    .status-upcoming {
+      background: rgba(100, 200, 255, 0.2);
+      color: #64c8ff;
+      border: 1px solid rgba(100, 200, 255, 0.3);
+    }
+
+    .status-ongoing {
+      background: rgba(76, 205, 76, 0.2);
+      color: #4ccd4c;
+      border: 1px solid rgba(76, 205, 76, 0.3);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .status-completed {
+      background: rgba(150, 150, 150, 0.2);
+      color: #aaa;
+      border: 1px solid rgba(150, 150, 150, 0.3);
+    }
+
+    .tournament-info {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .info-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-secondary);
+      font-size: 0.95em;
+    }
+
+    .info-icon {
+      color: var(--primary-gold);
+      font-size: 1.1em;
+    }
+
+    .tournament-action {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .btn {
+      padding: 12px 30px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      text-align: center;
+      flex: 1;
+      border: 2px solid;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary-gold), #ffed4e);
+      color: #0a0e1a;
+      border-color: var(--primary-gold);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-secondary);
+      border-color: var(--border-light);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--text-secondary);
+    }
+
+    /* ========== 排行榜 ========== */
+    .leaderboard-section {
+      margin-top: 60px;
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 40px;
+      border: 1px solid var(--border-light);
+    }
+
+    .leaderboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .leaderboard-header h2 {
+      font-size: 2em;
+      color: var(--primary-gold);
+    }
+
+    .leaderboard-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 10px;
+    }
+
+    .leaderboard-table thead th {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 15px;
+      text-align: left;
+      color: var(--text-secondary);
+      font-weight: 600;
+      border: none;
+    }
+
+    .leaderboard-table tbody tr {
+      background: rgba(255, 255, 255, 0.03);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .leaderboard-table tbody tr:hover {
+      background: rgba(255, 255, 255, 0.08);
+      transform: scale(1.01);
+    }
+
+    .leaderboard-table tbody td {
+      padding: 20px 15px;
+      border: none;
+    }
+
+    .rank-cell {
+      font-size: 1.5em;
+      font-weight: 700;
+      text-align: center;
+      width: 80px;
+    }
+
+    .rank-1 { color: #ffd700; }
+    .rank-2 { color: #c0c0c0; }
+    .rank-3 { color: #cd7f32; }
+
+    .player-name {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .points {
+      font-size: 1.3em;
+      font-weight: 700;
+      color: var(--primary-gold);
+    }
+
+    /* ========== 响应式设计 ========== */
+    @media (max-width: 1200px) {
+      .competition-overview {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .header-title h1 {
+        font-size: 1.5em;
+      }
+
+      .timeline::before {
+        left: 30px;
+      }
+
+      .timeline-item {
+        flex-direction: row !important;
+        padding-left: 80px;
+      }
+
+      .timeline-content {
+        max-width: 100%;
+      }
+
+      .timeline-marker {
+        left: 30px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px 15px;
+      }
+
+      .header-content {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px 15px;
+      }
+
+      .header-title {
+        position: static;
+        transform: none;
+      }
+
+      .header-title h1 {
+        font-size: 1.3em;
+      }
+
+      .season-banner {
+        padding: 30px 20px;
+      }
+
+      .season-banner h2 {
+        font-size: 2em;
+      }
+
+      .season-banner::before {
+        font-size: 5em;
+        letter-spacing: 15px;
+      }
+
+      .section-title {
+        font-size: 1.8em;
+      }
+
+      .competition-card {
+        padding: 25px;
+      }
+
+      .competition-icon {
+        font-size: 2.5em;
+      }
+
+      .tournament-action {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .leaderboard-table {
+        font-size: 0.9em;
+      }
+
+      .leaderboard-table thead th,
+      .leaderboard-table tbody td {
+        padding: 12px 8px;
+      }
+
+      .rank-cell {
+        font-size: 1.2em;
+        width: 50px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header-title h1 {
+        font-size: 1.1em;
+        letter-spacing: 1px;
+      }
+
+      .year-selector {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .season-banner h2 {
+        font-size: 1.5em;
+      }
+
+      .section-title {
+        font-size: 1.5em;
+      }
+
+      .competition-title h3 {
+        font-size: 1.5em;
+      }
+
+      .tournament-card {
+        padding: 20px;
+      }
+
+      .tournament-name {
+        font-size: 1.2em;
+      }
+
+      /* 隐藏部分列以适应小屏幕 */
+      .leaderboard-table thead th:nth-child(3),
+      .leaderboard-table tbody td:nth-child(3),
+      .leaderboard-table thead th:nth-child(4),
+      .leaderboard-table tbody td:nth-child(4) {
+        display: none;
+      }
+    }
+
+    /* ========== 加载动画 ========== */
+    @keyframes shimmer {
+      0% { background-position: -1000px 0; }
+      100% { background-position: 1000px 0; }
+    }
+
+    .loading {
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.05) 25%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.05) 75%);
+      background-size: 1000px 100%;
+      animation: shimmer 2s infinite;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 头部 -->
+  <header class="header">
+    <div class="header-content">
+      <div class="back-link">
+        <a href="/">
+          <span>←</span>
+          <span>返回主页</span>
+        </a>
+      </div>
+      
+      <div class="header-title">
+        <h1>♔ KC Gaming Chess ♔</h1>
+      </div>
+      
+      <div class="year-selector">
+        <button class="year-button" onclick="switchYear(2025)" aria-label="切换到2025年">2025</button>
+        <button class="year-button active" onclick="switchYear(2026)" aria-label="当前年份2026">2026</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 主内容 -->
+  <main class="container">
+    <!-- 赛季横幅 -->
+    <section class="season-banner">
+      <h2>{{ site.data.chess.season.name }}</h2>
+      <p>{{ site.data.chess.season.subtitle }}</p>
+    </section>
+
+    <!-- 赛制说明 -->
+    <section class="competition-overview">
+      <div class="competition-card elite">
+        <div class="competition-header">
+          <span class="competition-icon">{{ site.data.chess.competition_types.elite.icon }}</span>
+          <div class="competition-title">
+            <h3>{{ site.data.chess.competition_types.elite.name }}</h3>
+            <p class="subtitle">{{ site.data.chess.competition_types.elite.description }}</p>
+          </div>
+        </div>
+        
+        <div class="competition-details">
+          <div class="detail-row">
+            <span class="detail-label">频率</span>
+            <span class="detail-value">每月一次</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">时间控制</span>
+            <span class="detail-value">{{ site.data.chess.competition_types.elite.time_control }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">赛制</span>
+            <span class="detail-value">{{ site.data.chess.competition_types.elite.format }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">时长</span>
+            <span class="detail-value">{{ site.data.chess.competition_types.elite.duration }}</span>
+          </div>
+        </div>
+        
+        <div class="prize-highlight">
+          <div class="amount">{{ site.data.chess.competition_types.elite.prize_pool }}</div>
+          <div style="color: var(--text-secondary); margin-top: 5px;">奖金池</div>
+        </div>
+      </div>
+
+      <div class="competition-card master">
+        <div class="competition-header">
+          <span class="competition-icon">{{ site.data.chess.competition_types.master.icon }}</span>
+          <div class="competition-title">
+            <h3>{{ site.data.chess.competition_types.master.name }}</h3>
+            <p class="subtitle">{{ site.data.chess.competition_types.master.description }}</p>
+          </div>
+        </div>
+        
+        <div class="competition-details">
+          <div class="detail-row">
+            <span class="detail-label">频率</span>
+            <span class="detail-value">每季度一次</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">时间控制</span>
+            <span class="detail-value">{{ site.data.chess.competition_types.master.time_control }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">赛制</span>
+            <span class="detail-value">{{ site.data.chess.competition_types.master.format }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">时长</span>
+            <span class="detail-value">{{ site.data.chess.competition_types.master.duration }}</span>
+          </div>
+        </div>
+        
+        <div class="prize-highlight">
+          <div class="amount">{{ site.data.chess.competition_types.master.prize_pool }}</div>
+          <div style="color: var(--text-secondary); margin-top: 5px;">奖金池</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 规则区域 -->
+    <section class="rules-section" role="region" aria-labelledby="rules-heading">
+      <div class="rules-header" onclick="toggleRules()" role="button" aria-expanded="false" aria-controls="rulesContent" tabindex="0" onkeypress="if(event.key==='Enter')toggleRules()">
+        <h2 id="rules-heading">
+          <span>📖</span>
+          <span>比赛规则与说明</span>
+        </h2>
+        <span class="toggle-icon" id="rulesToggle" aria-hidden="true">▼</span>
+      </div>
+      <div class="rules-content" id="rulesContent" role="region">
+        {{ site.data.chess.rules | markdownify }}
+      </div>
+    </section>
+
+    <!-- 赛程时间轴 -->
+    <section class="timeline-section">
+      <h2 class="section-title">2026 赛程安排</h2>
+      
+      <div class="timeline">
+        {% for tournament in site.data.chess.tournaments %}
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <div class="tournament-card {{ tournament.type }}">
+              <div class="tournament-header">
+                <div>
+                  <div class="tournament-name">{{ tournament.name }}</div>
+                  <div style="color: var(--text-secondary); font-size: 0.9em; margin-top: 5px;">
+                    {{ tournament.date | date: "%Y年%m月%d日" }}
+                  </div>
+                </div>
+                <div class="tournament-status status-{{ tournament.status }}">
+                  {% if tournament.status == 'upcoming' %}即将开始
+                  {% elsif tournament.status == 'ongoing' %}进行中
+                  {% else %}已结束{% endif %}
+                </div>
+              </div>
+              
+              <div class="tournament-info">
+                <div class="info-row">
+                  <span class="info-icon">⏰</span>
+                  <span>{{ tournament.time }}</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-icon">🏆</span>
+                  <span>{{ site.data.chess.competition_types[tournament.type].name }}</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-icon">🎮</span>
+                  <span>{{ site.data.chess.competition_types[tournament.type].format }}</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-icon">⏱️</span>
+                  <span>{{ site.data.chess.competition_types[tournament.type].time_control }}</span>
+                </div>
+              </div>
+              
+              {% if tournament.status == 'upcoming' or tournament.status == 'ongoing' %}
+              <div class="tournament-action">
+                {% if tournament.link != '' %}
+                <a href="{{ tournament.link }}" class="btn btn-primary" target="_blank">立即报名</a>
+                {% else %}
+                <button class="btn btn-primary" disabled>即将开放</button>
+                {% endif %}
+                <button class="btn btn-secondary" onclick="showPassword('{{ tournament.password }}')">查看密码</button>
+              </div>
+              {% endif %}
+              
+              {% if tournament.results.size > 0 %}
+              <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-light);">
+                <div style="font-weight: 600; margin-bottom: 10px; color: var(--primary-gold);">🏆 比赛结果</div>
+                {% for result in tournament.results %}
+                <div style="color: var(--text-secondary); margin: 5px 0;">
+                  {{ result.position }}: {{ result.name }}
+                </div>
+                {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+          </div>
+          
+          <div class="timeline-marker {{ tournament.type }}">
+            {% if tournament.type == 'elite' %}👑{% else %}⭐{% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <!-- 排行榜 -->
+    <section class="leaderboard-section">
+      <div class="leaderboard-header">
+        <h2>🏆 2026年度积分榜</h2>
+        <div style="color: var(--text-secondary);">实时更新</div>
+      </div>
+      
+      <!-- 积分榜容器，由JavaScript动态填充 -->
+      <div id="leaderboard-container"></div>
+    </section>
+  </main>
+
+  <script src="/assets/js/chess-leaderboard.js"></script>
+  <script>
+    // 切换规则显示
+    function toggleRules() {
+      const content = document.getElementById('rulesContent');
+      const icon = document.getElementById('rulesToggle');
+      const header = content.previousElementSibling;
+      
+      const isExpanded = content.classList.contains('expanded');
+      content.classList.toggle('expanded');
+      icon.classList.toggle('expanded');
+      
+      // 更新ARIA属性
+      header.setAttribute('aria-expanded', !isExpanded);
+    }
+
+    // 显示密码
+    function showPassword(password) {
+      alert('比赛密码：\n\n' + password + '\n\n请妥善保管，进入比赛时需要输入此密码。');
+    }
+
+    // 切换年份
+    function switchYear(year) {
+      if (year === 2026) {
+        // 已在当前页面
+        return;
+      } else if (year === 2025) {
+        // 跳转到2025年页面
+        window.location.href = '/chess/2025';
+      }
+    }
+
+    // 检测比赛状态（可选，用于实时更新）
+    function checkTournamentStatus() {
+      const now = new Date();
+      // 实现状态检测逻辑
+    }
+
+    // 页面加载完成后的初始化
+    document.addEventListener('DOMContentLoaded', function() {
+      // 初始化排行榜系统
+      const tournaments = {{ site.data.chess.tournaments | jsonify }};
+      initializeLeaderboard(tournaments);
+
+      // 添加滚动动画
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -100px 0px'
+      };
+
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, observerOptions);
+
+      // 观察所有时间轴项目
+      document.querySelectorAll('.timeline-item').forEach(item => {
+        observer.observe(item);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 ---
-layout: chess_new
-title: KC Gaming Chess
+layout: chess_2026
+title: KC Gaming Chess 2026
 language: zh_CN
 ---
 

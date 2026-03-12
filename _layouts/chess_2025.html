@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="{{ page.language }}">
+<head>
+  {% include head.html %}
+  <meta name="description" content="KC Gaming Chess 2025 - 历史记录">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary-gold: #ffd700;
+      --dark-bg: #0a0e1a;
+      --card-bg: rgba(20, 25, 45, 0.95);
+      --text-primary: #ffffff;
+      --text-secondary: #b8c5d1;
+      --border-light: rgba(255, 255, 255, 0.1);
+    }
+
+    body {
+      font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #0a0e1a 0%, #1a1f3a 25%, #0f1729 50%, #1a1f3a 75%, #0a0e1a 100%);
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+
+    .header {
+      background: linear-gradient(135deg, rgba(15, 23, 41, 0.98) 0%, rgba(26, 31, 58, 0.98) 100%);
+      backdrop-filter: blur(20px);
+      border-bottom: 2px solid var(--primary-gold);
+      padding: 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    }
+
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 25px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .back-link a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: 1px solid var(--border-light);
+      background: rgba(255, 255, 255, 0.05);
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .back-link a:hover {
+      background: rgba(255, 215, 0, 0.1);
+      border-color: var(--primary-gold);
+      color: var(--primary-gold);
+    }
+
+    .header-title h1 {
+      font-size: 2em;
+      font-weight: 700;
+      color: var(--primary-gold);
+    }
+
+    .year-selector .year-button {
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-left: 10px;
+    }
+
+    .year-button.active {
+      background: linear-gradient(135deg, var(--primary-gold), #ffed4e);
+      color: #0a0e1a;
+      border-color: var(--primary-gold);
+      font-weight: 600;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 40px 30px;
+    }
+
+    .archive-banner {
+      background: linear-gradient(135deg, rgba(150, 150, 150, 0.2), rgba(100, 100, 100, 0.1));
+      border: 2px solid rgba(150, 150, 150, 0.3);
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .archive-banner h2 {
+      font-size: 2.5em;
+      color: #c0c0c0;
+      margin-bottom: 10px;
+    }
+
+    .leaderboard-section {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 40px;
+      border: 1px solid var(--border-light);
+      margin-bottom: 40px;
+    }
+
+    .leaderboard-section h2 {
+      font-size: 2em;
+      color: var(--primary-gold);
+      margin-bottom: 30px;
+    }
+
+    .leaderboard-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 10px;
+    }
+
+    .leaderboard-table thead th {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 15px;
+      text-align: left;
+      color: var(--text-secondary);
+      font-weight: 600;
+    }
+
+    .leaderboard-table tbody tr {
+      background: rgba(255, 255, 255, 0.03);
+      transition: all 0.3s ease;
+    }
+
+    .leaderboard-table tbody tr:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .leaderboard-table tbody td {
+      padding: 20px 15px;
+    }
+
+    .rank-cell {
+      font-size: 1.5em;
+      font-weight: 700;
+      text-align: center;
+      width: 80px;
+    }
+
+    .rank-1 { color: #ffd700; }
+    .rank-2 { color: #c0c0c0; }
+    .rank-3 { color: #cd7f32; }
+
+    .tournaments-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 25px;
+    }
+
+    .tournament-card {
+      background: var(--card-bg);
+      border-radius: 15px;
+      padding: 25px;
+      border: 1px solid var(--border-light);
+      transition: all 0.3s ease;
+    }
+
+    .tournament-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .tournament-name {
+      font-size: 1.3em;
+      font-weight: 600;
+      color: var(--primary-gold);
+      margin-bottom: 10px;
+    }
+
+    .tournament-date {
+      color: var(--text-secondary);
+      font-size: 0.9em;
+      margin-bottom: 15px;
+    }
+
+    .results {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .result-item {
+      color: var(--text-secondary);
+      margin: 8px 0;
+      font-size: 0.95em;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="header">
+    <div class="header-content">
+      <div class="back-link">
+        <a href="/">
+          <span>←</span>
+          <span>返回主页</span>
+        </a>
+      </div>
+      
+      <div class="header-title">
+        <h1>♔ KC Gaming Chess - 2025存档 ♔</h1>
+      </div>
+      
+      <div class="year-selector">
+        <button class="year-button active">2025</button>
+        <button class="year-button" onclick="window.location.href='/chess'">2026</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="archive-banner">
+      <h2>{{ site.data.chess_2025.season.name }}</h2>
+      <p style="color: var(--text-secondary); font-size: 1.1em;">{{ site.data.chess_2025.season.subtitle }}</p>
+      <p style="color: var(--text-secondary); margin-top: 15px;">
+        {{ site.data.chess_2025.season.start_date }} - {{ site.data.chess_2025.season.end_date }}
+      </p>
+    </section>
+
+    <section class="leaderboard-section">
+      <h2>🏆 2025赛季总排名</h2>
+      
+      <table class="leaderboard-table">
+        <thead>
+          <tr>
+            <th>排名</th>
+            <th>选手</th>
+            <th>参赛次数</th>
+            <th>冠军</th>
+            <th>亚军</th>
+            <th>季军</th>
+            <th>总积分</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for player in site.data.chess_2025.leaderboard %}
+          <tr>
+            <td class="rank-cell rank-{{ player.rank }}">
+              {% if player.rank == 1 %}🥇
+              {% elsif player.rank == 2 %}🥈
+              {% elsif player.rank == 3 %}🥉
+              {% else %}{{ player.rank }}{% endif %}
+            </td>
+            <td style="font-weight: 600;">{{ player.name }}</td>
+            <td>{{ player.tournaments_played }}</td>
+            <td style="color: #ffd700;">{{ player.first_place }}</td>
+            <td style="color: #c0c0c0;">{{ player.second_place }}</td>
+            <td style="color: #cd7f32;">{{ player.third_place }}</td>
+            <td style="font-size: 1.3em; font-weight: 700; color: var(--primary-gold);">
+              {{ player.total_points }}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+
+    <section class="leaderboard-section">
+      <h2>📅 2025赛季比赛记录</h2>
+      
+      <div class="tournaments-grid">
+        {% for tournament in site.data.chess_2025.tournaments %}
+        <div class="tournament-card">
+          <div class="tournament-name">{{ tournament.name }}</div>
+          <div class="tournament-date">
+            {{ tournament.date | date: "%Y年%m月%d日" }} {{ tournament.time }}
+          </div>
+          
+          <div>
+            <span style="color: var(--text-secondary);">类型：</span>
+            <span style="color: var(--primary-gold);">
+              {{ site.data.chess_2025.competition_types[tournament.type].name }}
+            </span>
+          </div>
+          
+          {% if tournament.link %}
+          <div style="margin-top: 10px;">
+            <a href="{{ tournament.link }}" target="_blank" 
+               style="color: #64c8ff; text-decoration: none;">
+              查看详情 →
+            </a>
+          </div>
+          {% endif %}
+          
+          {% if tournament.results.size > 0 %}
+          <div class="results">
+            <div style="font-weight: 600; margin-bottom: 10px; color: var(--primary-gold);">
+              🏆 比赛结果
+            </div>
+            {% for result in tournament.results %}
+            <div class="result-item">
+              {{ result.position }}: {{ result.name }}
+            </div>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="leaderboard-section">
+      <h2>📝 赛季总结</h2>
+      <div style="color: var(--text-secondary); line-height: 1.8;">
+        {{ site.data.chess_2025.season_summary | markdownify }}
+      </div>
+    </section>
+  </main>
+</body>
+</html>
