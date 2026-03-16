@@ -112,36 +112,6 @@ function initParticles() {
   document.addEventListener('visibilitychange', onVisibilityChange);
 }
 
-function initRevealAnimations() {
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const revealTargets = document.querySelectorAll('.button-link, .featured-card, .page-content table tbody tr, .hero-quick-link');
-
-  if (reduceMotion) {
-    revealTargets.forEach((element) => {
-      element.classList.add('is-visible');
-    });
-    return;
-  }
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, {
-    threshold: 0.12,
-    rootMargin: '0px 0px -8% 0px'
-  });
-
-  revealTargets.forEach((element, index) => {
-    element.classList.add('reveal-up');
-    element.style.setProperty('--reveal-delay', `${Math.min(index, 12) * 35}ms`);
-    observer.observe(element);
-  });
-}
-
 function initFeaturedCardPointerEffect() {
   const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -180,6 +150,5 @@ function initFeaturedCardPointerEffect() {
 
 document.addEventListener('DOMContentLoaded', () => {
   document.documentElement.style.scrollBehavior = 'smooth';
-  initRevealAnimations();
   initFeaturedCardPointerEffect();
 });

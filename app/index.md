@@ -30,47 +30,87 @@ language: zh_CN
 }
 
 .app-section {
-  background-color: #f8f9fa;
+  background: linear-gradient(180deg, rgba(20, 30, 53, 0.96), rgba(23, 37, 66, 0.92));
+  border: 1px solid rgba(136, 214, 255, 0.18);
   border-radius: 10px;
   padding: 25px;
   margin-bottom: 20px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.26);
+  color: #c4d0ea;
 }
 
 .app-section h2 {
-  color: #495057;
-  border-bottom: 2px solid #007bff;
+  color: #ecf2ff;
+  border-bottom: 2px solid rgba(136, 214, 255, 0.45);
   padding-bottom: 10px;
   margin-top: 0;
 }
 
-.app-link {
+.app-section .app-link,
+.app-section .app-link:visited {
   display: inline-block;
-  background-color: #007bff;
-  color: white;
+  background: linear-gradient(135deg, #1b8fcc 0%, #6b44d4 100%);
+  color: #ffffff;
   padding: 12px 24px;
   text-decoration: none;
   border-radius: 6px;
   font-weight: bold;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
   margin: 15px 0;
 }
 
-.app-link:hover {
-  background-color: #0056b3;
+.app-section .app-link:hover,
+.app-section .app-link:focus-visible {
+  background: linear-gradient(135deg, #2aa5e8 0%, #7d5ce0 100%);
+  color: #ffffff;
+  transform: translateY(-1px);
 }
 
 .note {
-  color: #6c757d;
+  color: #b9c9e8;
   font-style: italic;
 }
 
 .ios-note {
-  background-color: #fff3cd;
-  border: 1px solid #ffeaa7;
+  background: rgba(255, 211, 76, 0.12);
+  border: 1px solid rgba(255, 211, 76, 0.35);
   border-radius: 5px;
   padding: 10px;
-  color: #856404;
+  color: #ffe8a6;
   font-size: 0.9em;
+}
+
+html[data-bs-theme="light"] .app-section {
+  background: linear-gradient(180deg, #ffffff, #f8fbff);
+  border: 1px solid rgba(24, 34, 51, 0.12);
+  box-shadow: 0 4px 14px rgba(19, 32, 57, 0.08);
+  color: #3f4d63;
+}
+
+html[data-bs-theme="light"] .app-section h2 {
+  color: #1d2d45;
+  border-bottom-color: rgba(31, 92, 182, 0.45);
+}
+
+html[data-bs-theme="light"] .app-section .app-link,
+html[data-bs-theme="light"] .app-section .app-link:visited {
+  background: linear-gradient(135deg, #1f5cb6 0%, #5a2fa3 100%);
+  color: #ffffff;
+}
+
+html[data-bs-theme="light"] .app-section .app-link:hover,
+html[data-bs-theme="light"] .app-section .app-link:focus-visible {
+  background: linear-gradient(135deg, #2468cc 0%, #6b39bf 100%);
+  color: #ffffff;
+}
+
+html[data-bs-theme="light"] .note {
+  color: #5b6c84;
+}
+
+html[data-bs-theme="light"] .ios-note {
+  background: #fff3cd;
+  border-color: #ffeaa7;
+  color: #856404;
 }
 </style>

@@ -1,5 +1,17 @@
 <link rel="preconnect" href="https://fonts.gstatic.com/">
 <meta charset="UTF-8">
+<script>
+	try {
+		(function () {
+			const saved_theme = localStorage.getItem('site-theme');
+			const prefers_dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+			const theme = saved_theme || (prefers_dark ? 'dark' : 'light');
+			document.documentElement.setAttribute('data-bs-theme', theme);
+		})();
+	} catch (error) {
+		document.documentElement.setAttribute('data-bs-theme', 'dark');
+	}
+</script>
 <title>KCISEC校园网站</title>
 <meta name="description" content="KCISEC校园网站包含校园公报、昆山康桥学校A-Level/IGCSE资讯和摄影合作组织。">
 <link rel="shortcut icon" href="/assets/favicon.ico">

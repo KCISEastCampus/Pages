@@ -404,6 +404,53 @@ nav buttonlink:hover {
   transform: none;
 }
 
+#theme-toggle-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 46px;
+  padding: 0.45rem 0.95rem;
+  border-radius: 999px;
+  border: 1px solid rgba(136, 214, 255, 0.28);
+  background: linear-gradient(135deg, rgba(136, 214, 255, 0.12), rgba(180, 89, 255, 0.14));
+  color: #eaf3ff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 6px 16px rgba(12, 20, 39, 0.22);
+  transition: background-color var(--motion-fast) ease, border-color var(--motion-fast) ease, color var(--motion-fast) ease, transform var(--motion-fast) ease, box-shadow var(--motion-fast) ease;
+}
+
+#theme-toggle-button:hover {
+  background: linear-gradient(135deg, rgba(136, 214, 255, 0.2), rgba(180, 89, 255, 0.24));
+  border-color: rgba(180, 89, 255, 0.42);
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(12, 20, 39, 0.28);
+}
+
+#theme-toggle-button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(12, 20, 39, 0.2);
+}
+
+#theme-toggle-button i {
+  font-size: 0.88rem;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.18);
+}
+
+#theme-toggle-button .theme-toggle-label {
+  letter-spacing: 0.2px;
+}
+
 .button-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -1046,19 +1093,6 @@ body.legacy .hero-card .hero-card-icon {
   box-shadow: 0 0 20px rgba(0, 159, 168, 0.35) !important;
 }
 
-.reveal-up {
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity var(--motion-slow) var(--motion-easing), transform var(--motion-slow) var(--motion-easing);
-  transition-delay: var(--reveal-delay, 0ms);
-  will-change: opacity, transform;
-}
-
-.reveal-up.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 @media (hover: none) and (pointer: coarse) {
   .featured-card:active {
     --card-scale: 0.985;
@@ -1082,8 +1116,6 @@ body.legacy .hero-card .hero-card-icon {
     animation: none !important;
   }
 
-  .reveal-up,
-  .reveal-up.is-visible,
   .button-link,
   .featured-card,
   .hero-quick-link,
@@ -1851,5 +1883,272 @@ footer .footer-bottom {
   #switch-language-button {
     width: calc(100% - 0.7rem);
     margin: 0.35rem;
+  }
+
+  #theme-toggle-button {
+    width: calc(100% - 0.7rem);
+    margin: 0.35rem;
+    border-radius: 10px;
+    justify-content: center;
+  }
+}
+
+html[data-bs-theme="light"] {
+  --surface-0: #f6f8fc;
+  --surface-1: #ffffff;
+  --surface-2: #eef2fa;
+  --ink-1: #182233;
+  --ink-2: #3f4d63;
+  --line-soft: rgba(24, 34, 51, 0.12);
+  --line-strong: rgba(24, 34, 51, 0.22);
+  --elev-1: 0 8px 24px rgba(20, 34, 61, 0.08);
+  --elev-2: 0 14px 36px rgba(20, 34, 61, 0.12);
+}
+
+html[data-bs-theme="light"] body {
+  background:
+    radial-gradient(1200px 600px at -5% -10%, rgba(0, 159, 168, 0.18), transparent 55%),
+    radial-gradient(900px 500px at 110% 8%, rgba(146, 7, 131, 0.15), transparent 52%),
+    linear-gradient(180deg, #f8faff 0%, var(--surface-0) 46%, #eef3ff 100%);
+  color: var(--ink-1);
+}
+
+html[data-bs-theme="light"] body::before {
+  background:
+    radial-gradient(circle at 16% 82%, rgba(0, 159, 168, 0.06) 0%, transparent 45%),
+    radial-gradient(circle at 82% 18%, rgba(146, 7, 131, 0.06) 0%, transparent 45%),
+    radial-gradient(circle at 44% 42%, rgba(203, 190, 0, 0.04) 0%, transparent 42%);
+}
+
+html[data-bs-theme="light"] a {
+  color: #5a2fa3;
+}
+
+html[data-bs-theme="light"] a:hover {
+  color: #6f39bf;
+}
+
+html[data-bs-theme="light"] nav {
+  background: rgba(255, 255, 255, 0.84);
+  border-bottom: 1px solid var(--line-soft);
+  box-shadow: 0 6px 18px rgba(22, 34, 56, 0.08);
+}
+
+html[data-bs-theme="light"] nav span,
+html[data-bs-theme="light"] nav .logo-container,
+html[data-bs-theme="light"] nav .logo-container:visited {
+  color: var(--ink-1);
+}
+
+html[data-bs-theme="light"] .hamburger .line {
+  background-color: var(--ink-1);
+}
+
+html[data-bs-theme="light"] nav buttonlink {
+  color: var(--ink-1);
+  border: 1px solid transparent;
+  background: transparent;
+}
+
+html[data-bs-theme="light"] nav buttonlink:hover {
+  color: #0f1a2c;
+  background: rgba(90, 47, 163, 0.08);
+  border-color: rgba(90, 47, 163, 0.15);
+}
+
+html[data-bs-theme="light"] #theme-toggle-button {
+  color: #1f2f46;
+  background: linear-gradient(135deg, rgba(31, 92, 182, 0.12), rgba(90, 47, 163, 0.12));
+  border-color: rgba(90, 47, 163, 0.22);
+  box-shadow: 0 6px 14px rgba(22, 34, 56, 0.12);
+}
+
+html[data-bs-theme="light"] #theme-toggle-button:hover {
+  background: linear-gradient(135deg, rgba(31, 92, 182, 0.2), rgba(90, 47, 163, 0.2));
+  border-color: rgba(90, 47, 163, 0.32);
+  box-shadow: 0 10px 22px rgba(22, 34, 56, 0.18);
+}
+
+html[data-bs-theme="light"] #theme-toggle-button i {
+  background: rgba(255,255,255,0.65);
+}
+
+html[data-bs-theme="light"] #switch-language-button {
+  background-color: var(--primary-gradient-color);
+  color: var(--secondary-text-color);
+  border: none;
+}
+
+html[data-bs-theme="light"] .hero-section {
+  background: linear-gradient(135deg, rgba(0, 159, 168, 0.92), rgba(88, 67, 191, 0.9));
+  border: 1px solid rgba(255,255,255,0.25);
+}
+
+html[data-bs-theme="light"] .page-content {
+  background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.9));
+  border: 1px solid var(--line-soft);
+  box-shadow: var(--elev-2);
+}
+
+html[data-bs-theme="light"] .page-content h2 {
+  border-bottom-color: rgba(0, 159, 168, 0.25);
+  background: linear-gradient(120deg, #114b9f 0%, #5a2fa3 90%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+html[data-bs-theme="light"] .page-content h3,
+html[data-bs-theme="light"] .page-content p,
+html[data-bs-theme="light"] .page-content li,
+html[data-bs-theme="light"] .page-content td,
+html[data-bs-theme="light"] .page-content th {
+  color: var(--ink-2);
+}
+
+html[data-bs-theme="light"] .button-link {
+  background: linear-gradient(180deg, #ffffff, #f9fbff);
+  border: 1px solid var(--line-soft);
+  box-shadow: 0 4px 14px rgba(19, 32, 57, 0.07);
+}
+
+html[data-bs-theme="light"] .button-link i,
+html[data-bs-theme="light"] .button-link span {
+  color: var(--ink-1);
+}
+
+html[data-bs-theme="light"] .button-link:hover {
+  border-color: rgba(31, 92, 182, 0.28);
+  background: linear-gradient(180deg, #ffffff, #f2f7ff);
+  color: #16345f;
+  box-shadow: 0 10px 24px rgba(19, 32, 57, 0.14);
+}
+
+html[data-bs-theme="light"] .button-link:hover i,
+html[data-bs-theme="light"] .button-link:hover span {
+  color: #16345f;
+}
+
+html[data-bs-theme="light"] .featured-card {
+  background: linear-gradient(180deg, #ffffff, #f8fbff);
+  border: 1px solid var(--line-soft);
+  box-shadow: 0 6px 20px rgba(22, 34, 56, 0.08);
+}
+
+html[data-bs-theme="light"] .featured-card:hover {
+  background: linear-gradient(180deg, #ffffff, #f3f8ff);
+  border-color: rgba(90, 47, 163, 0.26);
+  box-shadow: 0 12px 28px rgba(22, 34, 56, 0.13);
+}
+
+html[data-bs-theme="light"] .featured-card:hover .featured-title {
+  color: #1d2d45;
+}
+
+html[data-bs-theme="light"] .featured-card:hover .featured-desc {
+  color: #4d5f79;
+}
+
+html[data-bs-theme="light"] .featured-card:hover .featured-icon {
+  color: #1f5cb6;
+  background: linear-gradient(135deg, rgba(31, 92, 182, 0.16), rgba(106, 54, 191, 0.16));
+  box-shadow: 0 8px 20px rgba(90, 47, 163, 0.16);
+}
+
+html[data-bs-theme="light"] .featured-title {
+  color: var(--ink-1);
+}
+
+html[data-bs-theme="light"] .featured-desc {
+  color: #57657c;
+}
+
+html[data-bs-theme="light"] .button-link i {
+  color: #1f4f96;
+}
+
+html[data-bs-theme="light"] .featured-icon {
+  color: #1f5cb6;
+  background: linear-gradient(135deg, rgba(31, 92, 182, 0.2), rgba(106, 54, 191, 0.2));
+  box-shadow: inset 0 0 0 1px rgba(31, 92, 182, 0.16);
+}
+
+html[data-bs-theme="light"] .hero-quick-link i {
+  color: #ffffff;
+}
+
+html[data-bs-theme="light"] #theme-toggle-button i {
+  color: #1f3d72;
+}
+
+html[data-bs-theme="dark"] .button-link i {
+  color: #cfe4ff;
+}
+
+html[data-bs-theme="dark"] .featured-icon {
+  color: #a8ddff;
+}
+
+html[data-bs-theme="light"] .hero-quick-link:hover {
+  background: rgba(255,255,255,0.35);
+}
+
+html[data-bs-theme="light"] footer {
+  background: linear-gradient(140deg, #eef4ff 0%, #e9f0ff 58%, #f5eeff 100%);
+  border-top: 1px solid rgba(24, 34, 51, 0.12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+html[data-bs-theme="light"] footer::before {
+  background: linear-gradient(90deg, transparent, rgba(31, 92, 182, 0.08), transparent);
+}
+
+html[data-bs-theme="light"] footer .footer-section h3,
+html[data-bs-theme="light"] footer .footer-section p,
+html[data-bs-theme="light"] footer .footer-bottom,
+html[data-bs-theme="light"] footer .footer-bottom p {
+  color: #2f3f57;
+}
+
+html[data-bs-theme="light"] footer .footer-section:hover h3 {
+  color: #1f5cb6;
+  text-shadow: none;
+}
+
+html[data-bs-theme="light"] footer .footer-stats,
+html[data-bs-theme="light"] footer .footer-bottom {
+  border-top-color: rgba(24, 34, 51, 0.12);
+}
+
+html[data-bs-theme="light"] footer a {
+  color: #355ea8;
+}
+
+html[data-bs-theme="light"] footer a:hover {
+  color: #5a2fa3;
+}
+
+html[data-bs-theme="light"] footer a::after {
+  background: rgba(53, 94, 168, 0.55);
+}
+
+html[data-bs-theme="light"] buttonlink:focus,
+html[data-bs-theme="light"] .button-link:focus,
+html[data-bs-theme="light"] .hero-card:focus,
+html[data-bs-theme="light"] .hero-quick-link:focus,
+html[data-bs-theme="light"] .featured-card:focus,
+html[data-bs-theme="light"] a:focus {
+  outline: 3px solid rgba(31, 92, 182, 0.35);
+}
+
+@media screen and (max-width: 850px) {
+  html[data-bs-theme="light"] nav .links-container {
+    background: rgba(255,255,255,0.97);
+    border: 1px solid var(--line-soft);
+  }
+
+  html[data-bs-theme="light"] nav .links-container buttonlink {
+    color: var(--ink-1);
+    background: transparent;
   }
 }
