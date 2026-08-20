@@ -105,8 +105,64 @@ function initHeroAutoHide() {
   // No longer needed with simplified hero
 }
 
+/* ========================================
+   Scroll-Reveal: IntersectionObserver-based
+   ======================================== */
+function initScrollReveal() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const sections = document.querySelectorAll('.featured-resources, .button-grid');
+  if (sections.length === 0) return;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('scroll-reveal', 'revealed');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+  );
+
+  sections.forEach((section) => {
+    section.classList.add('scroll-reveal');
+    observer.observe(section);
+  });
+}
+
+/* ========================================
+   Scroll-to-Top Button
+   ======================================== */
+function initScrollToTop() {
+  const btn = document.createElement('button');
+  btn.className = 'scroll-top-btn';
+  btn.setAttribute('aria-label', '回到顶部');
+  btn.setAttribute('title', '回到顶部');
+  btn.innerHTML = '<i class="fas fa-arrow-up"></i>';
+  document.body.appendChild(btn);
+
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        btn.classList.toggle('visible', window.scrollY > 320);
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+
+  btn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
 /* idadwind 2025-02-11 */
 
 document.addEventListener('DOMContentLoaded', function () {
   init_theme_toggle_btn();
+  initScrollReveal();
+  initScrollToTop();
 });

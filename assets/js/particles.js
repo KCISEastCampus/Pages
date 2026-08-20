@@ -16,8 +16,10 @@ function initParticles() {
   let isPaused = false;
   let lastTime = performance.now();
 
+  // Adaptive particle count — fewer on mobile to reduce GPU pressure
   function getParticleCount() {
-    return Math.max(12, Math.min(36, Math.floor(width / 55)));
+    const base = width < 600 ? 18 : width < 1000 ? 24 : 36;
+    return Math.max(10, Math.min(base, Math.floor(width / 55)));
   }
 
   class Particle {
@@ -30,48 +32,56 @@ function initParticles() {
       this.baseOpacity = Math.random() * 0.28 + 0.18;
       this.phase = Math.random() * Math.PI * 2;
       this.color = colors[Math.floor(Math.random() * colors.length)];
-      this.element = document.createElement('div');
 
-      this.element.style.cssText = `
-        position: fixed;
-        width: ${this.size * 2}px;
-        height: ${this.size * 2}px;
-        background: radial-gradient(circle, ${this.color}, transparent);
-        border-radius: 50%;
-        pointer-events: none;
-        box-shadow: 0 0 ${this.size * 3}px ${this.color};
-        opacity: ${this.baseOpacity};
-        z-index: 0;
-        transform: translate3d(${this.x}px, ${this.y}px, 0);
-        will-change: transform, opacity;
-      `;
+      // Create element once, set static styles via class or initial CSS
+      const el = document.createElement('div');
+      el.style.cssText =
+        'position:fixed;border-radius:50%;pointer-events:none;z-index:0;' +
+        'width:' + (this.size * 2) + 'px;height:' + (this.size * 2) + 'px;' +
+        'background:radial-gradient(circle,' + this.color + ',transparent);' +
+        'box-shadow:0 0 ' + (this.size * 3) + 'px ' + this.color + ';' +
+        'will-change:transform,opacity;';
 
-      container.appendChild(this.element);
+      this.element = el;
+      container.appendChild(el);
     }
 
     update(delta, now) {
       this.x += this.speedX * delta;
       this.y += this.speedY * delta;
 
+      // Wrap around screen edges
       if (this.x > width + 12) this.x = -12;
-      if (this.x < -12) this.x = width + 12;
+      else if (this.x < -12) this.x = width + 12;
       if (this.y > height + 12) this.y = -12;
-      if (this.y < -12) this.y = height + 12;
+      else if (this.y < -12) this.y = height + 12;
 
+      // Opacity pulsing
       const pulse = Math.sin(now * 0.0012 + this.phase) * 0.5 + 0.5;
       const opacity = this.baseOpacity * (0.65 + pulse * 0.35);
 
-      this.element.style.transform = `translate3d(${this.x}px, ${this.y}px, 0)`;
-      this.element.style.opacity = String(opacity);
+      // Batch writes — only transform + opacity per frame
+      this.element.style.transform = 'translate3d(' + this.x + 'px,' + this.y + 'px,0)';
+      this.element.style.opacity = opacity;
     }
   }
 
   function buildParticles() {
+    // Detach container from DOM to batch-remove children
+    const parent = container.parentNode;
+    const next = container.nextSibling;
+    parent.removeChild(container);
     container.innerHTML = '';
     particles.length = 0;
-    for (let index = 0; index < getParticleCount(); index += 1) {
+
+    const count = getParticleCount();
+    for (let i = 0; i < count; i++) {
       particles.push(new Particle());
     }
+
+    // Re-attach — single reflow
+    if (next) parent.insertBefore(container, next);
+    else parent.appendChild(container);
   }
 
   function animate(now) {
@@ -79,17 +89,23 @@ function initParticles() {
     const delta = Math.min(34, now - lastTime);
     lastTime = now;
 
-    for (let index = 0; index < particles.length; index += 1) {
-      particles[index].update(delta, now);
+    for (let i = 0; i < particles.length; i++) {
+      particles[i].update(delta, now);
     }
 
     rafId = requestAnimationFrame(animate);
   }
 
+  let resizeTimer = null;
   function onResize() {
     width = window.innerWidth;
     height = window.innerHeight;
-    buildParticles();
+    // Debounce rebuild to avoid thrashing on rapid resize
+    if (resizeTimer) cancelAnimationFrame(resizeTimer);
+    resizeTimer = requestAnimationFrame(() => {
+      buildParticles();
+      resizeTimer = null;
+    });
   }
 
   function onVisibilityChange() {
