@@ -143,16 +143,23 @@ function initScrollToTop() {
   btn.innerHTML = '<i class="fas fa-arrow-up"></i>';
   document.body.appendChild(btn);
 
+  // 页面内容不足一屏时（无滚动空间）不显示“回到顶部”
+  const canScroll = () => document.documentElement.scrollHeight > window.innerHeight + 10;
+
   let ticking = false;
-  window.addEventListener('scroll', () => {
+  const update = () => {
+    btn.classList.toggle('visible', canScroll() && window.scrollY > 320);
+    ticking = false;
+  };
+  const scheduleUpdate = () => {
     if (!ticking) {
-      requestAnimationFrame(() => {
-        btn.classList.toggle('visible', window.scrollY > 320);
-        ticking = false;
-      });
+      requestAnimationFrame(update);
       ticking = true;
     }
-  }, { passive: true });
+  };
+  window.addEventListener('scroll', scheduleUpdate, { passive: true });
+  window.addEventListener('resize', scheduleUpdate, { passive: true });
+  update();
 
   btn.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });

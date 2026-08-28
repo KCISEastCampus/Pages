@@ -6,6 +6,7 @@
   <title>404 - 页面未找到 | KCISEC</title>
   {% include head.html %}
   <style>
+    /* 现代极简 · 复用 main.css 的全局 design token（--bg/--brand/--surface 等） */
     body {
       font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       margin: 0;
@@ -15,26 +16,10 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background:
-        radial-gradient(1000px 500px at -8% -15%, rgba(0, 201, 255, 0.18), transparent 55%),
-        radial-gradient(800px 450px at 110% 10%, rgba(180, 89, 255, 0.18), transparent 52%),
-        linear-gradient(180deg, #090f1d 0%, #0c1427 42%, #0d1830 100%);
-      color: #ecf2ff;
+      color: var(--text);
       text-align: center;
       padding: 2rem;
-      overflow: hidden;
       position: relative;
-    }
-
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(circle at 20% 80%, rgba(0, 201, 255, 0.08) 0%, transparent 42%),
-        radial-gradient(circle at 80% 20%, rgba(180, 89, 255, 0.08) 0%, transparent 44%);
-      pointer-events: none;
-      z-index: 0;
     }
 
     .error-container {
@@ -43,34 +28,27 @@
       max-width: 480px;
     }
 
-    .error-code {
-      font-size: clamp(6rem, 15vw, 10rem);
-      font-weight: 800;
-      line-height: 1;
-      margin: 0;
-      background: linear-gradient(135deg, #73d7ff 0%, #b293ff 50%, #8ee6ff 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      letter-spacing: -4px;
-      text-shadow: none;
-      animation: pulse-glow 3s ease-in-out infinite;
-    }
-
-    @keyframes pulse-glow {
-      0%, 100% { filter: brightness(1); }
-      50% { filter: brightness(1.15); }
-    }
-
     .error-icon {
       font-size: 3rem;
       margin-bottom: 1rem;
       opacity: 0.7;
     }
 
+    .error-code {
+      font-size: clamp(6rem, 15vw, 10rem);
+      font-weight: 800;
+      line-height: 1;
+      margin: 0;
+      background: linear-gradient(135deg, var(--brand) 0%, var(--brand-strong) 50%, var(--text-soft) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -4px;
+    }
+
     .error-message {
       font-size: 1.25rem;
-      color: #c4d0ea;
+      color: var(--text-soft);
       margin: 0.8rem 0 2rem;
       line-height: 1.6;
     }
@@ -87,101 +65,56 @@
       align-items: center;
       gap: 0.5rem;
       padding: 0.75rem 1.5rem;
-      border-radius: 12px;
+      border-radius: var(--radius-sm);
       text-decoration: none;
       font-weight: 600;
       font-size: 0.95rem;
-      transition: all 0.25s ease;
-      border: 1px solid rgba(136, 214, 255, 0.2);
-      background: rgba(20, 30, 53, 0.9);
-      color: #e5efff;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--text);
       backdrop-filter: blur(8px);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.26);
+      box-shadow: var(--shadow-sm);
+      transition: all 0.25s var(--ease);
     }
 
     .error-btn:hover {
-      background: rgba(29, 48, 84, 0.98);
-      border-color: rgba(136, 214, 255, 0.36);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.33);
       transform: translateY(-2px);
+      border-color: var(--line-strong);
+      background: var(--brand-soft);
+      color: var(--text);
+      box-shadow: var(--shadow);
     }
 
     .error-btn.primary {
-      background: linear-gradient(135deg, rgba(7, 158, 203, 0.82), rgba(90, 59, 191, 0.84));
-      border-color: rgba(173, 220, 255, 0.26);
+      background: linear-gradient(135deg, var(--brand), var(--brand-strong));
+      color: var(--brand-contrast);
+      border-color: transparent;
     }
 
     .error-btn.primary:hover {
-      box-shadow: 0 12px 30px rgba(7, 158, 203, 0.3);
+      filter: brightness(1.06);
+      background: linear-gradient(135deg, var(--brand), var(--brand-strong));
+      color: var(--brand-contrast);
     }
 
     .error-hint {
       margin-top: 2.5rem;
       font-size: 0.85rem;
-      color: #8a97b5;
+      color: var(--text-muted);
     }
 
     .error-hint a {
-      color: #88d6ff;
+      color: var(--brand);
       text-decoration: none;
     }
 
     .error-hint a:hover {
-      color: #b39dff;
-    }
-
-    /* Floating decorative elements */
-    .float-orb {
-      position: fixed;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 0;
-      animation: float 8s ease-in-out infinite;
-    }
-
-    .float-orb:nth-child(1) {
-      width: 120px;
-      height: 120px;
-      background: radial-gradient(circle, rgba(0, 201, 255, 0.12), transparent 70%);
-      top: 15%;
-      left: 10%;
-      animation-delay: 0s;
-    }
-
-    .float-orb:nth-child(2) {
-      width: 80px;
-      height: 80px;
-      background: radial-gradient(circle, rgba(180, 89, 255, 0.1), transparent 70%);
-      bottom: 20%;
-      right: 12%;
-      animation-delay: -3s;
-    }
-
-    .float-orb:nth-child(3) {
-      width: 60px;
-      height: 60px;
-      background: radial-gradient(circle, rgba(255, 211, 76, 0.08), transparent 70%);
-      top: 60%;
-      left: 20%;
-      animation-delay: -5s;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0) scale(1); }
-      50% { transform: translateY(-20px) scale(1.05); }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .error-code, .float-orb { animation: none; }
+      color: var(--brand-strong);
     }
   </style>
 </head>
 
 <body>
-  <div class="float-orb"></div>
-  <div class="float-orb"></div>
-  <div class="float-orb"></div>
-
   <div class="error-container">
     <div class="error-icon">🔍</div>
     <h1 class="error-code">404</h1>

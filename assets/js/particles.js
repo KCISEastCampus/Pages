@@ -8,7 +8,8 @@ function initParticles() {
     return;
   }
 
-  const colors = ['#009fa8', '#920783', '#CBBE00'];
+  // 低饱和靛蓝色阶，与全站设计 token 协调（去掉了原来的高饱和霓虹三色）
+  const colors = ['#6d78ff', '#8b93ff', '#a9b1ff'];
   const particles = [];
   let width = window.innerWidth;
   let height = window.innerHeight;
@@ -18,18 +19,18 @@ function initParticles() {
 
   // Adaptive particle count — fewer on mobile to reduce GPU pressure
   function getParticleCount() {
-    const base = width < 600 ? 18 : width < 1000 ? 24 : 36;
-    return Math.max(10, Math.min(base, Math.floor(width / 55)));
+    const base = width < 600 ? 14 : width < 1000 ? 18 : 26;
+    return Math.max(8, Math.min(base, Math.floor(width / 70)));
   }
 
   class Particle {
     constructor() {
       this.x = Math.random() * width;
       this.y = Math.random() * height;
-      this.size = Math.random() * 2 + 1.5;
-      this.speedX = (Math.random() - 0.5) * 0.035;
-      this.speedY = (Math.random() - 0.5) * 0.035;
-      this.baseOpacity = Math.random() * 0.28 + 0.18;
+      this.size = Math.random() * 1.5 + 0.8;
+      this.speedX = (Math.random() - 0.5) * 0.03;
+      this.speedY = (Math.random() - 0.5) * 0.03;
+      this.baseOpacity = Math.random() * 0.12 + 0.06;
       this.phase = Math.random() * Math.PI * 2;
       this.color = colors[Math.floor(Math.random() * colors.length)];
 
@@ -39,7 +40,7 @@ function initParticles() {
         'position:fixed;border-radius:50%;pointer-events:none;z-index:0;' +
         'width:' + (this.size * 2) + 'px;height:' + (this.size * 2) + 'px;' +
         'background:radial-gradient(circle,' + this.color + ',transparent);' +
-        'box-shadow:0 0 ' + (this.size * 3) + 'px ' + this.color + ';' +
+        'box-shadow:0 0 ' + (this.size * 1.6) + 'px ' + this.color + ';' +
         'will-change:transform,opacity;';
 
       this.element = el;

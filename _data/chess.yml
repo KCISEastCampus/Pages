@@ -1,159 +1,207 @@
-# 循环比赛系列定义
-recurring_series:
-  # E.C. 系列 - 每周一次
+# ============================================
+# KC Gaming Chess — 数据配置文件（唯一数据源）
+# 修改此文件即可更新页面，无需改代码
+# ============================================
+
+# ---------- 站点配置 ----------
+config:
+  title: "KC Gaming Chess"
+  subtitle: "昆山康桥学校 A-Level 国际象棋竞技活动"
+  password: "KangChiaoInternationalSchool"  # 所有比赛统一密码（唯一来源）
+  password_hint: "所有比赛使用相同密码，点击复制"
+  contact_email: "info@kcisec.site"
+  lichess_tv: true      # 是否在概览页显示 LiChess TV
+  hero_icon: "♞"
+  current_season: 2     # 当前赛季：排行榜只统计本赛季
+  season_label: "S2"
+  stats:                # 概览页头部战绩数据（可手动维护）
+    - label: "已举办赛事"
+      value: "7"
+    - label: "参赛棋手"
+      value: "20+"
+    - label: "总奖池"
+      value: "￥80+"
+
+# ---------- 系列定义（可配置） ----------
+# weight 用于排行榜积分加权（自动计算积分时使用）
+# format 标注赛制：arena（锦标赛，随时开打）/ swiss（瑞士制，需战队）
+# time_control 为推荐建赛参数
+series:
   - id: "ec"
-    name_template: "KC Gaming Chess E.C. Season {season}"
-    display_name: "E.C."
-    icon: ""
-    frequency: "weekly"  # weekly, biweekly, monthly
-    day_of_week: 1  # 0=周日, 1=周一, ..., 6=周六
-    start_time: "18:00"
+    name: "E.C. 系列"
+    full_name: "KC Gaming Chess E.C. Season {season}"
+    icon: "♟️"
+    badge: "每周一次"
+    description: "每周晚自习时间举办，面向所有人群的基础赛事。"
+    weight: 1
+    color: "bronze"
+    format: "arena"
+    time_control: "15+10"     # 每方15分钟+10秒增时
     duration_hours: 2
-    start_date: "2025-11-04"  # 第一场比赛日期
-    end_date: "2026-06-30"    # 系列结束日期
-    prize_distribution: []    # 无奖金
+    prize:
+      - { rank: 1, label: "🥇 第一名", amount: "￥10" }
+      - { rank: 2, label: "🥈 第二名", amount: "￥3" }
+      - { rank: 3, label: "🥉 第三名", amount: "￥2" }
 
-  # PRO LEAGUE 系列 - 每两周一次
   - id: "pro"
-    name_template: "KC Gaming Chess PRO LEAGUE S{season}"
-    display_name: "PRO LEAGUE"
+    name: "PRO LEAGUE"
+    full_name: "KC Gaming Chess PRO LEAGUE S{season}"
     icon: "⭐"
-    frequency: "biweekly"
-    day_of_week: 3  # 周三
-    start_time: "15:45"
-    duration_hours: 4.5
-    start_date: "2025-11-13"
-    end_date: "2026-06-30"
-    prize_distribution:
-      - position: "🥇 第一名"
-        amount: "￥10"
-      - position: "🥈 第二名"
-        amount: "￥3"
-      - position: "🥉 第三名"
-        amount: "￥2"
+    badge: "每两周一次"
+    description: "每两周举办一次，面向进阶棋手的专业联赛。"
+    weight: 2
+    color: "silver"
+    format: "arena"
+    time_control: "10+5"      # 每方10分钟+5秒增时
+    duration_hours: 2
+    prize:
+      - { rank: 1, label: "🥇 第一名", amount: "￥10" }
+      - { rank: 2, label: "🥈 第二名", amount: "￥3" }
+      - { rank: 3, label: "🥉 第三名", amount: "￥2" }
 
-  # Champions 系列 - 每两个月一次
   - id: "champions"
-    name_template: "KC Gaming Chess Champions {month}"
-    display_name: "Champions"
+    name: "Champions"
+    full_name: "KC Gaming Chess Champions {month}"
     icon: "👑"
-    frequency: "bimonthly"
-    day_of_week: 6  # 周六
-    start_time: "15:45"
-    duration_hours: 4.5
-    start_date: "2025-12-28"
-    end_date: "2026-06-30"
-    prize_distribution:
-      - position: "🥇 第一名"
-        amount: "￥15"
-      - position: "🥈 第二名"
-        amount: "￥10"
-      - position: "🥉 第三名"
-        amount: "￥5"
+    badge: "每两月一次"
+    description: "每两个月举办一次，最高级别赛事。"
+    weight: 4                # S2 加权上调：突出顶级赛事价值
+    color: "gold"
+    format: "arena"
+    time_control: "20+10"     # 每方20分钟+10秒增时
+    duration_hours: 2
+    prize:
+      - { rank: 1, label: "🥇 第一名", amount: "￥15" }
+      - { rank: 2, label: "🥈 第二名", amount: "￥10" }
+      - { rank: 3, label: "🥉 第三名", amount: "￥5" }
 
-# 单次比赛实例（从系列生成或特殊活动）
+# ---------- 计分规则（可配置，排行榜自动计算时使用） ----------
+scoring:
+  enabled: true                  # 是否启用积分/胜场榜
+  base_points:                   # 基础分（按名次）
+    first: 10
+    second: 6
+    third: 4
+  weight_map:                    # 系列加权（与 series.weight 保持一致）
+    ec: 1
+    pro: 2
+    champions: 4
+  points_label: "积分"
+  wins_label: "胜场"
+  top_n: 10                      # 排行榜显示前 N 名
+  rule_note: |
+    计分规则：仅统计 E.C. / PRO LEAGUE / Champions 三大系列，特殊赛事不参与积分。
+    基础分（E.C.）：🥇10分、🥈6分、🥉4分；
+    系列加权：PRO ×2、Champions ×4。
+
+# ---------- 赛季说明 ----------
+seasons:
+  - id: 1
+    label: "S1 · 2025-2026"
+    note: "历史赛季，已归档。排行榜不再计算，可在赛程中查看。"
+  - id: 2
+    label: "S2 · 当前赛季"
+    note: "当前赛季。排行榜只统计本赛季比赛。"
+    # S2 系列架构沿用上方 series 定义（含新权重 Champions×4、新时限参数）。
+    # 后续在 matches 里添加 ssn: 2 的比赛即可自动入榜。
+
+# ---------- 比赛实例 ----------
+# ssn: 赛季（1=历史S1，2=当前S2），排行榜只统计 ssn == config.current_season
+# 属于系列的比赛：使用 series + season + date（时间、奖金从 series 继承）
+# 特殊活动：使用完整 name + start_time + end_time
 matches:
-  # 说明：
-  # 1. 属于系列的比赛：使用 series_id + season/date，系统会自动从 recurring_series 填充时间和奖金信息
-  # 2. 特殊活动：使用完整的 name + start_time + end_time，保持原有格式
+  # ================= S1 · 历史赛季（已归档） =================
+  - ssn: 1
+    name: "KC Gaming Chess E.C. Pre-season"
+    special_type: "ec"
+    start_time: "2025-10-28 18:00"
+    end_time: "2025-10-28 20:00"
+    link: "https://lichess.org/tournament/HffQoOUd"
+    winners:
+      - { rank: 1, label: "🥇 第一名", name: "Jimmy \"Hurr1can333333\" Yu" }
+      - { rank: 2, label: "🥈 第二名", name: "Eric \"EricStoneChina\" Shi" }
 
-  # === 未来的比赛 ===
-  - series_id: "ec"
-    season: 1
-    date: "2025-11-04"
-    link: "https://lichess.org/tournament/pS1fvKBH"
-    winner:
-      - position: "🥇 第一名"
-        name: "E1ZZZz"
-      - position: "🥈 第二名"
-        name: "Jimmy \"Hurr1can333333\" Yu"
-      - position: "🥉 第三名"
-        name: "Eason \"ENAOS\" Wang"
-
-  - series_id: "ec"
-    season: 2
-    date: "2025-11-11"
-    link: "https://lichess.org/tournament/xvxFmQ4x"
-    winner:
-      - position: "🥇 第一名"
-        name: "E1ZZZz"
-      - position: "🥈 第二名"
-        name: "Jimmy \"Hurr1can333333\" Yu"
-      - position: "🥉 第三名"
-        name: "Eric \"EricStoneChina\" Shi"
-
-  - series_id: "pro"
-    season: 1
-    date: "2025-11-13"
-    link: "https://lichess.org/tournament/nG4jAyVW"
-    winner:
-      - position: "🥇 第一名"
-        name: "Eric \"EricStoneChina\" Shi"
-      - position: "🥈 第二名"
-        name: "Eason \"ENAOS\" Wang"
-      - position: "🥉 第三名"
-        name: "Jimmy \"Hurr1can333333\" Yu"
-
-  - series_id: "ec"
-    season: 3
-    date: "2025-11-18"
-    link: "https://lichess.org/tournament/LeZ0oA0j"
-    winner:
-      - position: "🥇 第一名"
-        name: "E1ZZZz"
-      - position: "🥈 第二名"
-        name: "Jimmy \"Hurr1can333333\" Yu"
-      - position: "🥉 第三名"
-        name: "Eric \"EricStoneChina\" Shi"
-
-  - series_id: "ec"
-    season: 4
-    date: "2025-11-25"
-    link: "https://lichess.org/tournament/YX02PK9h"
-    winner:
-      - position: "🥇 第一名"
-        name: "Eric \"EricStoneChina\" Shi"
-      - position: "🥈 第二名"
-        name: "Jimmy \"Hurr1can333333\" Yu"
-
-  # === 特殊活动 ===
-  - name: "KC Gaming Chess Champions Pre-season Oct."
+  - ssn: 1
+    name: "KC Gaming Chess Champions Pre-season Oct."
     special_type: "champions"
     start_time: "2025-10-30 15:45"
     end_time: "2025-10-30 20:15"
     link: "https://lichess.org/tournament/IW81tWDY"
     description: "👑 **Champions 赛季前赛** | 这是 Champions 系列正式赛季开始前的热身赛事。为最高级别的赛事做好准备！ | **赛事信息：** | - 与正式赛季的Champions系列一样 | - 赛季前赛事，为后续大赛做准备 | - 奖金充足，共计**30**元奖池"
-    prize_distribution:
-      - position: "🥇 第一名"
-        amount: "￥15"
-      - position: "🥈 第二名"
-        amount: "￥10"
-      - position: "🥉 第三名"
-        amount: "￥5"
-    winner:
-      - position: "🥇 第一名"
-        name: "Jimmy \"Hurr1can333333\" Yu"
-      - position: "🥈 第二名"
-        name: "Eason \"ENAOS\" Wang"
-      - position: "🥉 第三名"
-        name: "Eric \"EricStoneChina\" Shi"
+    winners:
+      - { rank: 1, label: "🥇 第一名", name: "Jimmy \"Hurr1can333333\" Yu" }
+      - { rank: 2, label: "🥈 第二名", name: "Eason \"ENAOS\" Wang" }
+      - { rank: 3, label: "🥉 第三名", name: "Eric \"EricStoneChina\" Shi" }
 
-  - name: "KC Gaming Chess E.C. Pre-season"
-    start_time: "2025-10-28 18:00"
-    end_time: "2025-10-28 20:00"
-    link: "https://lichess.org/tournament/HffQoOUd"
-    winner:
-      - position: "🥇 第一名"
-        name: "Jimmy \"Hurr1can333333\" Yu"
-      - position: "🥈 第二名"
-        name: "Eric \"EricStoneChina\" Shi"
+  - ssn: 1
+    series: "ec"
+    season: 1
+    date: "2025-11-04"
+    link: "https://lichess.org/tournament/pS1fvKBH"
+    winners:
+      - { rank: 1, label: "🥇 第一名", name: "E1ZZZz" }
+      - { rank: 2, label: "🥈 第二名", name: "Jimmy \"Hurr1can333333\" Yu" }
+      - { rank: 3, label: "🥉 第三名", name: "Eason \"ENAOS\" Wang" }
 
+  - ssn: 1
+    series: "ec"
+    season: 2
+    date: "2025-11-11"
+    link: "https://lichess.org/tournament/xvxFmQ4x"
+    winners:
+      - { rank: 1, label: "🥇 第一名", name: "E1ZZZz" }
+      - { rank: 2, label: "🥈 第二名", name: "Jimmy \"Hurr1can333333\" Yu" }
+      - { rank: 3, label: "🥉 第三名", name: "Eric \"EricStoneChina\" Shi" }
 
+  - ssn: 1
+    series: "ec"
+    season: 3
+    date: "2025-11-18"
+    link: "https://lichess.org/tournament/LeZ0oA0j"
+    winners:
+      - { rank: 1, label: "🥇 第一名", name: "E1ZZZz" }
+      - { rank: 2, label: "🥈 第二名", name: "Jimmy \"Hurr1can333333\" Yu" }
+      - { rank: 3, label: "🥉 第三名", name: "Eric \"EricStoneChina\" Shi" }
+
+  - ssn: 1
+    series: "ec"
+    season: 4
+    date: "2025-11-25"
+    link: "https://lichess.org/tournament/YX02PK9h"
+    winners:
+      - { rank: 1, label: "🥇 第一名", name: "Eric \"EricStoneChina\" Shi" }
+      - { rank: 2, label: "🥈 第二名", name: "Jimmy \"Hurr1can333333\" Yu" }
+
+  - ssn: 1
+    series: "pro"
+    season: 1
+    date: "2025-11-13"
+    link: "https://lichess.org/tournament/nG4jAyVW"
+    winners:
+      - { rank: 1, label: "🥇 第一名", name: "Eric \"EricStoneChina\" Shi" }
+      - { rank: 2, label: "🥈 第二名", name: "Eason \"ENAOS\" Wang" }
+      - { rank: 3, label: "🥉 第三名", name: "Jimmy \"Hurr1can333333\" Yu" }
+
+  # ================= S2 · 当前赛季（架构预留） =================
+  # 说明：在下方添加 ssn: 2 的比赛即可自动进入本赛季排行榜。
+  # 示例结构（取消注释即可用）：
+  #
+  # - ssn: 2
+  #   series: "ec"
+  #   season: 1
+  #   date: "2026-09-01"
+  #   link: "https://lichess.org/tournament/XXXXXXXX"
+  #   winners:
+  #     - { rank: 1, label: "🥇 第一名", name: "选手名" }
+  #     - { rank: 2, label: "🥈 第二名", name: "选手名" }
+  #     - { rank: 3, label: "🥉 第三名", name: "选手名" }
+
+# ---------- 规则文档（Markdown，在规则 tab 展示） ----------
 rules: |
   ## KC Gaming Chess 比赛规则
 
   ### 📋 基本信息
-  
+
   **KC Gaming Chess** 是KC Gaming举办的系列竞技活动，致力于为校内棋手提供展示才华、交流棋艺的平台。我们设立了三个不同等级的赛事，满足各水平棋手的需求。
 
   ### 🏆 赛事体系
@@ -168,10 +216,14 @@ rules: |
 
   2. **报名方式**：点击每个赛事下方的链接报名。建议提前报名，但是比赛开始后临时加入也可以。
 
-  3. **时间控制**：每方 15 分钟 + 10 秒增时。此控制时间适合快速对局，考验棋手的即时判断能力。
+  3. **时间控制**：
+     - E.C. 系列：每方 15 分钟 + 10 秒增时
+     - PRO LEAGUE：每方 10 分钟 + 5 秒增时
+     - Champions：每方 20 分钟 + 10 秒增时
 
   4. **平台说明**：
      - 比赛在 **Lichess.org** 平台进行（免费国际象棋平台）
+     - 比赛采用 **锦标赛（Arena）** 赛制，随时加入、随时开打
      - 建议使用真实姓名（英文）作为用户名，便于识别和颁奖
      - 账号需提前注册，比赛前建议熟悉平台操作
 

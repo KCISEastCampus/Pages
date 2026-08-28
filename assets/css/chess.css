@@ -1,0 +1,1588 @@
+/* ============================================
+   KC Gaming Chess — 独立样式
+   深色赛事风 · CSS 变量化 · 支持深/浅双主题
+   配合 assets/js/chess.js 与 _layouts/chess_v2.html 使用
+   ============================================ */
+
+/* ---------- 主题变量 ---------- */
+:root,
+:root[data-bs-theme="dark"] {
+  /* 背景 */
+  --chess-bg: #0b0e1a;
+  --chess-bg-grad-1: #0f1626;
+  --chess-bg-grad-2: #1a1f3a;
+  --chess-bg-grad-3: #16213e;
+
+  /* 卡片 / 表面 */
+  --chess-card: rgba(255, 255, 255, 0.06);
+  --chess-card-hover: rgba(255, 255, 255, 0.1);
+  --chess-card-border: rgba(255, 255, 255, 0.12);
+  --chess-card-border-hover: rgba(102, 126, 234, 0.5);
+  --chess-glass: rgba(255, 255, 255, 0.05);
+
+  /* 文字 */
+  --chess-text: #e6e9f2;
+  --chess-text-muted: #9aa5b8;
+  --chess-text-soft: #c3cad8;
+
+  /* 强调色 */
+  --chess-gold: #ffd700;
+  --chess-gold-soft: #ffed4e;
+  --chess-accent: #667eea;
+  --chess-accent-soft: #a8b3ff;
+  --chess-green: #10b981;
+  --chess-pink: #ff1493;
+
+  /* 状态色 */
+  --chess-running: #10b981;
+  --chess-upcoming: #667eea;
+  --chess-past: #9aa5b8;
+
+  /* 系列主题色 */
+  --chess-bronze: #cd7f32;
+  --chess-silver: #00d4ff;
+  --chess-gold: #ffd700;
+  --chess-special: #ff1493;
+
+  /* 阴影 / 光效 */
+  --chess-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  --chess-shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.2);
+  --chess-glow-gold: 0 4px 18px rgba(255, 215, 0, 0.25);
+
+  /* 布局 */
+  --chess-radius: 14px;
+  --chess-radius-sm: 10px;
+  --chess-code-bg: rgba(0, 0, 0, 0.25);
+  --chess-code-border: rgba(76, 175, 80, 0.35);
+  --chess-code-text: #4ade80;
+  --chess-header-bg: rgba(11, 14, 26, 0.85);
+}
+
+:root[data-bs-theme="light"] {
+  --chess-bg: #f4f6fb;
+  --chess-bg-grad-1: #eef1f8;
+  --chess-bg-grad-2: #e4e9f5;
+  --chess-bg-grad-3: #dbe3f2;
+
+  --chess-card: rgba(255, 255, 255, 0.85);
+  --chess-card-hover: rgba(255, 255, 255, 1);
+  --chess-card-border: rgba(30, 42, 70, 0.12);
+  --chess-card-border-hover: rgba(102, 126, 234, 0.5);
+  --chess-glass: rgba(255, 255, 255, 0.7);
+
+  --chess-text: #1d2a44;
+  --chess-text-muted: #5b6c86;
+  --chess-text-soft: #40506b;
+
+  --chess-gold: #c9961a;
+  --chess-gold-soft: #e0b63c;
+  --chess-accent: #5567d6;
+  --chess-accent-soft: #5a6fd0;
+  --chess-green: #0e9f6e;
+  --chess-pink: #d41f7e;
+
+  --chess-running: #0e9f6e;
+  --chess-upcoming: #5567d6;
+  --chess-past: #6b7c96;
+
+  --chess-bronze: #a06a28;
+  --chess-silver: #00a3d4;
+  --chess-gold: #c9961a;
+  --chess-special: #d41f7e;
+
+  --chess-shadow: 0 8px 30px rgba(30, 42, 70, 0.12);
+  --chess-shadow-sm: 0 4px 15px rgba(30, 42, 70, 0.1);
+  --chess-glow-gold: 0 4px 18px rgba(201, 150, 26, 0.2);
+
+  --chess-code-bg: rgba(30, 41, 64, 0.06);
+  --chess-code-border: rgba(79, 91, 213, 0.35);
+  --chess-code-text: #3d47b8;
+  --chess-header-bg: rgba(244, 246, 251, 0.85);
+}
+
+/* ---------- 基础 ---------- */
+.chess-page {
+  font-family: 'Segoe UI', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(135deg, var(--chess-bg) 0%, var(--chess-bg-grad-1) 25%, var(--chess-bg-grad-2) 55%, var(--chess-bg-grad-3) 100%);
+  background-attachment: fixed;
+  color: var(--chess-text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* 棋盘纹理背景 */
+.chess-page::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(102, 126, 234, 0.1) 0%, transparent 45%),
+    radial-gradient(circle at 80% 75%, rgba(255, 215, 0, 0.07) 0%, transparent 45%),
+    repeating-linear-gradient(0deg, transparent, transparent 52px, rgba(255, 215, 0, 0.02) 52px, rgba(255, 215, 0, 0.02) 53px),
+    repeating-linear-gradient(90deg, transparent, transparent 52px, rgba(255, 215, 0, 0.02) 52px, rgba(255, 215, 0, 0.02) 53px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.chess-page > * {
+  position: relative;
+  z-index: 1;
+}
+
+.chess-container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 28px 20px 60px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ---------- 页头 ---------- */
+.chess-header {
+  background: var(--chess-header-bg);
+  backdrop-filter: blur(20px);
+  border-bottom: 2px solid rgba(255, 215, 0, 0.25);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.chess-header-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.chess-header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.chess-back-link {
+  color: var(--chess-text-muted);
+  text-decoration: none;
+  font-size: 0.9em;
+  padding: 7px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--chess-card-border);
+  background: var(--chess-glass);
+  white-space: nowrap;
+  transition: all 0.25s ease;
+}
+
+.chess-back-link:hover {
+  color: var(--chess-gold);
+  border-color: rgba(255, 215, 0, 0.4);
+  background: rgba(255, 215, 0, 0.08);
+  transform: translateY(-1px);
+}
+
+.chess-title {
+  font-size: 1.35em;
+  font-weight: 600;
+  color: var(--chess-text);
+  letter-spacing: 0.5px;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chess-title .gold {
+  color: var(--chess-gold);
+}
+
+.chess-header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/* ---------- Tab 导航 ---------- */
+.chess-tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  background: var(--chess-glass);
+  border: 1px solid var(--chess-card-border);
+  border-radius: 12px;
+  padding: 5px;
+  margin-bottom: 28px;
+  backdrop-filter: blur(10px);
+}
+
+.chess-tab {
+  padding: 10px 20px;
+  border: none;
+  background: transparent;
+  color: var(--chess-text-muted);
+  font-size: 0.95em;
+  font-weight: 600;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex: 1;
+  justify-content: center;
+}
+
+.chess-tab:hover {
+  color: var(--chess-text);
+  background: var(--chess-card);
+}
+
+.chess-tab.active {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.25), rgba(118, 75, 162, 0.2));
+  color: var(--chess-gold);
+  box-shadow: inset 0 0 0 1px rgba(255, 215, 0, 0.3);
+}
+
+.chess-tab-panel {
+  display: none;
+  animation: chess-fade-in 0.35s ease-out;
+}
+
+.chess-tab-panel.active {
+  display: block;
+}
+
+@keyframes chess-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- 英雄区 ---------- */
+.chess-hero {
+  position: relative;
+  border-radius: var(--chess-radius);
+  padding: 40px 32px;
+  margin-bottom: 26px;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.18), rgba(118, 75, 162, 0.14));
+  border: 1px solid var(--chess-card-border);
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  box-shadow: var(--chess-shadow);
+}
+
+.chess-hero::before {
+  content: attr(data-icon);
+  position: absolute;
+  right: -8px;
+  bottom: -22px;
+  font-size: 150px;
+  color: rgba(255, 215, 0, 0.07);
+  font-weight: bold;
+  pointer-events: none;
+}
+
+.chess-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 215, 0, 0.15);
+  color: var(--chess-gold);
+  border: 1px solid rgba(255, 215, 0, 0.35);
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 0.82em;
+  font-weight: 600;
+  margin-bottom: 16px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.chess-hero h1 {
+  font-size: 2.1em;
+  font-weight: 700;
+  color: var(--chess-text);
+  margin: 0 0 8px;
+  line-height: 1.2;
+}
+
+.chess-hero h1 .gold {
+  color: var(--chess-gold);
+}
+
+.chess-hero-sub {
+  color: var(--chess-text-muted);
+  font-size: 1.05em;
+  margin-bottom: 24px;
+  max-width: 560px;
+  line-height: 1.6;
+}
+
+.chess-hero-stats {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.chess-stat {
+  background: var(--chess-glass);
+  border: 1px solid var(--chess-card-border);
+  border-radius: 10px;
+  padding: 10px 18px;
+  text-align: center;
+  min-width: 90px;
+  transition: all 0.25s ease;
+}
+
+.chess-stat:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 215, 0, 0.3);
+}
+
+.chess-stat-value {
+  font-size: 1.35em;
+  font-weight: 700;
+  color: var(--chess-gold);
+  line-height: 1.2;
+}
+
+.chess-stat-label {
+  font-size: 0.8em;
+  color: var(--chess-text-muted);
+  margin-top: 3px;
+}
+
+/* ---------- 密码横幅 ---------- */
+.chess-password {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.16), rgba(118, 75, 162, 0.14));
+  border: 1px solid rgba(102, 126, 234, 0.3);
+  border-radius: var(--chess-radius);
+  padding: 18px 22px;
+  margin-bottom: 26px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--chess-shadow-sm);
+}
+
+.chess-password::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, #667eea, #764ba2);
+}
+
+.chess-password-title {
+  font-size: 1em;
+  font-weight: 600;
+  color: var(--chess-text);
+  margin-bottom: 4px;
+}
+
+.chess-password-text {
+  color: var(--chess-text-muted);
+  font-size: 0.88em;
+}
+
+.chess-password-display {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--chess-code-bg);
+  border: 1px solid var(--chess-code-border);
+  border-radius: 9px;
+  padding: 10px 14px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.92em;
+  color: var(--chess-code-text);
+  flex-shrink: 0;
+}
+
+.chess-password-display code {
+  font-weight: 600;
+}
+
+.chess-copy-btn {
+  padding: 7px 14px;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.35), rgba(118, 75, 162, 0.35));
+  border: 1px solid rgba(102, 126, 234, 0.5);
+  color: var(--chess-accent-soft);
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 0.82em;
+  font-weight: 600;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.chess-copy-btn:hover {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.55), rgba(118, 75, 162, 0.55));
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.chess-copy-btn.copied {
+  background: rgba(16, 185, 129, 0.35);
+  border-color: rgba(16, 185, 129, 0.5);
+  color: #34d399;
+}
+
+/* ---------- 区块标题 ---------- */
+.chess-section-title {
+  font-size: 1.25em;
+  font-weight: 600;
+  color: var(--chess-text);
+  margin: 28px 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.chess-section-title .icon {
+  color: var(--chess-gold);
+}
+
+/* ---------- 系列介绍卡片 ---------- */
+.chess-series-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.chess-series-card {
+  background: var(--chess-card);
+  border: 1px solid var(--chess-card-border);
+  border-radius: var(--chess-radius);
+  padding: 20px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.chess-series-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  transition: all 0.3s ease;
+}
+
+.chess-series-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--chess-shadow-sm);
+  border-color: var(--chess-card-border-hover);
+}
+
+/* 系列主题色 */
+.chess-series-card.theme-bronze::before {
+  background: var(--chess-bronze);
+  box-shadow: 0 0 12px rgba(205, 127, 50, 0.4);
+}
+
+.chess-series-card.theme-silver::before {
+  background: var(--chess-silver);
+  box-shadow: 0 0 12px rgba(0, 212, 255, 0.4);
+}
+
+.chess-series-card.theme-gold::before {
+  background: var(--chess-gold);
+  box-shadow: 0 0 14px rgba(255, 215, 0, 0.5);
+}
+
+.chess-series-card.theme-pink::before {
+  background: var(--chess-pink);
+  box-shadow: 0 0 12px rgba(255, 20, 147, 0.4);
+}
+
+.chess-series-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.chess-series-icon {
+  font-size: 1.7em;
+}
+
+.chess-series-name {
+  font-size: 1.08em;
+  font-weight: 600;
+  color: var(--chess-text);
+  flex: 1;
+}
+
+.chess-series-badge {
+  font-size: 0.72em;
+  color: var(--chess-gold);
+  background: rgba(255, 215, 0, 0.12);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  padding: 3px 9px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.chess-series-desc {
+  color: var(--chess-text-muted);
+  font-size: 0.9em;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.chess-series-prize {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chess-prize-chip {
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px solid rgba(255, 215, 0, 0.25);
+  color: var(--chess-gold);
+  padding: 3px 9px;
+  border-radius: 14px;
+  font-size: 0.78em;
+  font-weight: 600;
+}
+
+/* ---------- 快速信息（概览） ---------- */
+.chess-quick-card {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.12), rgba(118, 75, 162, 0.1));
+  border: 1px solid var(--chess-card-border);
+  border-radius: var(--chess-radius);
+  padding: 20px;
+  margin-bottom: 22px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--chess-shadow-sm);
+}
+
+.chess-quick-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.chess-quick-icon {
+  font-size: 1.25em;
+  animation: chess-pulse 2s ease-in-out infinite;
+}
+
+@keyframes chess-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+.chess-quick-title {
+  font-size: 1.05em;
+  font-weight: 600;
+  color: var(--chess-text);
+  margin: 0;
+}
+
+.chess-quick-item {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  background: var(--chess-glass);
+  border-left: 3px solid var(--chess-upcoming);
+  border-radius: 8px;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.chess-quick-item:hover {
+  background: var(--chess-card-hover);
+  transform: translateX(3px);
+  border-left-color: var(--chess-gold);
+}
+
+.chess-quick-item:last-child {
+  margin-bottom: 0;
+}
+
+.chess-quick-item.ongoing {
+  border-left-color: var(--chess-running);
+  background: linear-gradient(90deg, rgba(16, 185, 129, 0.12), transparent);
+}
+
+.chess-quick-name {
+  font-weight: 500;
+  color: var(--chess-text);
+  margin-bottom: 5px;
+  font-size: 0.93em;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.chess-quick-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--chess-text-muted);
+  font-size: 0.82em;
+  flex-wrap: wrap;
+}
+
+.chess-quick-badge {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 215, 0, 0.15);
+  color: var(--chess-gold);
+  padding: 2px 9px;
+  border-radius: 12px;
+  font-size: 0.75em;
+  font-weight: 600;
+  margin-left: auto;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  white-space: nowrap;
+}
+
+.chess-quick-badge.live {
+  background: rgba(16, 185, 129, 0.2);
+  color: var(--chess-running);
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+.chess-quick-empty {
+  color: var(--chess-text-muted);
+  font-size: 0.9em;
+  text-align: center;
+  padding: 16px;
+  opacity: 0.7;
+}
+
+.chess-quick-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.3), transparent);
+  margin: 14px 0;
+}
+
+/* ---------- 时间轴（赛程） ---------- */
+.chess-timeline {
+  position: relative;
+  margin: 24px 0;
+}
+
+/* 时间轴竖线只用于纵向轨道分组（进行中/即将开始），不贯穿"已结束"网格区 */
+.chess-time-group {
+  margin-bottom: 40px;
+}
+
+.chess-time-group-track {
+  position: relative;
+}
+
+.chess-time-group-track::before {
+  content: '';
+  position: absolute;
+  left: 22px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, transparent, rgba(255, 215, 0, 0.25), transparent);
+}
+
+/* 已结束：独立全宽区块，无竖线、label 与网格左对齐 */
+.chess-time-group-grid {
+  margin-bottom: 0;
+}
+
+.chess-time-group-grid .chess-time-label {
+  margin-left: 0;
+}
+
+.chess-time-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(45deg, var(--chess-gold), var(--chess-gold-soft));
+  color: #1a1a2e;
+  padding: 8px 20px;
+  border-radius: 22px;
+  font-weight: 600;
+  font-size: 0.98em;
+  margin-bottom: 22px;
+  margin-left: 50px;
+  box-shadow: var(--chess-glow-gold);
+}
+
+.chess-time-label.running {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(16, 185, 129, 0.15));
+  color: var(--chess-running);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  animation: chess-pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes chess-pulse-glow {
+  0%, 100% {
+    box-shadow: 0 4px 20px rgba(16, 185, 129, 0.25);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 8px 30px rgba(16, 185, 129, 0.4);
+    transform: scale(1.02);
+  }
+}
+
+.chess-match-item {
+  position: relative;
+  margin-bottom: 18px;
+  padding-left: 60px;
+}
+
+.chess-match-marker {
+  position: absolute;
+  left: 14px;
+  top: 22px;
+  width: 16px;
+  height: 16px;
+  background: var(--chess-gold);
+  border: 3px solid var(--chess-bg-grad-2);
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.2);
+  z-index: 2;
+  animation: chess-marker-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes chess-marker-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.2);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 12px 6px rgba(255, 215, 0, 0.12);
+    transform: scale(1.08);
+  }
+}
+
+.chess-match-card {
+  background: var(--chess-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--chess-card-border);
+  border-radius: var(--chess-radius);
+  padding: 18px 20px 14px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.chess-match-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--chess-accent);
+  transition: all 0.3s ease;
+}
+
+.chess-match-card:hover {
+  background: var(--chess-card-hover);
+  border-color: var(--chess-card-border-hover);
+  transform: translateY(-3px);
+  box-shadow: var(--chess-shadow-sm);
+}
+
+/* 系列主题色卡片 */
+.chess-match-card.type-ec::before {
+  background: var(--chess-bronze);
+  box-shadow: 0 0 12px rgba(205, 127, 50, 0.4);
+}
+
+.chess-match-card.type-pro::before {
+  background: var(--chess-silver);
+  box-shadow: 0 0 14px rgba(0, 212, 255, 0.5);
+}
+
+.chess-match-card.type-champions::before {
+  background: var(--chess-gold);
+  box-shadow: 0 0 16px rgba(255, 215, 0, 0.5);
+}
+
+.chess-match-card.type-special::before {
+  background: var(--chess-pink);
+  box-shadow: 0 0 12px rgba(255, 20, 147, 0.4);
+}
+
+.chess-match-card.ongoing {
+  border-color: rgba(16, 185, 129, 0.35);
+  background: rgba(16, 185, 129, 0.06);
+}
+
+.chess-match-card.ongoing::before {
+  background: linear-gradient(90deg, #10b981, #34d399);
+  box-shadow: 0 0 14px rgba(16, 185, 129, 0.5);
+}
+
+.chess-match-icon {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 1.15em;
+  opacity: 0.7;
+}
+
+.chess-match-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.chess-match-name {
+  font-size: 1.12em;
+  font-weight: 600;
+  color: var(--chess-text);
+  margin: 0 0 6px;
+  flex: 1;
+  min-width: 180px;
+  padding-right: 30px;
+}
+
+.chess-match-time {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--chess-text-muted);
+  font-size: 0.88em;
+}
+
+.chess-match-btn {
+  padding: 9px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9em;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chess-match-btn.primary {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(102, 126, 234, 0.3);
+}
+
+.chess-match-btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.chess-match-btn.secondary {
+  background: var(--chess-glass);
+  color: var(--chess-text-muted);
+  border: 1px solid var(--chess-card-border);
+}
+
+.chess-match-btn.secondary:hover {
+  background: var(--chess-card-hover);
+  color: var(--chess-text);
+}
+
+.chess-match-prizes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.chess-prize-total {
+  background: rgba(255, 215, 0, 0.15);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  color: var(--chess-gold);
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.85em;
+  font-weight: 600;
+}
+
+.chess-match-winners {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--chess-card-border);
+}
+
+.chess-winners-title {
+  color: var(--chess-gold);
+  font-size: 0.88em;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.chess-winner-item {
+  background: rgba(255, 215, 0, 0.08);
+  border-left: 3px solid var(--chess-gold);
+  padding: 6px 11px;
+  margin: 5px 0;
+  border-radius: 4px;
+  font-size: 0.86em;
+  color: var(--chess-text-soft);
+}
+
+.chess-match-desc {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--chess-card-border);
+  color: var(--chess-text-soft);
+  font-size: 0.9em;
+  line-height: 1.6;
+}
+
+.chess-match-desc p {
+  margin: 6px 0;
+}
+
+.chess-match-desc strong {
+  color: var(--chess-gold);
+}
+
+.chess-match-desc ul,
+.chess-match-desc ol {
+  margin: 8px 0 8px 18px;
+  padding-left: 12px;
+}
+
+/* 系列折叠 */
+.chess-series-extra {
+  margin-top: 8px;
+  max-height: 2000px;
+  overflow: hidden;
+  transition: max-height 0.35s ease-in-out, opacity 0.35s ease-in-out;
+  opacity: 1;
+}
+
+.chess-series-extra.hidden {
+  max-height: 0;
+  opacity: 0;
+}
+
+.chess-toggle-link {
+  margin-top: 10px;
+  padding: 7px 13px;
+  background: linear-gradient(135deg, rgba(102, 224, 255, 0.12), rgba(0, 212, 255, 0.08));
+  border: 1px solid rgba(102, 224, 255, 0.35);
+  color: var(--chess-accent-soft);
+  border-radius: 8px;
+  font-size: 0.82em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chess-toggle-link:hover {
+  background: rgba(102, 224, 255, 0.2);
+  color: var(--chess-text);
+  transform: translateY(-1px);
+}
+
+/* ---------- 排行榜（排行 tab） ---------- */
+.chess-leaderboard {
+  background: var(--chess-card);
+  border: 1px solid var(--chess-card-border);
+  border-radius: var(--chess-radius);
+  padding: 20px;
+  margin-bottom: 24px;
+  backdrop-filter: blur(10px);
+}
+
+/* 排行榜工具栏：标题 + 模式切换并排 */
+.chess-lb-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.chess-lb-title {
+  font-size: 1.05em;
+  font-weight: 600;
+  color: var(--chess-gold);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chess-lb-modes {
+  display: flex;
+  gap: 8px;
+}
+
+.chess-lb-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--chess-card-border);
+}
+
+.chess-lb-btn {
+  padding: 7px 13px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85em;
+  background: var(--chess-glass);
+  color: var(--chess-text-muted);
+  border: 1px solid var(--chess-card-border);
+  transition: all 0.2s ease;
+}
+
+.chess-lb-btn:hover {
+  color: var(--chess-text);
+}
+
+.chess-lb-btn.active {
+  background: rgba(255, 215, 0, 0.16);
+  color: var(--chess-gold);
+  border-color: rgba(255, 215, 0, 0.45);
+}
+
+.chess-lb-list {
+  display: none;
+}
+
+.chess-lb-list.active {
+  display: block;
+}
+
+.chess-lb-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 6px;
+  border-bottom: 1px dashed var(--chess-card-border);
+}
+
+.chess-lb-item:last-child {
+  border-bottom: none;
+}
+
+.chess-lb-rank {
+  width: 30px;
+  text-align: center;
+  font-weight: 700;
+  color: var(--chess-text-soft);
+  flex-shrink: 0;
+}
+
+.chess-lb-name {
+  flex: 1;
+  color: var(--chess-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.chess-lb-count {
+  font-weight: 700;
+  color: var(--chess-gold);
+  min-width: 32px;
+  text-align: right;
+  font-size: 1.05em;
+}
+
+.chess-lb-empty {
+  color: var(--chess-text-muted);
+  font-size: 0.88em;
+  text-align: center;
+  padding: 18px;
+}
+
+.chess-lb-rule {
+  background: var(--chess-glass);
+  border: 1px solid var(--chess-card-border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 18px;
+  color: var(--chess-text-muted);
+  font-size: 0.88em;
+  line-height: 1.7;
+}
+
+.chess-lb-rule h4 {
+  color: var(--chess-gold);
+  margin: 0 0 6px;
+  font-size: 0.98em;
+}
+
+.chess-lb-rule ul {
+  margin: 6px 0 0 16px;
+  padding-left: 8px;
+}
+
+.chess-lb-rule li {
+  margin: 3px 0;
+}
+
+/* ---------- 过去赛事卡片网格 ---------- */
+.chess-past-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.chess-past-card {
+  background: var(--chess-card);
+  border: 1px solid var(--chess-card-border);
+  border-radius: 12px;
+  padding: 14px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.25s ease;
+}
+
+.chess-past-card:hover {
+  transform: translateY(-2px);
+  background: var(--chess-card-hover);
+  border-color: var(--chess-card-border-hover);
+}
+
+.chess-past-title {
+  color: var(--chess-text);
+  font-weight: 600;
+  font-size: 0.95em;
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+.chess-past-time {
+  color: var(--chess-text-muted);
+  font-size: 0.82em;
+  margin-bottom: 8px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.chess-past-winners {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.chess-badge-win {
+  background: rgba(255, 215, 0, 0.12);
+  color: var(--chess-gold);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-size: 0.78em;
+}
+
+.chess-badge-2 {
+  background: rgba(102, 126, 234, 0.12);
+  color: var(--chess-accent-soft);
+  border: 1px solid rgba(102, 126, 234, 0.3);
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-size: 0.78em;
+}
+
+.chess-badge-3 {
+  background: rgba(16, 185, 129, 0.12);
+  color: var(--chess-running);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-size: 0.78em;
+}
+
+.chess-past-link {
+  margin-top: 10px;
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  color: var(--chess-text-muted);
+  font-size: 0.82em;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.chess-past-link:hover {
+  color: var(--chess-gold);
+}
+
+/* ---------- 规则 tab ---------- */
+.chess-rules {
+  background: var(--chess-card);
+  border: 1px solid var(--chess-card-border);
+  border-radius: var(--chess-radius);
+  padding: 26px 28px;
+  backdrop-filter: blur(10px);
+  line-height: 1.8;
+}
+
+.chess-rules h1,
+.chess-rules h2,
+.chess-rules h3 {
+  color: var(--chess-gold);
+  margin: 22px 0 10px;
+}
+
+.chess-rules h1:first-child,
+.chess-rules h2:first-child {
+  margin-top: 0;
+}
+
+.chess-rules p {
+  margin: 8px 0;
+  color: var(--chess-text-soft);
+}
+
+.chess-rules strong {
+  color: var(--chess-gold);
+}
+
+.chess-rules ol,
+.chess-rules ul {
+  margin: 8px 0 8px 22px;
+  padding-left: 10px;
+  color: var(--chess-text-soft);
+}
+
+.chess-rules li {
+  margin: 5px 0;
+}
+
+.chess-rules code {
+  background: var(--chess-code-bg);
+  border: 1px solid var(--chess-code-border);
+  color: var(--chess-code-text);
+  padding: 2px 7px;
+  border-radius: 5px;
+  font-size: 0.92em;
+}
+
+/* ---------- Lichess TV（概览侧栏） ---------- */
+.chess-tv {
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.12), rgba(101, 67, 33, 0.08));
+  border: 1px solid rgba(139, 69, 19, 0.25);
+  border-radius: var(--chess-radius);
+  padding: 18px;
+  margin-top: 24px;
+  backdrop-filter: blur(10px);
+}
+
+.chess-tv-header {
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.chess-tv-header h2 {
+  color: var(--chess-gold);
+  font-size: 1.05em;
+  font-weight: 600;
+  margin: 0 0 4px;
+}
+
+.chess-tv-header p {
+  color: var(--chess-text-muted);
+  font-size: 0.8em;
+  margin: 0;
+}
+
+.chess-tv-frame {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--chess-card-border);
+  background: var(--chess-bg);
+}
+
+.chess-tv-load {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  aspect-ratio: 10 / 11;
+  border: none;
+  background:
+    radial-gradient(380px 240px at 50% 0%, rgba(109, 120, 255, 0.16), transparent 70%),
+    var(--chess-bg);
+  color: var(--chess-text);
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.25s ease;
+}
+.chess-tv-load:hover {
+  background:
+    radial-gradient(380px 240px at 50% 0%, rgba(109, 120, 255, 0.26), transparent 70%),
+    var(--chess-bg);
+}
+.chess-tv-load-icon {
+  width: 60px;
+  height: 60px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--chess-card);
+  border: 1px solid var(--chess-card-border);
+  font-size: 1.3rem;
+  color: var(--chess-gold);
+  transition: transform 0.2s ease;
+}
+.chess-tv-load:hover .chess-tv-load-icon { transform: scale(1.08); }
+.chess-tv-load-text { font-size: 0.9rem; color: var(--chess-text-muted); }
+
+.chess-tv-frame iframe {
+  display: none;
+  box-shadow: none;
+  border-radius: 0;
+  background: var(--chess-bg);
+}
+.chess-tv-frame.loaded .chess-tv-load { display: none; }
+.chess-tv-frame.loaded iframe { display: block; }
+
+/* ---------- 两栏布局（概览页） ---------- */
+.chess-content-grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 28px;
+  align-items: start;
+}
+
+.chess-sidebar {
+  position: sticky;
+  top: 90px;
+}
+
+/* ---------- 赛季筛选器 ---------- */
+.chess-season-filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.chess-season-filter-label {
+  font-size: 0.9em;
+  color: var(--chess-text-muted);
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+.chess-season-filter .chess-lb-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chess-season-current {
+  color: var(--chess-running);
+  font-size: 0.8em;
+  animation: chess-pulse 2s ease-in-out infinite;
+}
+
+.chess-season-empty {
+  color: var(--chess-text-muted);
+  font-size: 0.78em;
+  font-weight: 400;
+}
+
+.chess-season-tag {
+  font-size: 0.72em;
+  color: var(--chess-accent-soft);
+  background: rgba(102, 126, 234, 0.15);
+  border: 1px solid rgba(102, 126, 234, 0.3);
+  padding: 2px 9px;
+  border-radius: 12px;
+  margin-left: 6px;
+  vertical-align: middle;
+  font-weight: 600;
+}
+
+/* ---------- 空状态 ---------- */
+.chess-empty {
+  text-align: center;
+  padding: 50px 20px;
+  color: var(--chess-text-muted);
+}
+
+.chess-empty-icon {
+  font-size: 3.5em;
+  margin-bottom: 14px;
+  opacity: 0.5;
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 900px) {
+  .chess-content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chess-sidebar {
+    position: static;
+  }
+}
+
+@media (max-width: 768px) {
+  .chess-container {
+    padding: 20px 14px 48px;
+  }
+
+  .chess-header-inner {
+    padding: 12px 14px;
+  }
+
+  .chess-title {
+    font-size: 1.1em;
+  }
+
+  .chess-hero {
+    padding: 28px 20px;
+  }
+
+  .chess-hero h1 {
+    font-size: 1.6em;
+  }
+
+  .chess-hero-stats {
+    gap: 10px;
+  }
+
+  .chess-stat {
+    padding: 8px 12px;
+    min-width: 76px;
+  }
+
+  .chess-password {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+  }
+
+  .chess-password-display {
+    justify-content: space-between;
+  }
+
+  .chess-tab {
+    padding: 9px 12px;
+    font-size: 0.88em;
+  }
+
+  .chess-timeline::before {
+    left: 14px;
+  }
+
+  .chess-time-label {
+    margin-left: 38px;
+    font-size: 0.9em;
+    padding: 6px 15px;
+  }
+
+  .chess-match-item {
+    padding-left: 42px;
+  }
+
+  .chess-match-marker {
+    left: 6px;
+    width: 14px;
+    height: 14px;
+  }
+
+  .chess-match-header {
+    flex-direction: column;
+  }
+
+  .chess-match-btn {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .chess-rules {
+    padding: 18px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .chess-tabs {
+    gap: 4px;
+    padding: 4px;
+  }
+
+  .chess-tab {
+    padding: 8px 8px;
+    font-size: 0.8em;
+    gap: 4px;
+  }
+
+  .chess-series-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chess-hero h1 {
+    font-size: 1.4em;
+  }
+
+  .chess-past-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chess-password-display {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .chess-password-display code {
+    font-size: 0.78em;
+    word-break: break-all;
+  }
+
+  .chess-copy-btn {
+    width: 100%;
+    text-align: center;
+  }
+}

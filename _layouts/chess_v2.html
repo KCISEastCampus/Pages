@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="{{ page.language | default: 'zh_CN' }}" data-bs-theme="dark">
+
+<head>
+  {% include head.html %}
+  <link rel="stylesheet" href="/assets/css/chess.css">
+  <style>
+    /* 页面级微调：隐藏站点默认页头以避免冲突（chess 页有自己独立的视觉） */
+    .chess-page header.site-header,
+    .chess-page nav.navbar,
+    .chess-page .site-nav {
+      display: none;
+    }
+    /* 配色对齐全站 design token：保留赛事版式与动效，仅把主色/背景/卡片/文本/圆角与站统一 */
+    :root,
+    :root[data-bs-theme="dark"] {
+      --chess-accent: var(--brand);
+      --chess-accent-soft: var(--brand);
+      --chess-bg: var(--bg);
+      --chess-card: var(--surface);
+      --chess-card-hover: var(--brand-soft);
+      --chess-card-border: var(--line);
+      --chess-card-border-hover: var(--line-strong);
+      --chess-glass: var(--surface);
+      --chess-text: var(--text);
+      --chess-text-muted: var(--text-muted);
+      --chess-text-soft: var(--text-soft);
+      --chess-radius: var(--radius);
+      --chess-radius-sm: var(--radius-sm);
+    }
+    :root[data-bs-theme="light"] {
+      --chess-card-border-hover: var(--line-strong);
+    }
+  </style>
+</head>
+
+<body class="chess-page">
+  <div id="chess-app">
+    <!-- ================= 页头 ================= -->
+    <header class="chess-header">
+      <div class="chess-header-inner">
+        <div class="chess-header-left">
+          <a class="chess-back-link" href="/">← 返回首页</a>
+          <h1 class="chess-title">KC Gaming <span class="gold">Chess</span></h1>
+        </div>
+        <div class="chess-header-right">
+          <button class="chess-lb-btn" data-chess-theme title="切换主题">🌙 深色</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="chess-container">
+      <!-- ================= Tab 导航 ================= -->
+      <nav class="chess-tabs" role="tablist">
+        <button class="chess-tab active" data-tab="overview" role="tab">🏠 概览</button>
+        <button class="chess-tab" data-tab="schedule" role="tab">📅 赛程</button>
+        <button class="chess-tab" data-tab="rankings" role="tab">🏅 排行</button>
+        <button class="chess-tab" data-tab="rules" role="tab">📋 规则</button>
+      </nav>
+
+      <!-- ================= 概览 ================= -->
+      <section class="chess-tab-panel active" id="panel-overview" role="tabpanel">
+        <!-- 英雄区 -->
+        <div class="chess-hero" data-icon="{{ site.data.chess.config.hero_icon | default: '♞' }}">
+          <div class="chess-hero-badge">🏆 KC Gaming 竞技系列</div>
+          <h1>KC Gaming <span class="gold">Chess</span></h1>
+          <p class="chess-hero-sub">{{ site.data.chess.config.subtitle | default: '昆山康桥学校 A-Level 国际象棋竞技活动' }}</p>
+          <div class="chess-hero-stats">
+            {% for stat in site.data.chess.config.stats %}
+            <div class="chess-stat">
+              <div class="chess-stat-value">{{ stat.value }}</div>
+              <div class="chess-stat-label">{{ stat.label }}</div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- 密码横幅 -->
+        <div class="chess-password">
+          <div>
+            <div class="chess-password-title">🔑 比赛密码</div>
+            <div class="chess-password-text">{{ site.data.chess.config.password_hint | default: '所有比赛使用相同密码，点击复制' }}</div>
+          </div>
+          <div class="chess-password-display">
+            <code data-password-code>KangChiaoInternationalSchool</code>
+            <button class="chess-copy-btn" data-copy-password>复制</button>
+          </div>
+        </div>
+
+        <!-- 两栏：快速信息 + 系列介绍 -->
+        <div class="chess-content-grid">
+          <div>
+            <!-- 快速信息 -->
+            <div class="chess-quick-card">
+              <div class="chess-quick-header">
+                <span class="chess-quick-icon" data-quick-icon>⚡</span>
+                <h3 class="chess-quick-title" data-quick-title>近期比赛</h3>
+              </div>
+              <div data-quick-content>
+                <div class="chess-quick-empty">加载中...</div>
+              </div>
+            </div>
+
+            <!-- 系列介绍 -->
+            <h2 class="chess-section-title"><span class="icon">🏆</span> 赛事体系</h2>
+            <div class="chess-series-grid" data-series-cards></div>
+          </div>
+
+          <!-- 侧栏：LiChess TV -->
+          {% if site.data.chess.config.lichess_tv %}
+          <aside class="chess-sidebar">
+            <div class="chess-tv">
+              <div class="chess-tv-header">
+                <h2>🎬 热门对局</h2>
+                <p>LiChess TV 直播</p>
+              </div>
+              <div class="chess-tv-frame" data-lichess-tv>
+                <button class="chess-tv-load" type="button" data-lichess-load>
+                  <span class="chess-tv-load-icon">▶</span>
+                  <span class="chess-tv-load-text">点击加载直播</span>
+                </button>
+                <iframe
+                  data-lichess-frame
+                  data-src="https://lichess.org/tv/frame?theme=brown&bg=dark"
+                  style="width: 100%; aspect-ratio: 10/11; border: 0;"
+                  allowtransparency="true"
+                  frameborder="0"
+                  loading="lazy"></iframe>
+              </div>
+            </div>
+          </aside>
+          {% endif %}
+        </div>
+      </section>
+
+      <!-- ================= 赛程 ================= -->
+      <section class="chess-tab-panel" id="panel-schedule" role="tabpanel">
+        <h2 class="chess-section-title"><span class="icon">📅</span> 全部赛程</h2>
+        <div data-season-filter></div>
+        <div class="chess-timeline" data-timeline></div>
+      </section>
+
+      <!-- ================= 排行 ================= -->
+      <section class="chess-tab-panel" id="panel-rankings" role="tabpanel">
+        <h2 class="chess-section-title"><span class="icon">🏅</span> 排行榜</h2>
+        <div data-leaderboard></div>
+      </section>
+
+      <!-- ================= 规则 ================= -->
+      <section class="chess-tab-panel" id="panel-rules" role="tabpanel">
+        <h2 class="chess-section-title"><span class="icon">📋</span> 比赛规则</h2>
+        <div class="chess-rules" data-rules-rendered>{{ site.data.chess.rules | markdownify }}</div>
+      </section>
+    </div>
+  </div>
+
+  <script src="/assets/js/main.js"></script>
+  <script>
+    // 由 Jekyll 注入比赛数据（唯一数据源：_data/chess.yml）
+    // 说明：规则页由服务端直接 markdownify 渲染，不在此注入，避免 JS 处理 Markdown
+    window.CHESS_DATA = {
+      config: {{ site.data.chess.config | jsonify }},
+      series: {{ site.data.chess.series | jsonify }},
+      scoring: {{ site.data.chess.scoring | jsonify }},
+      seasons: {{ site.data.chess.seasons | jsonify }},
+      matches: {{ site.data.chess.matches | jsonify }}
+    };
+  </script>
+  <script src="/assets/js/chess.js"></script>
+</body>
+
+</html>
