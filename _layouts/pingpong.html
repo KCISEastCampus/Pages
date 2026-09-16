@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="{{ page.language | default: 'zh_CN' }}" data-alpl-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090d12">
+  <meta name="description" content="{{ page.description | default: 'Ping-Pong A-level Pro League（ALPL）校内乒乓球公开赛。' }}">
+  <link rel="shortcut icon" href="/assets/favicon.ico">
+  <title>{{ page.title | default: 'Ping-Pong A-level Pro League' }} | ALPL</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="/assets/css/pingpong.css">
+</head>
+
+<body class="alpl-body">
+  <header class="alpl-site-header">
+    <a class="alpl-brand" href="/pingpong/" aria-label="ALPL 乒乓球联赛首页">
+      <span class="alpl-brand-mark">AL<span>PL</span></span>
+      <span class="alpl-brand-copy"><b>Ping-Pong</b><small>A-level Pro League</small></span>
+    </a>
+
+    <nav class="alpl-site-nav" id="alpl-site-nav" aria-label="ALPL 页面导航">
+      <a href="#about">联赛介绍</a>
+      <a href="#format">赛制</a>
+      <a href="#schedule">赛程</a>
+      <a href="#rules">规则</a>
+      <a class="alpl-nav-cta" href="#registration">报名入口 <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+    </nav>
+
+    <div class="alpl-header-actions">
+      <button class="alpl-icon-button" type="button" data-alpl-theme-toggle aria-label="切换页面主题" title="切换页面主题"><i class="fas fa-sun" aria-hidden="true"></i></button>
+      <button class="alpl-menu-button" type="button" data-alpl-menu aria-label="打开导航菜单" aria-controls="alpl-site-nav" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <main class="alpl-page">
+    {{ content }}
+  </main>
+
+  <footer class="alpl-site-footer">
+    <div class="alpl-footer-main">
+      <div class="alpl-footer-brand">
+        <a class="alpl-brand" href="/pingpong/" aria-label="ALPL 乒乓球联赛首页">
+          <span class="alpl-brand-mark">AL<span>PL</span></span>
+          <span class="alpl-brand-copy"><b>Ping-Pong</b><small>A-level Pro League</small></span>
+        </a>
+        <p>把碎片时间，打成一场联赛。<br>ALPL 是持续发展的 A-level 校内体育系列。</p>
+      </div>
+      <div class="alpl-footer-column">
+        <span class="alpl-footer-label">EXPLORE</span>
+        <a href="#about">联赛介绍</a>
+        <a href="#format">比赛路径</a>
+        <a href="#schedule">赛程安排</a>
+        <a href="#rules">比赛规则</a>
+      </div>
+      <div class="alpl-footer-column">
+        <span class="alpl-footer-label">ORGANIZED BY</span>
+        <strong>A-level Student Council</strong>
+        <strong>KC Gaming Sports</strong>
+        <small>主办 · 协办</small>
+      </div>
+      <div class="alpl-footer-column alpl-footer-contact">
+        <span class="alpl-footer-label">ON THE TABLE</span>
+        <span>14–30 PLAYERS</span>
+        <span>45 MINUTES / DAY</span>
+        <span>02 TABLES IN PLAY</span>
+      </div>
+    </div>
+    <div class="alpl-footer-bottom">
+      <span>© 2026 ALPL Series</span>
+      <span>Ping-Pong A-level Pro League</span>
+      <a href="/">KCISEC 校园网站 <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+    </div>
+  </footer>
+
+  <script src="/assets/js/pingpong.js"></script>
+</body>
+
+</html>

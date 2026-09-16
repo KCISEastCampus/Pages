@@ -21,6 +21,11 @@ language: en
     <div class="featured-title">KC Gaming Chess</div>
     <div class="featured-desc">International Chess Battle</div>
   </a>
+  <a href="/werewolf" class="featured-card">
+    <div class="featured-icon"><i class="fas fa-user-secret"></i></div>
+    <div class="featured-title">Werewolf Console</div>
+    <div class="featured-desc">Host Game Assistant</div>
+  </a>
 </div>
 
 ---

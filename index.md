@@ -6,6 +6,11 @@ language: zh_CN
 ## 校园精选资源
 
 <div class="featured-resources">
+  <a href="/pingpong/" class="featured-card">
+    <div class="featured-icon"><i class="fas fa-table-tennis-paddle-ball"></i></div>
+    <div class="featured-title">ALPL 乒乓球联赛</div>
+    <div class="featured-desc">Ping-Pong A-level Pro League</div>
+  </a>
   <a href="/app/" class="featured-card" target="_blank" rel="noopener noreferrer">
     <div class="featured-icon"><i class="fas fa-download"></i></div>
     <div class="featured-title">APP下载</div>
@@ -20,6 +25,11 @@ language: zh_CN
     <div class="featured-icon"><i class="fas fa-chess"></i></div>
     <div class="featured-title">KC Gaming Chess</div>
     <div class="featured-desc">国际象棋对战平台</div>
+  </a>
+  <a href="/werewolf" class="featured-card">
+    <div class="featured-icon"><i class="fas fa-user-secret"></i></div>
+    <div class="featured-title">狼人杀中控台</div>
+    <div class="featured-desc">主持人对局助手</div>
   </a>
 </div>
 

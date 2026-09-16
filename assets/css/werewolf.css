@@ -1,0 +1,340 @@
+/* ============================================
+   狼人杀中控台 — 主持人专用屏
+   复用全站 design token（main.css 的 --brand/--surface/--text/--radius/--ease）
+   深色默认 · 深/浅双主题自动适配
+   ============================================ */
+
+.werewolf-page {
+  min-height: 100vh;
+}
+
+/* ---------- 通用 ---------- */
+.wolf-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--text-soft);
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: transform 0.2s var(--ease), border-color 0.2s var(--ease), background 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+.wolf-btn:hover { transform: translateY(-2px); border-color: var(--line-strong); color: var(--text); }
+.wolf-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.wolf-btn.primary { background: linear-gradient(135deg, var(--brand), var(--brand-strong)); color: var(--brand-contrast); border-color: transparent; box-shadow: var(--shadow-sm); }
+.wolf-btn.primary:hover { filter: brightness(1.06); color: var(--brand-contrast); }
+
+.wolf-btn.ghost { background: transparent; }
+.wolf-btn.danger { background: rgba(239, 68, 68, 0.12); border-color: rgba(239, 68, 68, 0.4); color: #f87171; }
+.wolf-btn.danger:hover { background: rgba(239, 68, 68, 0.2); }
+
+.wolf-btn.small { padding: 0.35rem 0.8rem; font-size: 0.82rem; border-radius: 8px; }
+
+/* ---------- 页头 ---------- */
+.wolf-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--nav-bg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+.wolf-header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0.8rem 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.wolf-header-left { display: flex; align-items: center; gap: 0.9rem; min-width: 0; }
+.wolf-back-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.88rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  white-space: nowrap;
+  transition: all 0.25s var(--ease);
+}
+.wolf-back-link:hover { color: var(--brand); border-color: var(--line-strong); background: var(--brand-soft); }
+.wolf-title { font-size: 1.28rem; font-weight: 700; color: var(--text); margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wolf-title .gold { color: var(--brand); }
+
+.wolf-container { max-width: 1100px; margin: 0 auto; padding: 1.6rem 1.4rem 3rem; width: 100%; box-sizing: border-box; }
+
+/* ---------- 步骤条 ---------- */
+.wf-steps {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.4rem;
+}
+.wf-step {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.7rem 1rem;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.25s var(--ease);
+}
+.wf-step .num {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--surface-row);
+  font-size: 0.82rem;
+}
+.wf-step.active { background: var(--brand-soft); border-color: var(--line-strong); color: var(--text); }
+.wf-step.active .num { background: var(--brand); color: #fff; }
+.wf-step.done { color: var(--text-soft); }
+.wf-step.done .num { background: rgba(16, 185, 129, 0.25); color: #34d399; }
+
+/* ---------- 配置视图 ---------- */
+.wf-panel {
+  background: var(--surface-strong);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.6rem;
+  margin-bottom: 1.2rem;
+  box-shadow: var(--shadow-sm);
+}
+.wf-panel-title { font-size: 1.15rem; font-weight: 700; color: var(--text); margin: 0 0 1rem; display: flex; align-items: center; gap: 0.5rem; }
+
+.wf-num-grid { display: flex; gap: 0.7rem; flex-wrap: wrap; margin-bottom: 0.4rem; }
+.wf-num-pill {
+  padding: 0.55rem 1.1rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s var(--ease);
+}
+.wf-num-pill:hover { color: var(--text); border-color: var(--line-strong); }
+.wf-num-pill.active { background: var(--brand-soft); border-color: var(--line-strong); color: var(--brand); }
+
+.wf-board-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 1rem 1.2rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, var(--surface), var(--surface-row));
+  margin-bottom: 0.9rem;
+}
+.wf-board-name { font-weight: 700; color: var(--text); font-size: 1.06rem; }
+.wf-board-meta { color: var(--text-muted); font-size: 0.86rem; margin-top: 0.2rem; }
+.wf-board-count { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+.wf-count-chip { padding: 0.35rem 0.8rem; border-radius: 999px; font-size: 0.82rem; font-weight: 600; background: var(--brand-soft); color: var(--brand); border: 1px solid var(--line-strong); }
+
+.wf-role-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.wf-role-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--text-soft);
+}
+.wf-badge { font-size: 0.72rem; padding: 1px 7px; border-radius: 999px; }
+.wf-badge.wolf { background: rgba(239, 68, 68, 0.18); color: #f87171; }
+.wf-badge.god { background: rgba(251, 191, 36, 0.16); color: #fbbf24; }
+.wf-badge.villager { background: rgba(109, 120, 255, 0.16); color: var(--brand); }
+
+.wf-actions { display: flex; gap: 0.7rem; flex-wrap: wrap; margin-top: 1rem; }
+
+/* ---------- 发牌视图 ---------- */
+.wf-deal-stage { text-align: center; }
+.wf-deal-counter { color: var(--text-muted); font-size: 1rem; margin-bottom: 1rem; }
+.wf-deal-card {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 2.4rem 2rem;
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, var(--surface-strong), var(--surface-row));
+  border: 1px solid var(--line-strong);
+  box-shadow: var(--shadow);
+  animation: wf-fade-in 0.35s var(--ease);
+}
+.wf-deal-player { color: var(--text-muted); font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; }
+.wf-deal-role { font-size: 2.2rem; font-weight: 800; color: var(--text); margin: 0.6rem 0; }
+.wf-deal-camp { display: inline-block; margin-bottom: 0.8rem; }
+.wf-deal-text { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
+.wf-deal-progress { max-width: 420px; margin: 1.2rem auto 0; height: 6px; border-radius: 6px; background: var(--surface-row); overflow: hidden; }
+.wf-deal-progress i { display: block; height: 100%; background: linear-gradient(90deg, var(--brand), var(--brand-strong)); transition: width 0.3s var(--ease); }
+.wf-deal-actions { display: flex; justify-content: center; gap: 0.7rem; flex-wrap: wrap; margin-top: 1.4rem; }
+
+/* ---------- 对局视图 ---------- */
+.wf-phase-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.wf-phase-name { font-size: 1.2rem; font-weight: 800; color: var(--text); display: flex; align-items: center; gap: 0.6rem; }
+.wf-phase-name .day { color: var(--brand); }
+.wf-phase-name .night { color: #a78bfa; }
+.wf-timer { font-variant-numeric: tabular-nums; font-size: 1.5rem; font-weight: 800; color: var(--brand); min-width: 70px; text-align: center; }
+.wf-timer.warn { color: #f59e0b; }
+.wf-timer.danger { color: #ef4444; }
+
+.wf-action-card {
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, var(--brand-soft), rgba(109, 120, 255, 0.05));
+  border: 1px solid var(--line-strong);
+  margin-bottom: 1.2rem;
+  box-shadow: var(--shadow-sm);
+  animation: wf-fade-in 0.3s var(--ease);
+}
+.wf-action-role { font-size: 0.95rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; }
+.wf-action-text { font-size: 1.5rem; font-weight: 800; color: var(--text); margin: 0.6rem 0 0.2rem; line-height: 1.3; }
+
+.wf-target-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.6rem; margin-top: 1rem; }
+.wf-target {
+  padding: 0.7rem;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--text-soft);
+  font-weight: 600;
+  font-size: 0.92rem;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.18s var(--ease);
+}
+.wf-target:hover { border-color: var(--line-strong); background: var(--brand-soft); color: var(--text); transform: translateY(-2px); }
+.wf-target.selected { background: var(--brand-soft); border-color: var(--brand); color: var(--brand); }
+
+.wf-target-grid.two-col { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+
+/* 行动记录 / 面板 */
+.wf-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; align-items: start; }
+@media (max-width: 800px) { .wf-grid-2 { grid-template-columns: 1fr; } }
+
+.wf-players { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 0.55rem; }
+.wf-player {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 0.65rem;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--text-soft);
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+.wf-player.dead { opacity: 0.5; text-decoration: line-through; background: rgba(239, 68, 68, 0.06); border-color: rgba(239, 68, 68, 0.25); }
+.wf-player-role { font-weight: 700; font-size: 0.88em; margin-left: 4px; }
+.wf-player-role.wolf { color: #f87171; }
+.wf-player-role.god { color: #fbbf24; }
+.wf-player-role.villager { color: var(--brand); }
+.wf-player .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--brand); flex-shrink: 0; }
+.wf-player.dead .dot { background: #ef4444; }
+
+.wf-log {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 260px;
+  overflow-y: auto;
+}
+.wf-log li { padding: 0.45rem 0; border-bottom: 1px dashed var(--line); color: var(--text-muted); font-size: 0.9rem; }
+.wf-log li b { color: var(--text-soft); }
+
+.wf-divider { height: 1px; background: linear-gradient(90deg, transparent, var(--line-strong), transparent); margin: 1.2rem 0; }
+
+/* ---------- 可伸缩卡片（规则变体） ---------- */
+.wf-collapsible {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-strong);
+  padding: 0 1.2rem;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+.wf-collapsible[open] { padding-bottom: 1rem; }
+.wf-collapsible > summary {
+  cursor: pointer;
+  padding: 1rem 0;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  user-select: none;
+}
+.wf-collapsible > summary::-webkit-details-marker { display: none; }
+.wf-collapsible > summary::before {
+  content: '▸';
+  transition: transform 0.2s var(--ease);
+  font-size: 0.8rem;
+}
+.wf-collapsible[open] > summary::before { transform: rotate(90deg); }
+.wf-collapsible > summary:hover { color: var(--text); }
+.wf-collapsible > div { padding: 0 0 0.2rem; }
+
+/* ---------- 胜负弹层 ---------- */
+.wf-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  background: rgba(3, 6, 18, 0.72);
+  backdrop-filter: blur(6px);
+}
+.wf-winner-card {
+  text-align: center;
+  padding: 2.6rem 3rem;
+  border-radius: var(--radius);
+  background: var(--surface-strong);
+  border: 1px solid var(--line-strong);
+  box-shadow: var(--shadow);
+  animation: wf-fade-in 0.4s var(--ease);
+  max-width: 90%;
+}
+.wf-winner-icon { font-size: 3.6rem; margin-bottom: 0.6rem; }
+.wf-winner-title { font-size: 2.2rem; font-weight: 800; color: var(--text); margin: 0 0 0.5rem; }
+.wf-winner-sub { color: var(--text-muted); font-size: 1rem; margin-bottom: 0.8rem; }
+.wf-winner-stats { color: var(--text-soft); font-size: 0.95rem; margin-bottom: 1rem; }
+.wf-winner-log-title { color: var(--text-soft); font-size: 0.92rem; font-weight: 600; margin-bottom: 0.5rem; }
+
+.wf-empty { text-align: center; color: var(--text-muted); padding: 3rem 1rem; }
+.wf-empty-icon { font-size: 3rem; opacity: 0.6; margin-bottom: 0.6rem; }
+
+@keyframes wf-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+  .wf-deal-role { font-size: 1.7rem; }
+  .wf-action-text { font-size: 1.2rem; }
+  .wolf-container { padding: 1.2rem 1rem 2.4rem; }
+}

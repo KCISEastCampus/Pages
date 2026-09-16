@@ -1,0 +1,248 @@
+# ============================================
+# 狼人杀中控台 — 数据配置（唯一数据源）
+# 修改此文件即可更新玩法，无需改代码
+# 配合 assets/js/werewolf.js 与 _layouts/werewolf.html 使用
+# ============================================
+
+config:
+  title: "狼人杀中控台"
+  subtitle: "KC Gaming · 主持人专用"
+
+# ---------- 规则变体（村规选项） ----------
+# 主持人可在开局前选择，应对不同地方的规则分歧
+rule_variants:
+  - id: witch_self_save
+    name: 女巫自救
+    description: 女巫是否可以用解药救自己
+    options:
+      - id: no_self_save
+        name: 全程不可自救
+        default: true
+        rule: "女巫在整个游戏过程中不能使用解药救自己"
+      - id: first_night_only
+        name: 仅首夜可自救
+        rule: "女巫仅在第一个夜晚可以用解药救自己，之后不可"
+      - id: always_self_save
+        name: 全程可自救
+        rule: "女巫在任何夜晚都可以用解药救自己"
+
+  - id: guard_witch_conflict
+    name: 守救同体
+    description: 守卫和女巫同时救同一人时的结算
+    options:
+      - id: conflict_death
+        name: 启用（奶死）
+        default: true
+        rule: "守卫守护与女巫解药同时作用于同一人时，该玩家死亡且解药消耗"
+      - id: conflict_independent
+        name: 禁用（各自生效）
+        rule: "守卫和女巫各自独立判断，不产生冲突"
+
+  - id: hunter_poisoned
+    name: 猎人被毒
+    description: 猎人被女巫毒杀后是否可以开枪
+    options:
+      - id: no_shoot
+        name: 不能开枪
+        default: true
+        rule: "猎人被女巫毒杀后不能开枪"
+      - id: can_shoot
+        name: 可以开枪
+        rule: "猎人被女巫毒杀后仍然可以开枪带走一名玩家"
+
+  - id: langwang_exile
+    name: 白狼王放逐
+    description: 白狼王被投票放逐时是否可以自爆带人
+    options:
+      - id: exile_explode
+        name: 可自爆带人
+        default: true
+        rule: "白狼王被投票放逐时，可选择自爆带走一名好人"
+      - id: exile_no_explode
+        name: 不能自爆
+        rule: "白狼王被投票放逐时直接出局，不能自爆带人"
+
+  - id: witch_double_use
+    name: 女巫双药
+    description: 女巫同一夜晚是否可以同时使用解药和毒药
+    options:
+      - id: no_double
+        name: 不可双用
+        default: true
+        rule: "女巫在同一夜晚只能使用解药或毒药中的一种"
+      - id: allow_double
+        name: 可以双用
+        rule: "女巫在同一夜晚可以同时使用解药和毒药"
+
+# ---------- 按人数推荐配置 ----------
+# 人数 -> 角色池（wolf 狼 / gods 神职 / villager 平民）
+recommend:
+  6:
+    - name: 标准
+      wolf: 2
+      gods: [预言家, 女巫]
+      villager: 2
+    - name: 新手友好
+      wolf: 2
+      gods: [预言家]
+      villager: 3
+  7:
+    - name: 标准
+      wolf: 2
+      gods: [预言家, 女巫]
+      villager: 3
+    - name: 新手友好
+      wolf: 2
+      gods: [女巫]
+      villager: 4
+  8:
+    - name: 标准
+      wolf: 3
+      gods: [预言家, 女巫, 猎人]
+      villager: 2
+    - name: 新手友好
+      wolf: 3
+      gods: [预言家, 女巫]
+      villager: 3
+    - name: 狼人强势
+      wolf: 4
+      gods: [预言家, 女巫]
+      villager: 2
+  9:
+    - name: 标准
+      wolf: 3
+      gods: [预言家, 女巫, 猎人]
+      villager: 3
+    - name: 新手友好
+      wolf: 3
+      gods: [预言家, 女巫]
+      villager: 4
+  10:
+    - name: 标准
+      wolf: 3
+      gods: [预言家, 女巫, 猎人]
+      villager: 4
+    - name: 新手友好
+      wolf: 2
+      gods: [预言家, 女巫, 猎人]
+      villager: 5
+  11:
+    - name: 标准
+      wolf: 4
+      gods: [预言家, 女巫, 猎人]
+      villager: 4
+    - name: 平衡
+      wolf: 3
+      gods: [预言家, 女巫, 猎人]
+      villager: 5
+  12:
+    - name: 标准
+      wolf: 4
+      gods: [预言家, 女巫, 猎人, 白痴]
+      villager: 4
+    - name: 新手友好
+      wolf: 3
+      gods: [预言家, 女巫, 猎人, 白痴]
+      villager: 5
+  13:
+    - name: 标准
+      wolf: 4
+      gods: [预言家, 女巫, 猎人, 白痴]
+      villager: 5
+    - name: 新手友好
+      wolf: 4
+      gods: [预言家, 女巫, 猎人]
+      villager: 6
+  14:
+    - name: 标准
+      wolf: 4
+      gods: [预言家, 女巫, 猎人, 白痴, 守卫]
+      villager: 5
+    - name: 新手友好
+      wolf: 4
+      gods: [预言家, 女巫, 猎人, 白痴]
+      villager: 6
+  15:
+    - name: 标准
+      wolf: 5
+      gods: [预言家, 女巫, 猎人, 白痴, 守卫]
+      villager: 5
+    - name: 新手友好
+      wolf: 5
+      gods: [预言家, 女巫, 猎人, 白痴]
+      villager: 6
+
+# ---------- 角色元数据 ----------
+roles:
+  狼人:
+    camp: 狼
+    night: true
+    active: true
+    text: "狼人请睁眼，互相确认，选择今晚要袭击的目标"
+  白狼王:
+    camp: 狼
+    night: false
+    active: true
+    text: "白狼王白天可自爆，带走一名好人后直接进入黑夜"
+  预言家:
+    camp: 神
+    night: true
+    active: true
+    text: "预言家请睁眼，选择一名玩家查验身份"
+  女巫:
+    camp: 神
+    night: true
+    active: true
+    text: "女巫请睁眼，选择【救人】或【毒人】（一瓶解药、一瓶毒药）"
+  猎人:
+    camp: 神
+    night: false
+    active: true
+    text: "猎人被放逐时可开枪带走一名玩家"
+  守卫:
+    camp: 神
+    night: true
+    active: true
+    text: "守卫请睁眼，选择守护一名玩家（不可连续两晚守同一人）"
+  白痴:
+    camp: 神
+    night: false
+    active: false
+    text: "白痴白天被放逐后可翻牌免死，但不能投票"
+  平民:
+    camp: 民
+    night: false
+    active: false
+    text: "平民请睁眼，白天参与讨论与投票"
+
+# ---------- 夜间时序模板 ----------
+night_orders:
+  standard: [狼人, 女巫, 预言家]          # 预女猎白（无守卫）
+  with_guard: [守卫, 狼人, 女巫, 预言家]   # 带守卫板
+
+# ---------- 进阶板子（主持人可手动切换） ----------
+boards:
+  - id: standard_12
+    name: "预女猎白 · 标准"
+    players: 12
+    wolf: 4
+    gods: [预言家, 女巫, 猎人, 白痴]
+    villager: 4
+    night_order: standard
+    note: "最经典标准局，适合新手与中级玩家"
+  - id: guard_12
+    name: "预女猎守 · 守卫"
+    players: 12
+    wolf: 4
+    gods: [预言家, 女巫, 猎人, 守卫]
+    villager: 4
+    night_order: with_guard
+    note: "增加守卫，夜间防御博弈更丰富"
+  - id: langwang_12
+    name: "守卫 · 白狼王"
+    players: 12
+    wolves: [白狼王, 狼人, 狼人, 狼人]
+    gods: [预言家, 女巫, 猎人, 守卫]
+    villager: 4
+    night_order: with_guard
+    note: "白狼王可自爆带走一名好人，对抗更激烈"
