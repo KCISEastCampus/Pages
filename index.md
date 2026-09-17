@@ -6,11 +6,6 @@ language: zh_CN
 ## 校园精选资源
 
 <div class="featured-resources">
-  <a href="/pingpong/" class="featured-card">
-    <div class="featured-icon"><i class="fas fa-table-tennis-paddle-ball"></i></div>
-    <div class="featured-title">ALPL 乒乓球联赛</div>
-    <div class="featured-desc">Ping-Pong A-level Pro League</div>
-  </a>
   <a href="/app/" class="featured-card" target="_blank" rel="noopener noreferrer">
     <div class="featured-icon"><i class="fas fa-download"></i></div>
     <div class="featured-title">APP下载</div>
@@ -20,16 +15,6 @@ language: zh_CN
     <div class="featured-icon"><i class="fas fa-school"></i></div>
     <div class="featured-title">A-Level主页</div>
     <div class="featured-desc">A-Level课程平台</div>
-  </a>
-  <a href="/chess" class="featured-card">
-    <div class="featured-icon"><i class="fas fa-chess"></i></div>
-    <div class="featured-title">KC Gaming Chess</div>
-    <div class="featured-desc">国际象棋对战平台</div>
-  </a>
-  <a href="/werewolf" class="featured-card">
-    <div class="featured-icon"><i class="fas fa-user-secret"></i></div>
-    <div class="featured-title">狼人杀中控台</div>
-    <div class="featured-desc">主持人对局助手</div>
   </a>
 </div>
 
@@ -51,3 +36,7 @@ language: zh_CN
 {% endfor %}
 </div>
 {% endfor %}
+
+### 密码说明
+
+目前大部分校内网站已改成使用学生本人证件号（如身份证、护照、台胞证）登录，仍有少数网站默认密码采用你入学时通用的密码。其中 ManageBac 可能为 `学号_kcis`，其他系统可能是 `Ks@生日` 或 `Kskq%生日`。如果使用证件号无法登录，建议试试上述密码。
