@@ -321,19 +321,12 @@ results:
 | 面试评分 | 数字 | 1-10分 |
 | 备注 | 多行文本 | 面试官备注 |
 
-#### AirScript自动化脚本
+#### 统计逻辑示例（需接入真实 API）
+
+以下 JavaScript 只演示记录筛选和统计，不调用 WPS API。`records` 是已读取并映射为“状态”“意向组别”等字段的记录数组；部署到 AirScript 前，需要根据实际表格和官方 API 完成读取、字段映射及定时任务配置。
 
 ```javascript
-// 每日检查脚本（定时任务触发）
-async function dailyCheck() {
-  const app = Application;
-  const sheet = app.ActiveSheet;
-
-  // 获取所有"待审核"状态的记录
-  const records = await sheet Records.query({
-    filter: { '状态': '待审核' }
-  });
-
+function summarizePendingApplications(records, limit = 20) {
   // 统计各组别人数
   const stats = {
     '学术组': 0,
@@ -342,8 +335,9 @@ async function dailyCheck() {
   };
 
   records.forEach(r => {
+    if (r['状态'] !== '待审核') return;
     const group = r['意向组别'];
-    if (stats[group] !== undefined) {
+    if (Object.prototype.hasOwnProperty.call(stats, group)) {
       stats[group]++;
     }
   });
@@ -351,12 +345,12 @@ async function dailyCheck() {
   console.log('当前报名统计：', JSON.stringify(stats));
 
   // 如果某组别报名人数超过限额，可触发提醒
-  const LIMIT = 20;
   for (const [group, count] of Object.entries(stats)) {
-    if (count >= LIMIT) {
+    if (count >= limit) {
       console.warn(`${group}报名人数已达${count}人，接近/超过限额`);
     }
   }
+  return stats;
 }
 ```
 

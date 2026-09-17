@@ -6,7 +6,7 @@ description: ALPL 校内乒乓球公开赛：每天45分钟，两台球桌，14�
 permalink: /pingpong/
 ---
 
-<div class="alpl-hero" id="top">
+<div class="alpl-hero" id="top" tabindex="-1">
   <div class="alpl-hero-copy">
     <p class="alpl-kicker"><span class="alpl-live-dot"></span> ALPL · CAMPUS SPORTS SERIES</p>
     <h1>Ping-Pong<br><span>A-level Pro League</span></h1>
@@ -22,20 +22,10 @@ permalink: /pingpong/
     </div>
   </div>
 
-  <div class="alpl-hero-art" aria-label="乒乓球台插画">
-    <div class="alpl-art-orbit alpl-art-orbit-one"></div>
-    <div class="alpl-art-orbit alpl-art-orbit-two"></div>
-    <div class="alpl-art-ball"><span></span></div>
-    <div class="alpl-court">
-      <div class="alpl-court-surface"></div>
-      <div class="alpl-court-net"><span></span></div>
-      <div class="alpl-court-leg alpl-court-leg-left"></div>
-      <div class="alpl-court-leg alpl-court-leg-right"></div>
-    </div>
-    <div class="alpl-art-label alpl-art-label-top">SPIN / SPEED / FOCUS</div>
-    <div class="alpl-art-label alpl-art-label-bottom">EST. FOR THE NEXT CHAMPION</div>
-    <div class="alpl-number-mark">01</div>
-  </div>
+  <figure class="alpl-hero-art">
+    <img class="alpl-court-illustration" src="{{ '/assets/images/alpl-table.svg' | relative_url }}" width="640" height="490" alt="蓝色乒乓球台，白色边线与纵向中线，竖起的球网横跨桌面中央，四条桌腿向下支撑，一颗白球位于近半场上方。" fetchpriority="high">
+    <figcaption class="alpl-art-caption"><span>SPIN / SPEED / FOCUS</span><span>ALPL · SEASON 01</span></figcaption>
+  </figure>
 </div>
 
 <div class="alpl-ticker" aria-label="赛事关键词">
@@ -65,7 +55,7 @@ permalink: /pingpong/
   </div>
 </section>
 
-<section class="alpl-section alpl-intro" id="about">
+<section class="alpl-section alpl-intro" id="about" tabindex="-1">
   <div class="alpl-section-heading">
     <p class="alpl-index">01 / THE LEAGUE</p>
     <h2>把碎片时间，<br><em>打成一场联赛。</em></h2>
@@ -113,7 +103,7 @@ permalink: /pingpong/
   </div>
 </section>
 
-<section class="alpl-section" id="format">
+<section class="alpl-section" id="format" tabindex="-1">
   <div class="alpl-section-heading alpl-heading-row">
     <div><p class="alpl-index">02 / THE FORMAT</p><h2>通往冠军的<br><em>两段式路径。</em></h2></div>
     <span class="alpl-section-tag">SWISS → TOP 8</span>
@@ -142,7 +132,7 @@ permalink: /pingpong/
     </article>
   </div>
 
-  <div class="alpl-bracket-card">
+  <div class="alpl-bracket-card" tabindex="0" role="region" aria-label="八强对阵表，可左右滚动查看">
     <div class="alpl-bracket-title"><span>TOP 8 BRACKET</span><small>按资格赛排名确定种子</small></div>
     <div class="alpl-bracket">
       <div class="alpl-bracket-round"><span class="alpl-round-label">QUARTERFINALS</span><div class="alpl-matchup"><b>#1</b><span>vs</span><b>#8</b></div><div class="alpl-matchup"><b>#4</b><span>vs</span><b>#5</b></div><div class="alpl-matchup"><b>#2</b><span>vs</span><b>#7</b></div><div class="alpl-matchup"><b>#3</b><span>vs</span><b>#6</b></div></div>
@@ -154,7 +144,7 @@ permalink: /pingpong/
   </div>
 </section>
 
-<section class="alpl-section alpl-schedule-section" id="schedule">
+<section class="alpl-section alpl-schedule-section" id="schedule" tabindex="-1">
   <div class="alpl-section-heading alpl-heading-row">
     <div><p class="alpl-index">03 / THE RUN OF SHOW</p><h2>每天45分钟，<br><em>比赛不拖堂。</em></h2></div>
     <p class="alpl-heading-aside">赛程将根据最终报名人数和实际比赛结果每日更新。以下为执行节奏。</p>
@@ -167,17 +157,17 @@ permalink: /pingpong/
   </div>
 </section>
 
-<section class="alpl-section alpl-rules-section" id="rules">
+<section class="alpl-section alpl-rules-section" id="rules" tabindex="-1">
   <div class="alpl-section-heading">
     <p class="alpl-index">04 / PLAY FAIR</p>
     <h2>简单、快速、<br><em>每一分都算数。</em></h2>
   </div>
   <div class="alpl-rules-grid">
     <div class="alpl-rule-list">
-      <details open><summary><span>01</span><b>资格赛</b><i class="fas fa-plus" aria-hidden="true"></i></summary><p>三局两胜制，每局11分。每位选手完成三轮资格赛，胜者得2分，负者得1分。</p></details>
-      <details><summary><span>02</span><b>淘汰赛</b><i class="fas fa-plus" aria-hidden="true"></i></summary><p>八强及半决赛采用五局三胜制。决赛视现场时间安排采用五局三胜或七局四胜。</p></details>
-      <details><summary><span>03</span><b>排名与晋级</b><i class="fas fa-plus" aria-hidden="true"></i></summary><p>同分时依次比较小局胜率、得失分率和对手平均积分，最终前8名进入淘汰赛。</p></details>
-      <details><summary><span>04</span><b>签到与弃权</b><i class="fas fa-plus" aria-hidden="true"></i></summary><p>参赛者须提前10分钟签到；迟到超过10分钟视为弃权。所有选手须服从裁判和赛事安排。</p></details>
+      <details name="alpl-rules" open><summary><span>01</span><b>资格赛</b><i class="fas fa-plus" aria-hidden="true"></i></summary><p>三局两胜制，每局11分。每位选手完成三轮资格赛，胜者得2分，负者得1分。</p></details>
+      <details name="alpl-rules"><summary><span>02</span><b>淘汰赛</b><i class="fas fa-plus" aria-hidden="true"></i></summary><p>八强及半决赛采用五局三胜制。决赛视现场时间安排采用五局三胜或七局四胜。</p></details>
+      <details name="alpl-rules"><summary><span>03</span><b>排名与晋级</b><i class="fas fa-plus" aria-hidden="true"></i></summary><p>同分时依次比较小局胜率、得失分率和对手平均积分，最终前8名进入淘汰赛。</p></details>
+      <details name="alpl-rules"><summary><span>04</span><b>签到与弃权</b><i class="fas fa-plus" aria-hidden="true"></i></summary><p>参赛者须提前10分钟签到；迟到超过10分钟视为弃权。所有选手须服从裁判和赛事安排。</p></details>
     </div>
     <div class="alpl-awards-card">
       <div class="alpl-award-icon"><i class="fas fa-medal" aria-hidden="true"></i></div>
@@ -188,7 +178,7 @@ permalink: /pingpong/
   </div>
 </section>
 
-<section class="alpl-registration" id="registration">
+<section class="alpl-registration" id="registration" tabindex="-1">
   <div class="alpl-registration-copy">
     <p class="alpl-kicker"><span class="alpl-live-dot"></span> REGISTRATION STATUS</p>
     <h2>Ready to<br><em>serve?</em></h2>

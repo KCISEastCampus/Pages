@@ -198,7 +198,7 @@ roles:
     camp: 神
     night: false
     active: true
-    text: "猎人被放逐时可开枪带走一名玩家"
+    text: "猎人被狼刀、守救同体或放逐出局时可开枪带走一名玩家；被毒时按本局规则执行，被白狼王带走时不能开枪"
   守卫:
     camp: 神
     night: true
