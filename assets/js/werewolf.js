@@ -162,6 +162,10 @@
       deaths: [],
       pending: null,
       pendingIdx: null,
+      pendingQueue: [],
+      pendingResume: null, // 所有死亡技能结算后，返回白天或进入下一夜
+      explodePick: false,
+      winner: null,
       lastExiled: null,
       log: [],
     };
@@ -175,14 +179,67 @@
   function checkWin() {
     const alive = state.players.filter((p) => p.alive);
     const wolves = alive.filter((p) => p.camp === '狼');
-    const good = alive.filter((p) => p.camp !== '狼');
+    const gods = alive.filter((p) => p.camp === '神');
+    const villagers = alive.filter((p) => p.camp === '民');
     if (wolves.length === 0) return 'good';
-    if (good.length <= wolves.length) return 'wolf';
+    if (gods.length === 0 || villagers.length === 0) return 'wolf';
     return null;
+  }
+
+  function livingPlayer(idx) {
+    return Number.isInteger(idx) && state.players[idx] && state.players[idx].alive;
+  }
+
+  function queuePending(kind, idx) {
+    state.game.pendingQueue.push({ kind, idx });
+  }
+
+  // 先结算本次全部死亡，再处理技能；被毒的猎人按本局规则执行。
+  function eliminate(idx, cause) {
+    if (!livingPlayer(idx)) return;
+    const p = state.players[idx];
+    p.alive = false;
+    if (p.role === '猎人' && cause !== 'explode') {
+      const canShoot = cause !== 'poison' || ruleOption('hunter_poisoned') === 'can_shoot';
+      if (cause === 'poison') addLog(canShoot ? '🔫 猎人被毒杀，但仍可开枪' : '🔫 猎人被毒杀，不能开枪');
+      if (canShoot) queuePending('hunter', idx);
+    }
+  }
+
+  function continueSettlement() {
+    const g = state.game;
+    g.pending = null;
+    g.pendingIdx = null;
+    g.explodePick = false;
+    const next = g.pendingQueue.shift();
+    if (next) {
+      g.pending = next.kind;
+      g.pendingIdx = next.idx;
+      clearTimer();
+      renderGame();
+      return;
+    }
+    const resume = g.pendingResume;
+    g.pendingResume = null;
+    const win = checkWin();
+    if (win) { renderGame(); return; }
+    if (resume === 'night') {
+      g.round++;
+      enterNight();
+    } else {
+      renderGame();
+      startTimer(120);
+    }
+  }
+
+  function startSettlement(resume) {
+    state.game.pendingResume = resume;
+    continueSettlement();
   }
 
   function enterNight() {
     const g = state.game;
+    if (g.pending || g.pendingQueue.length || g.winner) return;
     g.phase = 'night';
     const n = g.night;
     // 保存上轮守卫目标（不可连续守同一人）
@@ -213,6 +270,7 @@
 
   function nextNight() {
     const g = state.game;
+    if (g.phase !== 'night' || g.pending || g.winner) return;
     g.night.idx++;
     g.night.witchPhase = 'choose';
     // 跳过已死角色的夜间阶段（如守卫/女巫/预言家已死）
@@ -234,6 +292,7 @@
 
   function endNight() {
     const g = state.game;
+    if (g.phase !== 'night' || g.pending || g.winner) return;
     const n = g.night;
     const deaths = [];
     if (n.wolfTarget !== null) {
@@ -250,16 +309,9 @@
       // 其他情况：saved XOR guarded → 玩家存活（被救或被守）
     }
     if (g.witchGlobal.poisonUsed && n.witch.poisonTarget !== null) deaths.push(n.witch.poisonTarget);
-    // LOGIC-1: 猎人被毒杀提示
-    if (g.witchGlobal.poisonUsed && n.witch.poisonTarget !== null) {
-      const poisoned = state.players[n.witch.poisonTarget];
-      if (poisoned && poisoned.role === '猎人') {
-        const canShoot = ruleOption('hunter_poisoned') === 'can_shoot';
-        addLog(canShoot ? '🔫 猎人被毒杀，但仍可开枪' : '🔫 猎人被毒杀，不能开枪');
-      }
-    }
     const uniq = Array.from(new Set(deaths));
-    uniq.forEach((i) => { state.players[i].alive = false; });
+    // 同时吃刀和吃毒也按毒杀规则处理，且只触发一次死亡技能。
+    uniq.forEach((i) => eliminate(i, i === n.witch.poisonTarget ? 'poison' : 'night'));
     g.deaths = uniq;
     g.phase = 'day';
     if (uniq.length) {
@@ -267,58 +319,86 @@
     } else {
       addLog('天亮了，昨夜平安夜');
     }
-    renderGame();
-    startTimer(120);
+    startSettlement('day');
   }
 
   function exile(idx) {
     const g = state.game;
+    if (g.phase !== 'day' || g.pending || g.winner || !livingPlayer(idx)) return;
     const p = state.players[idx];
     addLog(`白天放逐了 ${p.name}（${p.role}）`);
     g.lastExiled = idx;
-    if (p.role === '猎人') {
-      p.alive = false;
-      g.pending = 'hunter';
-      renderGame();
-      return;
-    }
     if (p.role === '白痴') {
-      g.pending = 'idiot';
-      g.pendingIdx = idx;
-      renderGame();
-      return;
+      queuePending('idiot', idx);
+    } else {
+      eliminate(idx, 'exile');
+      if (p.role === '白狼王' && ruleOption('langwang_exile') === 'exile_explode') {
+        queuePending('langwang_exile', idx);
+      }
     }
-    // LOGIC-4: 白狼王被放逐时可选择自爆带人
-    if (p.role === '白狼王' && ruleOption('langwang_exile') === 'exile_explode') {
-      g.pending = 'langwang_exile';
-      g.pendingIdx = idx;
-      renderGame();
-      return;
-    }
-    p.alive = false;
-    afterExile();
+    startSettlement('night');
   }
 
   function resolvePending(choice, idx2) {
     const g = state.game;
     if (g.pending === 'hunter') {
-      const t = state.players[idx2];
-      if (t.alive) { t.alive = false; addLog(`猎人开枪带走了 ${t.name}`); }
-      g.pending = null;
+      if (choice === 'pass') {
+        addLog(`${state.players[g.pendingIdx].name}（猎人）放弃开枪`);
+      } else {
+        if (!livingPlayer(idx2)) return;
+        eliminate(idx2, 'shot');
+        addLog(`猎人开枪带走了 ${state.players[idx2].name}`);
+      }
     } else if (g.pending === 'idiot') {
       const p = state.players[g.pendingIdx];
       if (choice === 'spare') { p.alive = true; addLog(`${p.name}（白痴）翻牌免死，留在场但不能投票`); }
-      else { p.alive = false; addLog(`${p.name}（白痴）未翻牌，出局`); }
-      g.pending = null;
-    }
-    afterExile();
+      else if (choice === 'pass') { eliminate(p.idx, 'exile'); addLog(`${p.name}（白痴）未翻牌，出局`); }
+      else return;
+    } else return;
+    continueSettlement();
+  }
+
+  function resolveExplosion(idx) {
+    const g = state.game;
+    if ((g.pending !== 'langwang' && g.pending !== 'langwang_exile') || !livingPlayer(idx)) return;
+    const target = state.players[idx];
+    if (target.camp === '狼') return;
+    const king = state.players[g.pendingIdx];
+    eliminate(king.idx, 'explode');
+    eliminate(idx, 'explode');
+    addLog(`💥 ${king.name}（白狼王）${g.pending === 'langwang_exile' ? '被放逐时' : ''}自爆出局，带走了 ${target.name}（${target.role}）`);
+    continueSettlement();
   }
 
   function afterExile() {
-    const win = checkWin();
-    if (win) { showWinner(win); return; }
-    state.game.round++;
-    enterNight();
+    const g = state.game;
+    if (g.phase !== 'day' || g.pending || g.winner) return;
+    startSettlement('night');
+  }
+
+  function witchAvailability() {
+    const g = state.game;
+    const n = g.night;
+    const witchIdx = state.players.findIndex((p) => p.alive && p.role === '女巫');
+    const isSelf = n.wolfTarget !== null && n.wolfTarget === witchIdx;
+    const selfRule = ruleOption('witch_self_save') || 'no_self_save';
+    const selfBlocked = isSelf && (selfRule === 'no_self_save' || (selfRule === 'first_night_only' && g.round > 1));
+    const usedTonight = n.witch.saveUsed || n.witch.poisonTarget !== null;
+    const blocked = witchIdx === -1 || (ruleOption('witch_double_use') !== 'allow_double' && usedTonight);
+    return {
+      save: !blocked && !g.witchGlobal.healUsed && livingPlayer(n.wolfTarget) && !selfBlocked,
+      poison: !blocked && !g.witchGlobal.poisonUsed,
+      isSelf,
+      selfBlocked,
+      usedTonight,
+    };
+  }
+
+  function afterWitchUse() {
+    const available = witchAvailability();
+    state.game.night.witchPhase = 'choose';
+    if (available.save || available.poison) renderGame();
+    else nextNight();
   }
 
   /* ---------- 渲染 ---------- */
@@ -492,7 +572,7 @@
   function renderGame() {
     const g = state.game;
     const parts = [];
-    const win = state.game.pending ? null : checkWin();
+    const win = g.pending || g.pendingQueue.length ? null : (g.winner || checkWin());
 
     // 步骤条
     parts.push(`<div class="wf-steps">`);
@@ -518,14 +598,12 @@
     }
 
     // ===== 白天 =====
-    if (g.phase === 'day') {
-      if (g.explodePick) parts.push(renderExplode());
-      else parts.push(renderDay());
-    }
+    if (g.phase === 'day' && !g.pending) parts.push(renderDay());
 
     // ===== 待决（猎人/白痴/白狼王放逐） =====
     if (g.pending === 'hunter') parts.push(renderHunter());
     if (g.pending === 'idiot') parts.push(renderIdiot());
+    if (g.pending === 'langwang') parts.push(renderExplode());
     if (g.pending === 'langwang_exile') parts.push(renderLangwangExile());
 
     // ===== 下层：玩家面板 + 记录 =====
@@ -577,26 +655,17 @@
     } else if (actor === '女巫') {
       const wg = g.witchGlobal || {};
       const wolfName = n.wolfTarget !== null ? state.players[n.wolfTarget].name : '无人';
-      const witchPlayerIdx = state.players.findIndex((p) => p.alive && p.role === '女巫');
-      const isSelfSave = n.wolfTarget !== null && n.wolfTarget === witchPlayerIdx;
-      // 女巫自救规则：no_self_save / first_night_only / always_self_save
+      const available = witchAvailability();
       const selfSaveRule = ruleOption('witch_self_save') || 'no_self_save';
-      const selfSaveBlocked = isSelfSave && (
-        selfSaveRule === 'no_self_save' ||
-        (selfSaveRule === 'first_night_only' && g.round > 1)
-      );
-      const selfSaveLabel = isSelfSave ? (selfSaveRule === 'first_night_only' && g.round === 1 ? '首夜自救' : '不能自救') : '';
-      const noDouble = ruleOption('witch_double_use') === 'no_double';
-      const saveDisabled = wg.healUsed || n.wolfTarget === null || selfSaveBlocked || (noDouble && n.witch.saveUsed);
-      const poisonDisabled = wg.poisonUsed || (noDouble && n.witch.saveUsed);
+      const selfSaveLabel = available.selfBlocked ? '不能自救' : selfSaveRule === 'first_night_only' ? '首夜自救' : '自救';
       if (n.witchPhase === 'choose') {
         body = `
           <div class="wf-action-role">🧪 ${escapeHtml(roleText('女巫'))}</div>
-          <div class="wf-action-text">${wg.healUsed ? '解药已用' : selfSaveBlocked ? '女巫' + selfSaveLabel : '如狼刀见血，可用解药'} · 当前狼刀：<b>${escapeHtml(wolfName)}</b></div>
+          <div class="wf-action-text">${wg.healUsed ? '解药已用' : available.selfBlocked ? '女巫不能自救' : '如狼刀见血，可用解药'} · 当前狼刀：<b>${escapeHtml(wolfName)}</b></div>
           <div class="wf-target-grid two-col">
-            <button class="wolf-btn primary small" data-action="witch" data-opt="save" ${saveDisabled ? 'disabled' : ''}>💊 救人（${wg.healUsed ? '已用' : isSelfSave ? selfSaveLabel : '解药'}）</button>
-            <button class="wolf-btn danger small" data-action="witch" data-opt="poison" ${poisonDisabled ? 'disabled' : ''}>☠️ 毒人（${wg.poisonUsed ? '已用' : '毒药'}）</button>
-            <button class="wolf-btn ghost small" data-action="witch" data-opt="none">不用药</button>
+            <button class="wolf-btn primary small" data-action="witch" data-opt="save" ${available.save ? '' : 'disabled'}>💊 救人（${wg.healUsed ? '已用' : available.isSelf ? selfSaveLabel : '解药'}）</button>
+            <button class="wolf-btn danger small" data-action="witch" data-opt="poison" ${available.poison ? '' : 'disabled'}>☠️ 毒人（${wg.poisonUsed ? '已用' : '毒药'}）</button>
+            <button class="wolf-btn ghost small" data-action="witch" data-opt="none">${available.usedTonight ? '结束行动' : '不用药'}</button>
           </div>`;
       } else if (n.witchPhase === 'poison') {
         body = `
@@ -673,8 +742,9 @@
     return `
       <div class="wf-action-card" style="border-color:rgba(239,68,68,0.4);background:rgba(239,68,68,0.06);">
         <div class="wf-action-role">🔫 猎人开枪</div>
-        <div class="wf-action-text">猎人被放逐，开枪带走一名玩家</div>
+        <div class="wf-action-text">${escapeHtml(state.players[state.game.pendingIdx].name)}（猎人）已出局，可开枪带走一名玩家</div>
         <div class="wf-target-grid">${alivePlayers.map((p) => `<button class="wf-target" data-action="hunter-shot" data-idx="${p.idx}">${escapeHtml(p.name)}</button>`).join('')}</div>
+        <div class="wf-actions"><button class="wolf-btn ghost small" data-action="hunter-pass">放弃开枪</button></div>
       </div>`;
   }
 
@@ -708,6 +778,7 @@
 
   /* ---------- 胜负弹层 ---------- */
   function showWinner(win) {
+    state.game.winner = win;
     if (view.querySelector('.wf-overlay')) return;
     const good = win === 'good';
     clearTimer();
@@ -741,6 +812,7 @@
 
   function startTimer(sec) {
     clearTimer();
+    if (state.game && (state.game.winner || state.game.pending)) return;
     timerRemain = sec;
     timerPaused = false;
     updateTimerUI();
@@ -768,13 +840,44 @@
   /* ---------- 事件分发 ---------- */
   view.addEventListener('click', (e) => {
     const el = e.target.closest('[data-action]');
-    if (!el) return;
+    if (!el || el.disabled) return;
     const action = el.getAttribute('data-action');
     handleAction(action, el);
   });
 
+  // UI 与事件入口同时约束合法操作，待决技能与终局禁止普通回合操作。
+  function actionAllowed(action) {
+    if (action === 'reset') return true;
+    if (state.step === 'setup') {
+      return ['count', 'option', 'board', 'rule', 'reset-config', 'deal'].includes(action);
+    }
+    if (state.step === 'deal') return ['deal', 'deal-prev', 'deal-next', 'start'].includes(action);
+    const g = state.game;
+    if (!g || g.winner) return false;
+    if (action === 'timer') return true;
+    if (g.pending) {
+      const actions = {
+        hunter: ['hunter-shot', 'hunter-pass'],
+        idiot: ['idiot'],
+        langwang: ['explode-target'],
+        langwang_exile: g.explodePick
+          ? ['langwang_exile_target', 'langwang_exile_pass']
+          : ['langwang_exile_explode', 'langwang_exile_pass'],
+      };
+      return (actions[g.pending] || []).includes(action);
+    }
+    if (g.phase === 'day') return ['day-exile', 'day-skip', 'wolf-explode'].includes(action);
+    const actor = g.night.order[g.night.idx];
+    if (actor === '狼人' || actor === '守卫') return action === 'night-target';
+    if (actor === '女巫') return action === (g.night.witchPhase === 'poison' ? 'witch-poison' : 'witch');
+    if (actor === '预言家') return action === (g.night.seer.result ? 'night-next' : 'night-seer');
+    return false;
+  }
+
   function handleAction(action, el) {
-    const idx = Number(el.getAttribute('data-idx'));
+    if (!actionAllowed(action) || el.disabled) return;
+    const rawIdx = el.getAttribute('data-idx');
+    const idx = rawIdx === null ? NaN : Number(rawIdx);
 
     switch (action) {
       case 'count': {
@@ -814,6 +917,7 @@
         break;
       }
       case 'night-target': { // wolf / guard
+        if (!livingPlayer(idx)) break;
         const actor = state.game.night.order[state.game.night.idx];
         if (actor === '狼人') { state.game.night.wolfTarget = idx; addLog(`🌙 狼人袭击了 ${state.players[idx].name}`); }
         else if (actor === '守卫') {
@@ -825,6 +929,7 @@
         break;
       }
       case 'night-seer': {
+        if (!livingPlayer(idx)) break;
         const g = state.game;
         g.night.seer = { target: idx, result: state.players[idx].camp === '狼' ? 'wolf' : 'good' };
         addLog(`🔮 预言家查验了 ${state.players[idx].name}（${g.night.seer.result === 'wolf' ? '查杀' : '金水'}）`);
@@ -835,52 +940,45 @@
       case 'witch': {
         const g = state.game;
         const opt = el.getAttribute('data-opt');
+        const available = witchAvailability();
         if (opt === 'save') {
-          // 防御性检查：女巫自救规则
-          const witchIdx = state.players.findIndex((p) => p.alive && p.role === '女巫');
-          const isSelf = witchIdx === g.night.wolfTarget;
-          if (isSelf) {
-            const selfRule = ruleOption('witch_self_save') || 'no_self_save';
-            const blocked = selfRule === 'no_self_save' || (selfRule === 'first_night_only' && g.round > 1);
-            if (blocked) {
-              addLog('🧪 女巫不能自救！');
-              break;
-            }
-          }
+          if (!available.save) break;
           g.witchGlobal.healUsed = true;
           g.night.witch.saveUsed = true;
           g.night.witch.saveTarget = g.night.wolfTarget;
           addLog(`🧪 女巫使用解药救了 ${state.players[g.night.wolfTarget].name}`);
-          nextNight();
+          afterWitchUse();
         } else if (opt === 'poison') {
+          if (!available.poison) break;
           g.night.witchPhase = 'poison';
           renderGame();
-        } else {
-          addLog('🧪 女巫没有使用药水');
+        } else if (opt === 'none') {
+          addLog(available.usedTonight ? '🧪 女巫结束行动' : '🧪 女巫没有使用药水');
           nextNight();
         }
         break;
       }
       case 'witch-poison': {
         const g = state.game;
+        if (!livingPlayer(idx) || !witchAvailability().poison) break;
         g.witchGlobal.poisonUsed = true;
         g.night.witch.poisonTarget = idx;
         addLog(`☠️ 女巫毒杀了 ${state.players[idx].name}`);
-        nextNight();
+        afterWitchUse();
         break;
       }
       case 'day-exile': { exile(idx); break; }
       case 'day-skip': { addLog('🧑‍⚖️ 白天无人被放逐，直接进入夜晚'); afterExile(); break; }
-      case 'wolf-explode': { state.game.explodePick = true; renderGame(); break; }
-      case 'explode-target': {
-        const p = state.players[idx];
-        p.alive = false;
-        addLog(`💥 白狼王自爆带走了 ${p.name}（${p.role}）`);
-        state.game.explodePick = false;
-        afterExile();
+      case 'wolf-explode': {
+        const king = state.players.find((p) => p.alive && p.role === '白狼王');
+        if (!king) break;
+        queuePending('langwang', king.idx);
+        startSettlement('night');
         break;
       }
+      case 'explode-target': { resolveExplosion(idx); break; }
       case 'hunter-shot': { resolvePending(null, idx); break; }
+      case 'hunter-pass': { resolvePending('pass'); break; }
       case 'idiot': { resolvePending(el.getAttribute('data-opt'), idx); break; }
       case 'langwang_exile_explode': {
         state.game.explodePick = true;
@@ -888,22 +986,13 @@
         break;
       }
       case 'langwang_exile_target': {
-        const target = state.players[idx];
-        const wolfKing = state.players[state.game.pendingIdx];
-        wolfKing.alive = false;
-        target.alive = false;
-        addLog(`💥 白狼王被放逐时自爆，带走了 ${target.name}（${target.role}）`);
-        state.game.pending = null;
-        state.game.explodePick = false;
-        afterExile();
+        resolveExplosion(idx);
         break;
       }
       case 'langwang_exile_pass': {
         const wolfKing = state.players[state.game.pendingIdx];
-        wolfKing.alive = false;
         addLog(`🐺 白狼王（${wolfKing.name}）被放逐，未自爆`);
-        state.game.pending = null;
-        afterExile();
+        continueSettlement();
         break;
       }
       case 'timer': {
@@ -912,7 +1001,7 @@
         else if (op === 'restart') { timerPaused = false; resetTimer(); }
         break;
       }
-      case 'reset': { state.step = 'setup'; state.count = 12; state.ruleSettings = getDefaultRuleSettings(); applyBoard(buildBoard(12)); clearTimer(); renderSetup(); break; }
+      case 'reset': { state.step = 'setup'; state.game = null; state.count = 12; state.ruleSettings = getDefaultRuleSettings(); applyBoard(buildBoard(12)); clearTimer(); renderSetup(); break; }
     }
   }
 

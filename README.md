@@ -98,6 +98,27 @@ bundle exec jekyll build
 
 The site will be generated in the `_site` directory.
 
+### Regression Tests | 回归测试
+
+The Werewolf console tests use Node.js 18 or later and the Ruby installation used
+for Jekyll. Ruby's standard YAML library reads the actual game configuration;
+no npm dependencies are needed. The tests cover victory rules, night actions,
+death skills, and phase transitions.
+
+狼人杀中控台的规则回归测试需要 Node.js 18 或更高版本及已有的 Ruby 环境，无需安装 npm 依赖：
+
+```bash
+node --test tests/werewolf.test.cjs
+```
+
+Ensure `ruby` is on `PATH`, or set `RUBY` to its executable path.
+
+These tests exercise the game script in a simulated DOM. Before publishing, also
+check the ALPL and Werewolf pages in desktop and mobile browsers, in both themes.
+The `tests/` directory is excluded from the generated site.
+
+测试使用模拟 DOM 执行游戏脚本。发布前还需在桌面和手机浏览器中检查 ALPL 与狼人杀页面的深浅主题和交互。
+
 ---
 
 ## 📁 Project Structure | 项目结构
