@@ -286,6 +286,45 @@ for (const pending of ['hunter', 'idiot', 'langwang', 'langwang_exile']) {
   });
 }
 
+test('idiot flip works once per game; a later exile leaves without flipping again', () => {
+  const roles = [...standardRoles.slice(0, 4), '白痴', ...standardRoles.slice(5)];
+  const game = setup(roles);
+  game.state.game.phase = 'day';
+  game.act('day-exile', 4);
+  assert.equal(game.state.game.pending, 'idiot');
+  game.act('idiot', { opt: 'spare' });
+  assert.equal(game.state.players[4].alive, true);
+  assert.equal(game.state.game.idiotRevealed, true);
+  assert.equal(game.state.game.pending, null);
+  assert.equal(game.state.game.phase, 'night');
+  assert.equal(game.state.game.round, 2);
+
+  // Re-enter day and exile the same player again: flip is spent.
+  game.state.game.phase = 'day';
+  game.state.game.pending = null;
+  game.state.game.pendingResume = null;
+  game.act('day-exile', 4);
+  assert.equal(game.state.players[4].alive, false);
+  assert.equal(game.state.game.pending, null);
+  assert.doesNotMatch(game.view.innerHTML, /data-action="idiot"/);
+  assert.equal(game.state.game.phase, 'night');
+  assert.equal(game.state.game.round, 3);
+});
+
+test('idiot can decline the flip and leave without spending the once-per-game skill', () => {
+  const roles = [...standardRoles.slice(0, 4), '白痴', ...standardRoles.slice(5)];
+  const game = setup(roles);
+  game.state.game.phase = 'day';
+  game.act('day-exile', 4);
+  assert.equal(game.state.game.pending, 'idiot');
+  game.act('idiot', { opt: 'pass' });
+  assert.equal(game.state.players[4].alive, false);
+  assert.equal(game.state.game.idiotRevealed, false);
+  assert.equal(game.state.game.pending, null);
+  assert.equal(game.state.game.phase, 'night');
+  assert.equal(game.state.game.round, 2);
+});
+
 test('ordinary day actions are rejected at night, and invalid targets never become player zero', () => {
   const game = setup(standardRoles);
   const before = JSON.stringify(game.state);
