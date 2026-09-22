@@ -47,3 +47,4 @@ exclude:
   - vendor/ruby/
   - README.md
   - tests/
+  - research/

@@ -159,6 +159,7 @@
       },
       witchGlobal: { healUsed: false, poisonUsed: false },  // 整局药水状态（只有一救一毒）
       lastGuardTarget: null,  // 上轮守卫守护目标（不可连续守同一人）
+      idiotRevealed: false,   // 白痴翻牌整局一次
       deaths: [],
       pending: null,
       pendingIdx: null,
@@ -328,7 +329,7 @@
     const p = state.players[idx];
     addLog(`白天放逐了 ${p.name}（${p.role}）`);
     g.lastExiled = idx;
-    if (p.role === '白痴') {
+    if (p.role === '白痴' && !g.idiotRevealed) {
       queuePending('idiot', idx);
     } else {
       eliminate(idx, 'exile');
@@ -351,9 +352,14 @@
       }
     } else if (g.pending === 'idiot') {
       const p = state.players[g.pendingIdx];
-      if (choice === 'spare') { p.alive = true; addLog(`${p.name}（白痴）翻牌免死，留在场但不能投票`); }
-      else if (choice === 'pass') { eliminate(p.idx, 'exile'); addLog(`${p.name}（白痴）未翻牌，出局`); }
-      else return;
+      if (choice === 'spare') {
+        p.alive = true;
+        g.idiotRevealed = true;
+        addLog(`${p.name}（白痴）翻牌免死，留在场但不能投票（本局仅此一次）`);
+      } else if (choice === 'pass') {
+        eliminate(p.idx, 'exile');
+        addLog(`${p.name}（白痴）未翻牌，出局`);
+      } else return;
     } else return;
     continueSettlement();
   }
@@ -753,7 +759,7 @@
     return `
       <div class="wf-action-card">
         <div class="wf-action-role">🎭 白痴翻牌</div>
-        <div class="wf-action-text">${escapeHtml(p.name)}（白痴）被放逐，是否翻牌免死？</div>
+        <div class="wf-action-text">${escapeHtml(p.name)}（白痴）被放逐，是否翻牌免死？（整局仅一次）</div>
         <div class="wf-target-grid two-col">
           <button class="wolf-btn primary small" data-action="idiot" data-opt="spare">🙌 翻牌免死（留在场，不能投票）</button>
           <button class="wolf-btn ghost small" data-action="idiot" data-opt="pass">不出牌，出局</button>
