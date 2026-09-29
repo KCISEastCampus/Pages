@@ -730,6 +730,7 @@
           ${hasLangwang ? `<button class="wolf-btn small" data-action="wolf-explode">💥 白狼王自爆</button>` : ''}
           <span style="align-self:center;color:var(--text-muted);font-size:0.85rem;">放逐后如有猎人/白痴将触发结算</span>
         </div>
+        <div class="wf-timer" id="wolf-timer">120</div>
       </div>`;
   }
 

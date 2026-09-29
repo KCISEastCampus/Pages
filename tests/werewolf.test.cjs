@@ -254,6 +254,7 @@ for (const death of ['wolf', 'poison-can-shoot', 'poison-no-shoot']) {
     assert.equal(game.state.game.phase, 'day');
     assert.equal(game.state.game.round, 1);
     assert.match(game.view.innerHTML, /data-action="day-exile"/);
+    assert.match(game.view.innerHTML, /id="wolf-timer">120<\/div>/);
   });
 }
 
