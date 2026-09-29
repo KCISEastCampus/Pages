@@ -12,8 +12,8 @@
 		document.documentElement.setAttribute('data-bs-theme', 'dark');
 	}
 </script>
-<title>KCISEC校园网站</title>
-<meta name="description" content="KCISEC校园网站包含校园公报、昆山康桥学校A-Level/IGCSE资讯和摄影合作组织。">
+<title>{% if page.title %}{{ page.title }} | {% endif %}KCISEC校园网站</title>
+<meta name="description" content="{{ page.description | default: 'KCISEC校园网站包含校园公报、昆山康桥学校A-Level/IGCSE资讯和摄影合作组织。' }}">
 <link rel="shortcut icon" href="/assets/favicon.ico">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/assets/css/main.css">

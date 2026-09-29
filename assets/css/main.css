@@ -295,15 +295,15 @@ buttonlink:hover {
 /* ---------- 精选资源卡 ---------- */
 .featured-resources {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 1.1rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
   margin: 1.1rem 0 1.8rem;
 }
 
 .featured-card {
   position: relative;
   overflow: hidden;
-  padding: 1.7rem 1.5rem;
+  padding: 1.4rem 1.2rem;
   border-radius: var(--radius);
   background: linear-gradient(180deg, var(--surface-strong), var(--surface-2));
   border: 1px solid var(--line);
@@ -312,7 +312,7 @@ buttonlink:hover {
   box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: 0.3rem;
   transition: transform 0.25s var(--ease), border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
 }
 .featured-card::before {
@@ -333,15 +333,15 @@ buttonlink:hover {
 .featured-card > * { position: relative; }
 
 .featured-icon {
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
   display: grid;
   place-items: center;
   background: var(--brand-soft);
   color: var(--brand);
-  font-size: 1.4rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  margin-bottom: 0.4rem;
   transition: transform 0.25s var(--ease);
 }
 .featured-card:hover .featured-icon { transform: scale(1.06); }

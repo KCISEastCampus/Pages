@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="{{ page.language | default: 'zh_CN' }}" data-bs-theme="dark">
+
+<head>
+  {% include head.html %}
+  <link rel="stylesheet" href="/assets/css/werewolf.css">
+</head>
+
+<body class="werewolf-page">
+  <div id="wolf-app">
+    <!-- ================= 页头 ================= -->
+    <header class="wolf-header">
+      <div class="wolf-header-inner">
+        <div class="wolf-header-left">
+          <a class="wolf-back-link" href="/">← 返回首页</a>
+          <h1 class="wolf-title">🎭 狼人杀<span class="gold">中控台</span></h1>
+        </div>
+        <div class="wolf-header-right">
+          <button class="wolf-btn ghost" id="wolf-theme" title="切换主题">🌙 深色</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="wolf-container">
+      <!-- 三个视图（配置 / 发牌 / 对局）由 JS 渲染在此 -->
+      <div id="wolf-view"></div>
+    </div>
+  </div>
+
+  <script>
+    // 由 Jekyll 注入玩法配置（唯一数据源：_data/werewolf.yml）
+    window.WEREWOLF_DATA = {{ site.data.werewolf | jsonify }};
+  </script>
+  <script src="/assets/js/werewolf.js"></script>
+</body>
+
+</html>
