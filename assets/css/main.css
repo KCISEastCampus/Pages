@@ -1,6 +1,6 @@
 /* ============================================================
-   KCISEC Navigator — 统一设计系统（现代极简门户）
-   深色默认 · 深/浅双主题 · 靛蓝主色
+   KCISEC Navigator — 极光配色门户
+   深/浅双主题 · 蓝紫 / 青绿 / 珊瑚橙
    覆盖 index / en / app / 404 全站组件
    ============================================================ */
 
@@ -8,7 +8,6 @@
 :root {
   color-scheme: dark;
 
-  /* 品牌色（靛蓝） */
   --brand: #6d78ff;
   --brand-strong: #5865f2;
   --brand-soft: rgba(109, 120, 255, 0.16);
@@ -17,8 +16,8 @@
   /* 表面 / 背景 */
   --bg: #0a0f1f;
   --bg-grad:
-    radial-gradient(1100px 520px at 12% 14%, rgba(109, 120, 255, 0.10) 0%, transparent 55%),
-    radial-gradient(900px 460px at 88% 88%, rgba(99, 102, 241, 0.07) 0%, transparent 52%);
+    radial-gradient(950px 650px at 0% 8%, rgba(134, 117, 255, 0.15), transparent 65%),
+    radial-gradient(850px 650px at 100% 35%, rgba(54, 203, 184, 0.10), transparent 65%);
   --nav-bg: rgba(10, 15, 31, 0.78);
   --surface: rgba(255, 255, 255, 0.045);
   --surface-strong: rgba(19, 26, 48, 0.88);
@@ -48,14 +47,14 @@
 :root[data-bs-theme="light"] {
   color-scheme: light;
 
-  --brand: #4f5bd5;
+  --brand: #6550c9;
   --brand-strong: #3d47b8;
   --brand-soft: rgba(79, 91, 213, 0.12);
 
-  --bg: #f4f6fb;
+  --bg: #f7f8fc;
   --bg-grad:
-    radial-gradient(1000px 480px at 12% 12%, rgba(109, 120, 255, 0.08) 0%, transparent 55%),
-    radial-gradient(850px 430px at 90% 90%, rgba(79, 91, 213, 0.06) 0%, transparent 52%);
+    radial-gradient(950px 650px at 0% 8%, rgba(134, 117, 255, 0.10), transparent 65%),
+    radial-gradient(850px 650px at 100% 35%, rgba(54, 203, 184, 0.07), transparent 65%);
   --nav-bg: rgba(244, 246, 251, 0.80);
   --surface: rgba(255, 255, 255, 0.72);
   --surface-strong: #ffffff;
@@ -91,7 +90,7 @@ body {
   transition: background 0.4s var(--ease), color 0.3s var(--ease);
 }
 
-/* 极简背景点缀（去掉原高饱和光斑） */
+/* 柔和光晕，不遮挡内容 */
 body::before {
   content: '';
   position: fixed;
@@ -100,7 +99,7 @@ body::before {
   z-index: 0;
   background:
     radial-gradient(600px 300px at 10% 4%, var(--brand-soft) 0%, transparent 60%),
-    radial-gradient(520px 280px at 94% 92%, rgba(99, 102, 241, 0.06) 0%, transparent 55%);
+    radial-gradient(520px 280px at 94% 92%, rgba(54, 203, 184, 0.10) 0%, transparent 55%);
   opacity: 0.6;
 }
 
@@ -118,12 +117,13 @@ a { color: var(--brand); text-decoration: none; }
 a:hover { color: var(--brand-strong); }
 
 /* 可访问性 focus */
-buttonlink:focus,
-.button-link:focus,
-.hero-card:focus,
-.hero-quick-link:focus,
-#theme-toggle-button:focus {
-  outline: 3px solid var(--brand-soft);
+buttonlink:focus-visible,
+.featured-card:focus-visible,
+.button-link:focus-visible,
+.hero-card:focus-visible,
+.hero-quick-link:focus-visible,
+#theme-toggle-button:focus-visible {
+  outline: 3px solid var(--brand);
   outline-offset: 2px;
 }
 
@@ -246,11 +246,7 @@ buttonlink:hover {
   gap: 0.6rem;
 }
 .page-content h2::before {
-  content: '';
-  width: 5px;
-  height: 1.15em;
-  border-radius: 8px;
-  background: linear-gradient(180deg, var(--brand), var(--brand-strong));
+  content: none;
 }
 .page-content h2:first-child { margin-top: 0; }
 
@@ -295,7 +291,7 @@ buttonlink:hover {
 /* ---------- 精选资源卡 ---------- */
 .featured-resources {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
   gap: 1rem;
   margin: 1.1rem 0 1.8rem;
 }
@@ -303,34 +299,86 @@ buttonlink:hover {
 .featured-card {
   position: relative;
   overflow: hidden;
-  padding: 1.4rem 1.2rem;
+  min-height: 206px;
+  padding: 1.6rem;
   border-radius: var(--radius);
-  background: linear-gradient(180deg, var(--surface-strong), var(--surface-2));
-  border: 1px solid var(--line);
+  background:
+    radial-gradient(ellipse at 110% -40%, #c98986, transparent 65%),
+    linear-gradient(130deg, #2d3585, #6553a6);
+  border: 1px solid rgba(255, 255, 255, 0.10);
   text-decoration: none;
-  color: var(--text);
-  box-shadow: var(--shadow-sm);
+  color: #ffffff;
+  box-shadow: none;
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
   transition: transform 0.25s var(--ease), border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
 }
+:root:not([data-bs-theme="light"]) .featured-card--academic {
+  background:
+    radial-gradient(ellipse at 110% -40%, rgba(177, 137, 177, 0.12), transparent 65%),
+    linear-gradient(130deg, #292d49, #403b5f);
+}
+:root[data-bs-theme="light"] .featured-card--academic {
+  background:
+    radial-gradient(ellipse at 110% -40%, rgba(115, 95, 171, 0.11), transparent 65%),
+    linear-gradient(130deg, #f1effa, #e8e4f4);
+  border-color: rgba(83, 69, 132, 0.14);
+  color: #302747;
+}
+.featured-card--support {
+  background:
+    radial-gradient(ellipse at top right, rgba(54, 203, 184, 0.10), transparent 75%),
+    var(--surface);
+  border-color: var(--line);
+  color: var(--text);
+}
 .featured-card::before {
   content: '';
   position: absolute;
-  inset: 0;
-  background: radial-gradient(340px 180px at 80% -10%, var(--brand-soft), transparent 70%);
-  opacity: 0;
-  transition: opacity 0.25s var(--ease);
+  width: 260px;
+  height: 260px;
+  top: -145px;
+  right: -100px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
   pointer-events: none;
 }
-.featured-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--line-strong);
-  box-shadow: var(--shadow);
+.featured-card::after {
+  content: '\2197';
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  font-size: 1.3rem;
+  color: rgba(255, 255, 255, 0.8);
 }
-.featured-card:hover::before { opacity: 1; }
+.featured-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: var(--shadow-sm);
+  color: #ffffff;
+}
 .featured-card > * { position: relative; }
+.featured-card--academic .featured-title { font-size: clamp(1.65rem, 3vw, 2.2rem); }
+:root[data-bs-theme="light"] .featured-card--academic .featured-title { color: #302747; }
+:root[data-bs-theme="light"] .featured-card--academic .featured-desc { color: #58526b; }
+:root[data-bs-theme="light"] .featured-card--academic .featured-icon {
+  background: rgba(83, 69, 132, 0.06);
+  border-color: rgba(83, 69, 132, 0.16);
+  color: #554582;
+}
+:root[data-bs-theme="light"] .featured-card--academic::before { border-color: rgba(83, 69, 132, 0.12); }
+:root[data-bs-theme="light"] .featured-card--academic::after { color: #554582; }
+:root[data-bs-theme="light"] .featured-card--academic:hover {
+  border-color: rgba(83, 69, 132, 0.36);
+  color: #302747;
+}
+.featured-card--support .featured-title { font-size: 1.15rem; color: var(--text); }
+.featured-card--support .featured-desc { color: var(--text-muted); }
+.featured-card--support .featured-icon { color: var(--text-soft); border-color: var(--line); }
+.featured-card--support::before { content: none; }
+.featured-card--support::after { color: var(--text-muted); }
+.featured-card--support:hover { border-color: var(--line-strong); color: var(--text); }
 
 .featured-icon {
   width: 46px;
@@ -338,16 +386,17 @@ buttonlink:hover {
   border-radius: 12px;
   display: grid;
   place-items: center;
-  background: var(--brand-soft);
-  color: var(--brand);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #ffffff;
   font-size: 1.25rem;
-  margin-bottom: 0.4rem;
+  margin-bottom: 1.4rem;
   transition: transform 0.25s var(--ease);
 }
 .featured-card:hover .featured-icon { transform: scale(1.06); }
 
-.featured-title { font-weight: 600; font-size: 1.15rem; color: var(--text); }
-.featured-desc { color: var(--text-muted); font-size: 0.9rem; }
+.featured-title { font-weight: 600; font-size: 1.35rem; color: #ffffff; }
+.featured-desc { color: rgba(255, 255, 255, 0.85); font-size: 0.9rem; }
 
 /* ---------- 常用链接按钮 ---------- */
 .button-grid {
@@ -360,8 +409,8 @@ buttonlink:hover {
 .button-link {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
+  justify-content: flex-start;
+  gap: 0.75rem;
   padding: 0.72rem 1.05rem;
   border-radius: var(--radius-sm);
   background: var(--surface);
@@ -369,10 +418,17 @@ buttonlink:hover {
   color: var(--text);
   font-weight: 500;
   font-size: 0.94rem;
-  text-align: center;
+  text-align: left;
   transition: transform 0.2s var(--ease), border-color 0.2s var(--ease), background 0.2s var(--ease), box-shadow 0.2s var(--ease);
 }
-.button-link i { color: var(--brand); font-size: 1rem; }
+.button-link i {
+  display: grid;
+  place-items: center;
+  flex: 0 0 34px;
+  height: 34px;
+  color: var(--text-muted);
+  font-size: 1rem;
+}
 .button-link span { line-height: 1.3; }
 .button-link:hover {
   transform: translateY(-2px);
@@ -421,7 +477,7 @@ buttonlink:hover {
   margin-top: 1rem;
   padding: 0.75rem 1.5rem;
   border-radius: var(--radius-sm);
-  background: linear-gradient(135deg, var(--brand), var(--brand-strong));
+  background: linear-gradient(135deg, #6550c9, #3d47b8);
   color: var(--brand-contrast);
   text-decoration: none;
   font-weight: 600;

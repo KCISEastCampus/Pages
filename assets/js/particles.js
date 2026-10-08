@@ -8,8 +8,8 @@ function initParticles() {
     return;
   }
 
-  // 低饱和靛蓝色阶，与全站设计 token 协调（去掉了原来的高饱和霓虹三色）
-  const colors = ['#6d78ff', '#8b93ff', '#a9b1ff'];
+  // 与极光背景协调，保留低透明度避免干扰阅读。
+  const colors = ['#8675ff', '#36cbb8', '#ff987c'];
   const particles = [];
   let width = window.innerWidth;
   let height = window.innerHeight;

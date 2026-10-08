@@ -6,15 +6,15 @@ language: en
 ## Featured Campus Resources
 
 <div class="featured-resources">
-  <a href="/app/" class="featured-card" target="_blank" rel="noopener noreferrer">
-    <div class="featured-icon"><i class="fas fa-download"></i></div>
-    <div class="featured-title">App Download</div>
-    <div class="featured-desc">Campus Mobile App Center</div>
-  </a>
-  <a href="https://academic.kcisec.site/" class="featured-card" target="_blank" rel="noopener noreferrer">
+  <a href="https://academic.kcisec.site/" class="featured-card featured-card--academic" target="_blank" rel="noopener noreferrer">
     <div class="featured-icon"><i class="fas fa-school"></i></div>
-    <div class="featured-title">A-Level Homepage</div>
-    <div class="featured-desc">A-Level Course Platform</div>
+    <div class="featured-title">A-level Homepage</div>
+    <div class="featured-desc">A-level courses and learning resources</div>
+  </a>
+  <a href="/en/app/" class="featured-card featured-card--support" target="_blank" rel="noopener noreferrer">
+    <div class="featured-icon"><i class="fas fa-comments"></i></div>
+    <div class="featured-title">Voice of Support</div>
+    <div class="featured-desc">Student support and campus song requests</div>
   </a>
 </div>
 

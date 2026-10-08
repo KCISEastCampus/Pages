@@ -4,7 +4,7 @@ function bind_onclick_btn() {
     let href = button.getAttribute('href');
     button.addEventListener('click', function () {
       if (href == null) return;
-      window.open(href);
+      window.location.href = href;
     });
   });
 }

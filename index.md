@@ -6,15 +6,15 @@ language: zh_CN
 ## 校园精选资源
 
 <div class="featured-resources">
-  <a href="/app/" class="featured-card" target="_blank" rel="noopener noreferrer">
-    <div class="featured-icon"><i class="fas fa-download"></i></div>
-    <div class="featured-title">APP下载</div>
-    <div class="featured-desc">校园移动应用中心</div>
-  </a>
-  <a href="https://academic.kcisec.site/" class="featured-card" target="_blank" rel="noopener noreferrer">
+  <a href="https://academic.kcisec.site/" class="featured-card featured-card--academic" target="_blank" rel="noopener noreferrer">
     <div class="featured-icon"><i class="fas fa-school"></i></div>
-    <div class="featured-title">A-Level主页</div>
-    <div class="featured-desc">A-Level课程平台</div>
+    <div class="featured-title">A-level主页</div>
+    <div class="featured-desc">A-level课程与学习资源</div>
+  </a>
+  <a href="/app/" class="featured-card featured-card--support" target="_blank" rel="noopener noreferrer">
+    <div class="featured-icon"><i class="fas fa-comments"></i></div>
+    <div class="featured-title">心辅之声平台</div>
+    <div class="featured-desc">心理支持与校园点歌</div>
   </a>
 </div>
 
