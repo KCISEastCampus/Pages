@@ -31,6 +31,7 @@ KCISEC Navigator 是为昆山康桥学校初中部设计的学生网站。本网
 - 在中英文首页加入“同桌传 · 文件直传”，更新登录与校园打印说明。
 - 使用系统字体并尊重减少动画的设置，改善手机布局和浅色主题文字。
 - 狼人杀增加隐藏身份交接、当前标签页刷新恢复、重置确认和键盘焦点恢复；恢复时暂停计时，结束或重置后清除进度。
+- 棋赛日期显示年份，概览注明历届统计范围和常规频率的适用条件；空赛程、空榜说明发布状态，并可跳转历史赛程。
 
 ---
 
@@ -130,6 +131,12 @@ Navigation, keyboard tabs and reduced-motion regression checks:
 
 ```bash
 node --test tests/navigation.test.cjs
+```
+
+Chess date, season status and history navigation checks:
+
+```bash
+node --test tests/chess.test.cjs
 ```
 
 Ensure `ruby` is on `PATH`, or set `RUBY` to its executable path.

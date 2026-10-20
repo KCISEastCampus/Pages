@@ -3,7 +3,7 @@
 
 <head>
   {% include head.html %}
-  <link rel="stylesheet" href="/assets/css/chess.css?v=20261020">
+  <link rel="stylesheet" href="/assets/css/chess.css?v=20261020-schedule">
   <style>
     /* 页面级微调：隐藏站点默认页头以避免冲突（chess 页有自己独立的视觉） */
     .chess-page header.site-header,
@@ -73,6 +73,7 @@
             </div>
             {% endfor %}
           </div>
+          <p class="chess-hero-sub">统计范围：已录入的历届赛事，非本赛季统计。</p>
         </div>
 
         <!-- 密码横幅 -->
@@ -103,6 +104,7 @@
 
             <!-- 系列介绍 -->
             <h2 class="chess-section-title"><span class="icon">🏆</span> 赛事体系</h2>
+            <p class="chess-series-desc">以下为系列赛规则中的常规频率，具体日期以已发布赛程为准。</p>
             <div class="chess-series-grid" data-series-cards></div>
           </div>
 
@@ -167,7 +169,7 @@
       matches: {{ site.data.chess.matches | jsonify }}
     };
   </script>
-  <script src="/assets/js/chess.js?v=20261020"></script>
+  <script src="/assets/js/chess.js?v=20261020-schedule"></script>
 </body>
 
 </html>

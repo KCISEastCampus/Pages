@@ -680,7 +680,6 @@
   font-size: 0.9em;
   text-align: center;
   padding: 16px;
-  opacity: 0.7;
 }
 
 .chess-quick-divider {
@@ -1074,6 +1073,11 @@
 
 .chess-lb-btn:hover {
   color: var(--chess-text);
+}
+
+.chess-lb-btn:focus-visible {
+  outline: 2px solid var(--chess-gold);
+  outline-offset: 3px;
 }
 
 .chess-lb-btn.active {
