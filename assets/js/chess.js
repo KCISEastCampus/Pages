@@ -670,9 +670,12 @@
     }
     const copyBtn = document.querySelector('[data-copy-password]');
     if (copyBtn) {
-      copyBtn.addEventListener('click', () => {
+      copyBtn.addEventListener('click', async () => {
         const password = CONFIG.password || '';
-        navigator.clipboard.writeText(password).then(() => {
+        const status = document.querySelector('[data-copy-status]');
+        try {
+          await navigator.clipboard.writeText(password);
+          if (status) status.textContent = '密码已复制。';
           const original = copyBtn.textContent;
           copyBtn.textContent = '✓ 已复制';
           copyBtn.classList.add('copied');
@@ -682,7 +685,9 @@
             copyBtn.classList.remove('copied');
             copyBtn.disabled = false;
           }, 3000);
-        });
+        } catch (error) {
+          if (status) status.textContent = '复制失败，请选中页面中的密码并手动复制。';
+        }
       });
     }
   }

@@ -81,6 +81,7 @@
           <div>
             <div class="chess-password-title">🔑 比赛密码</div>
             <div class="chess-password-text">{{ site.data.chess.config.password_hint | default: '所有比赛使用相同密码，点击复制' }}</div>
+            <p class="chess-password-text" data-copy-status role="status"></p>
           </div>
           <div class="chess-password-display">
             <code data-password-code>KangChiaoInternationalSchool</code>
@@ -169,7 +170,7 @@
       matches: {{ site.data.chess.matches | jsonify }}
     };
   </script>
-  <script src="/assets/js/chess.js?v=20261020-schedule"></script>
+  <script src="/assets/js/chess.js?v=20261020-copy"></script>
 </body>
 
 </html>

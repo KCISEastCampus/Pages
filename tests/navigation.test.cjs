@@ -5,6 +5,30 @@ const test = require('node:test');
 const vm = require('node:vm');
 
 const read = (file) => readFileSync(path.join(__dirname, '..', file), 'utf8');
+
+test('404 back link falls back to its home URL without history and uses back when available', () => {
+  const template = read('_layouts/404.html');
+  assert.match(template, /href="\/" class="error-btn" id="error-back"/);
+  const script = template.match(/<script id="error-navigation">([\s\S]*?)<\/script>/)[1];
+  for (const [length, referrer, shouldGoBack] of [
+    [1, '', false],
+    [2, '', false],
+    [2, 'https://other.example/', false],
+    [2, 'https://campus.example/old/', true],
+  ]) {
+    let click;
+    let prevented = false;
+    let wentBack = false;
+    vm.runInNewContext(script, {
+      document: { referrer, getElementById: () => ({ addEventListener(type, callback) { click = callback; } }) },
+      window: { location: { origin: 'https://campus.example' }, history: { length, back() { wentBack = true; } } },
+      URL,
+    });
+    click({ preventDefault() { prevented = true; } });
+    assert.equal(prevented, shouldGoBack);
+    assert.equal(wentBack, shouldGoBack);
+  }
+});
 function element(attrs = {}) {
   const classes = new Set();
   const listeners = {};

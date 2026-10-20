@@ -6,12 +6,51 @@ const vm = require('node:vm');
 
 const script = readFileSync(path.join(__dirname, '..', 'assets/js/chess.js'), 'utf8');
 const source = script.replace(/\}\)\(\);\s*$/, `
-  window.testChess = { normalizeMatch, formatDate, renderQuickInfo, renderTimeline, renderLeaderboard, initScheduleLinks };
+  window.testChess = { normalizeMatch, formatDate, renderQuickInfo, renderTimeline, renderLeaderboard, initScheduleLinks, renderPassword };
 })();`);
 const historical = { ssn: 1, series: 'ec', date: '2025-11-25', winners: [{ rank: 1, name: 'Past player' }] };
 const scheduled = { ssn: 2, series: 'ec', date: '2026-12-01' };
 const now = new Date(2026, 9, 20);
 const container = () => ({ innerHTML: '', querySelectorAll: () => [], querySelector: () => null });
+
+test('copy password reports success, permission rejection and unavailable clipboard', async () => {
+  for (const outcome of ['success', 'rejected', 'unavailable']) {
+    let click;
+    let copied;
+    let reset;
+    const status = { textContent: '' };
+    const code = { textContent: '' };
+    const button = {
+      textContent: '复制', disabled: false,
+      classList: { add() {}, remove() {} },
+      addEventListener(type, callback) { click = callback; },
+    };
+    const window = { CHESS_DATA: { config: { password: 'test-only-password' } } };
+    const document = {
+      readyState: 'loading', addEventListener() {},
+      querySelector: (selector) => ({ '[data-copy-password]': button, '[data-copy-status]': status, '[data-password-code]': code })[selector],
+    };
+    const navigator = outcome === 'unavailable' ? {} : { clipboard: { async writeText(value) {
+      if (outcome === 'rejected') throw new Error('Permission denied');
+      copied = value;
+    } } };
+    vm.runInNewContext(source, { window, document, navigator, setTimeout(callback) { reset = callback; } });
+    window.testChess.renderPassword();
+    await click();
+    assert.equal(code.textContent, 'test-only-password');
+    if (outcome === 'success') {
+      assert.equal(copied, 'test-only-password');
+      assert.match(status.textContent, /已复制/);
+      assert.equal(button.disabled, true);
+      reset();
+      assert.equal(button.disabled, false);
+      assert.equal(button.textContent, '复制');
+    } else {
+      assert.match(status.textContent, /复制失败.*手动复制/);
+      assert.equal(button.disabled, false);
+    }
+  }
+});
 
 function load(matches) {
   const window = { CHESS_DATA: {
