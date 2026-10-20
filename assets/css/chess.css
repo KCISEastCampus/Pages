@@ -74,8 +74,8 @@
   --chess-text-muted: #5b6c86;
   --chess-text-soft: #40506b;
 
-  --chess-gold: #c9961a;
-  --chess-gold-soft: #e0b63c;
+  --chess-gold: #76520c;
+  --chess-gold-soft: #805b12;
   --chess-accent: #5567d6;
   --chess-accent-soft: #5a6fd0;
   --chess-green: #0e9f6e;
@@ -87,7 +87,6 @@
 
   --chess-bronze: #a06a28;
   --chess-silver: #00a3d4;
-  --chess-gold: #c9961a;
   --chess-special: #d41f7e;
 
   --chess-shadow: 0 8px 30px rgba(30, 42, 70, 0.12);
@@ -102,12 +101,12 @@
 
 /* ---------- 基础 ---------- */
 .chess-page {
-  font-family: 'Segoe UI', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: var(--font-sans);
   background: linear-gradient(135deg, var(--chess-bg) 0%, var(--chess-bg-grad-1) 25%, var(--chess-bg-grad-2) 55%, var(--chess-bg-grad-3) 100%);
   background-attachment: fixed;
   color: var(--chess-text);
   min-height: 100vh;
-  overflow-x: hidden;
+  overflow-x: clip;
   position: relative;
 }
 

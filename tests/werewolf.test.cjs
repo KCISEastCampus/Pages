@@ -21,23 +21,61 @@ const data = JSON.parse(parsed.stdout);
 const script = readFileSync(path.join(root, 'assets/js/werewolf.js'), 'utf8');
 assert.match(script, /\}\)\(\);\s*$/);
 const source = script.replace(/\}\)\(\);\s*$/, `
-  window.testGame = { state, checkWin, newGame, endNight, handleAction, exile, renderGame };
+  window.testGame = { state, checkWin, newGame, endNight, handleAction, exile, renderGame, saveSession };
 })();`);
 
-function setup(roles) {
+const sessionKey = 'werewolf-session-v1';
+function memoryStorage() {
+  const values = new Map();
+  return {
+    getItem: (key) => values.get(key) ?? null,
+    setItem: (key, value) => values.set(key, value),
+    removeItem: (key) => values.delete(key),
+  };
+}
+
+function setup(roles, options = {}) {
+  const storage = options.storage || memoryStorage();
+  const status = { textContent: '' };
+  const confirmMessage = { textContent: '' };
+  const dialog = {
+    returnValue: 'cancel',
+    addEventListener(name, fn) { this[name] = fn; },
+    showModal() {
+      this.returnValue = !options.confirm || options.confirm(confirmMessage.textContent) ? 'confirm' : 'cancel';
+      this.close();
+    },
+  };
+  let tick = () => {};
   const view = {
     innerHTML: '',
+    focused: null,
     querySelector(selector) {
-      return selector === '.wf-overlay' && this.innerHTML.includes('class="wf-overlay"') ? {} : null;
+      if (selector === '.wf-overlay' && this.innerHTML.includes('class="wf-overlay"')) return {};
+      if ((selector === '[data-stage-title]' && this.innerHTML.includes('data-stage-title')) ||
+          (selector === '.wf-winner-title' && this.innerHTML.includes('class="wf-winner-title"'))) {
+        return { focus: () => { this.focused = selector; } };
+      }
+      if (selector === '[data-action="timer"][data-op="toggle"]') {
+        return this.querySelectorAll().find((b) => b.getAttribute('data-action') === 'timer' && b.getAttribute('data-op') === 'toggle') || null;
+      }
+      return null;
+    },
+    querySelectorAll() {
+      return [...this.innerHTML.matchAll(/<button\b([^>]*)>/g)].map((match) => {
+        const attrs = Object.fromEntries([...match[1].matchAll(/([\w-]+)="([^"]*)"/g)].map((m) => [m[1], m[2]]));
+        return { getAttribute: (name) => attrs[name] ?? null, focus: () => { this.focused = attrs; } };
+      });
     },
     addEventListener() {},
     insertAdjacentHTML(position, html) { this.innerHTML += html; },
   };
   const context = {
     window: { WEREWOLF_DATA: structuredClone(data) },
-    document: { readyState: 'complete', getElementById: (id) => id === 'wolf-view' ? view : null },
-    setInterval: () => 1,
-    clearInterval() {},
+    document: { readyState: 'complete', getElementById: (id) => ({ 'wolf-view': view, 'wolf-save-status': status, 'wolf-confirm': dialog, 'wolf-confirm-message': confirmMessage })[id] || null },
+    sessionStorage: storage,
+    setInterval: (fn) => { tick = fn; return 1; },
+    clearInterval() { tick = () => {}; },
   };
   vm.runInNewContext(source, context, { filename: 'werewolf.js' });
   const api = context.window.testGame;
@@ -50,7 +88,8 @@ function setup(roles) {
   }
   return {
     ...api,
-    view,
+    view, storage, status,
+    tick(seconds = 1) { for (let i = 0; i < seconds; i++) tick(); },
     act(action, attrs = {}) {
       if (typeof attrs === 'number') attrs = { idx: attrs };
       const values = { 'data-action': action };
@@ -64,8 +103,169 @@ function setup(roles) {
   };
 }
 
+function finishDeal(game) {
+  while (game.state.dealIdx < game.state.players.length) {
+    game.act('deal-reveal');
+    game.act('deal-next');
+  }
+  game.act('start');
+}
+
 const standardRoles = ['狼人', '狼人', '女巫', '预言家', '猎人', '平民', '平民', '平民'];
 const kingRoles = ['白狼王', ...standardRoles.slice(1)];
+
+test('dealing hides each identity until revealed and hands a hidden screen back to the host', () => {
+  const game = setup();
+  game.act('count', { count: 6 });
+  game.act('deal');
+  assert.doesNotMatch(game.view.innerHTML, /class="wf-deal-(role|camp)"/);
+  game.act('deal-next');
+  game.act('start');
+  assert.equal(game.state.dealIdx, 0);
+  assert.equal(game.state.step, 'deal');
+  game.act('deal-reveal');
+  assert.match(game.view.innerHTML, /class="wf-deal-role"/);
+  game.act('deal-next');
+  assert.equal(game.state.dealIdx, 1);
+  assert.doesNotMatch(game.view.innerHTML, /class="wf-deal-(role|camp)"/);
+  game.act('deal-prev');
+  assert.equal(game.state.dealIdx, 0);
+  assert.doesNotMatch(game.view.innerHTML, /class="wf-deal-(role|camp)"/);
+  for (let i = 0; i < 6; i++) { game.act('deal-reveal'); game.act('deal-next'); }
+  assert.match(game.view.innerHTML, /身份已全部隐藏，请交还主持人/);
+  assert.doesNotMatch(game.view.innerHTML, /class="wf-deal-(role|camp)"/);
+  game.act('start');
+  assert.equal(game.state.step, 'game');
+});
+
+test('refresh offers to resume dealing without reshuffling or revealing the current identity', () => {
+  const first = setup();
+  first.act('count', { count: 6 }); first.act('deal');
+  first.act('deal-reveal'); first.act('deal-next'); first.act('deal-reveal');
+  const players = JSON.stringify(first.state.players);
+  const reload = setup(null, { storage: first.storage });
+  assert.match(reload.view.innerHTML, /发现未完成的发牌/);
+  assert.doesNotMatch(reload.view.innerHTML, /class="wf-deal-role"/);
+  reload.act('deal');
+  assert.equal(reload.state.step, 'setup', 'recovery prompt blocks starting another deal');
+  reload.act('resume');
+  assert.equal(reload.state.dealIdx, 1);
+  assert.equal(JSON.stringify(reload.state.players), players);
+  assert.doesNotMatch(reload.view.innerHTML, /class="wf-deal-role"/);
+});
+
+test('resume preserves rules, spent potions, night actions, log and remaining time, with the timer paused', () => {
+  const first = setup();
+  first.act('rule', { variant: 'witch_double_use', option: 'allow_double' });
+  first.act('deal'); finishDeal(first);
+  const civilian = first.state.players.find((p) => p.camp === '民').idx;
+  first.act('night-target', civilian);
+  first.act('witch', { opt: 'save' });
+  first.act('witch', { opt: 'none' });
+  first.tick(17);
+  const before = JSON.stringify(first.state);
+  const reload = setup(null, { storage: first.storage });
+  assert.match(reload.view.innerHTML, /主持人继续对局/);
+  assert.doesNotMatch(reload.view.innerHTML, /玩家 · 身份/);
+  reload.act('resume');
+  assert.equal(JSON.stringify(reload.state), before);
+  assert.equal(reload.state.game.witchGlobal.healUsed, true);
+  assert.match(reload.view.innerHTML, /继续计时/);
+  reload.tick(10);
+  assert.equal(JSON.parse(first.storage.getItem(sessionKey)).timerRemain, 43);
+  reload.act('timer', { op: 'toggle' }); reload.tick(1);
+  assert.equal(JSON.parse(first.storage.getItem(sessionKey)).timerRemain, 42);
+});
+
+test('resume preserves a pending hunter settlement and does not restart ordinary game time', () => {
+  const first = setup(); first.act('deal'); finishDeal(first);
+  const hunter = first.state.players.find((p) => p.role === '猎人').idx;
+  first.state.game.phase = 'day';
+  first.act('day-exile', hunter);
+  const before = JSON.stringify(first.state);
+  const reload = setup(null, { storage: first.storage }); reload.act('resume');
+  assert.equal(JSON.stringify(reload.state), before);
+  assert.equal(reload.state.game.pending, 'hunter');
+  assert.match(reload.view.innerHTML, /data-action="hunter-shot"/);
+  reload.act('hunter-pass');
+  assert.equal(reload.state.game.pending, null);
+  assert.equal(reload.state.game.round, 2);
+});
+
+test('destructive actions cancel without losing state; confirmed resets clear stored identities', () => {
+  let confirmed = false;
+  const game = setup(null, { confirm: () => confirmed });
+  game.act('deal'); game.act('deal-reveal'); game.act('deal-next');
+  const before = game.storage.getItem(sessionKey);
+  for (const action of ['deal', 'deal-prev', 'reset']) {
+    game.act(action);
+    assert.equal(game.storage.getItem(sessionKey), before, action);
+  }
+  confirmed = true;
+  game.act('deal'); assert.equal(game.state.dealIdx, 0);
+  assert.doesNotMatch(game.view.innerHTML, /class="wf-deal-role"/);
+  const reload = setup(null, { storage: game.storage, confirm: () => confirmed });
+  confirmed = false; reload.act('reset');
+  assert.match(reload.view.innerHTML, /发现未完成的发牌/);
+  confirmed = true; reload.act('reset');
+  assert.equal(game.storage.getItem(sessionKey), null);
+  assert.equal(reload.state.players.length, 0);
+  assert.equal(reload.state.game, null);
+});
+
+test('a finished game clears its recovery snapshot', () => {
+  const game = setup(); game.act('deal'); finishDeal(game);
+  game.state.players.filter((p) => p.camp === '狼').forEach((p) => { p.alive = false; });
+  game.renderGame(); game.saveSession();
+  assert.equal(game.state.game.winner, 'good');
+  assert.equal(game.storage.getItem(sessionKey), null);
+});
+
+test('corrupt or incompatible saved games fall back to setup without exposing identities', () => {
+  const first = setup(); first.act('deal'); finishDeal(first);
+  const snapshot = first.storage.getItem(sessionKey);
+  const badValues = ['{', '{}'];
+  for (const change of [
+    (s) => { s.version = 99; },
+    (s) => { s.state.players[0].role = 'unknown'; },
+    (s) => { s.state.game.night.wolfTarget = 999; },
+    (s) => { s.state.game.pendingQueue = [{}]; },
+    (s) => { s.timerRemain = -1; },
+  ]) {
+    const broken = JSON.parse(snapshot); change(broken); badValues.push(JSON.stringify(broken));
+  }
+  for (const raw of badValues) {
+    const storage = memoryStorage(); storage.setItem(sessionKey, raw);
+    const reload = setup(null, { storage });
+    assert.equal(reload.state.step, 'setup');
+    assert.match(reload.view.innerHTML, /选择本局人数/);
+    assert.match(reload.status.textContent, /无法读取/);
+    assert.equal(storage.getItem(sessionKey), null);
+  }
+});
+
+test('blocked browser storage leaves the game usable and reports that progress cannot be saved', () => {
+  const storage = { getItem() { throw new Error('blocked'); }, setItem() { throw new Error('quota'); }, removeItem() {} };
+  const game = setup(null, { storage });
+  game.act('deal'); finishDeal(game);
+  assert.equal(game.state.step, 'game');
+  assert.match(game.status.textContent, /无法保存本局/);
+});
+
+test('setup changes preserve the matching control focus and expose the selected option', () => {
+  const game = setup();
+  for (const [action, attrs, key, expected] of [
+    ['count', { count: 8 }, 'data-count', '8'],
+    ['option', { idx: 1 }, 'data-idx', '1'],
+    ['rule', { variant: 'witch_double_use', option: 'allow_double' }, 'data-option', 'allow_double'],
+  ]) {
+    game.act(action, attrs);
+    assert.equal(game.view.focused[key], expected);
+    assert.equal(game.view.focused['aria-pressed'], 'true');
+  }
+  game.act('deal');
+  assert.equal(game.view.focused, '[data-stage-title]');
+});
 
 function witchTurn(rule = 'allow_double') {
   const game = setup(standardRoles);
@@ -92,10 +292,12 @@ test('every recommended configuration and advanced board can start without decla
       game.act('count', { count });
       game.act('option', idx);
       game.act('deal');
-      game.act('start');
+      finishDeal(game);
       assert.equal(game.state.players.length, Number(count), `${count} / ${option.name}`);
       assert.equal(game.checkWin(), null, `${count} / ${option.name}`);
       assertNoWinner(game);
+      const reload = setup(null, { storage: game.storage }); reload.act('resume');
+      assert.equal(JSON.stringify(reload.state), JSON.stringify(game.state), `${count} / ${option.name}: resume`);
     });
   }
   for (const board of data.boards) {
@@ -103,10 +305,12 @@ test('every recommended configuration and advanced board can start without decla
     game.act('count', { count: board.players });
     game.act('board', { board: board.id });
     game.act('deal');
-    game.act('start');
+    finishDeal(game);
     assert.equal(game.state.players.length, board.players, board.id);
     assert.equal(game.checkWin(), null, board.id);
     assertNoWinner(game);
+    const reload = setup(null, { storage: game.storage }); reload.act('resume');
+    assert.equal(JSON.stringify(reload.state), JSON.stringify(game.state), `${board.id}: resume`);
   }
 });
 

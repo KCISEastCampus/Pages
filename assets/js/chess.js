@@ -671,13 +671,32 @@
 
   /* ---------- 渲染：Tab 切换 ---------- */
   function initTabs(root) {
-    const tabs = root.querySelectorAll('.chess-tab');
+    const tabs = Array.from(root.querySelectorAll('.chess-tab'));
     const panels = root.querySelectorAll('.chess-tab-panel');
-    tabs.forEach((tab) => {
-      tab.addEventListener('click', () => {
-        const target = tab.getAttribute('data-tab');
-        tabs.forEach((t) => t.classList.toggle('active', t === tab));
-        panels.forEach((p) => p.classList.toggle('active', p.id === `panel-${target}`));
+    const selectTab = (tab) => {
+      const target = tab.getAttribute('data-tab');
+      tabs.forEach((t) => {
+        t.classList.toggle('active', t === tab);
+        t.setAttribute('aria-selected', String(t === tab));
+        t.tabIndex = t === tab ? 0 : -1;
+      });
+      panels.forEach((p) => {
+        p.hidden = p.id !== `panel-${target}`;
+        p.classList.toggle('active', !p.hidden);
+      });
+    };
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => selectTab(tab));
+      tab.addEventListener('keydown', (event) => {
+        let next;
+        if (event.key === 'ArrowRight') next = (index + 1) % tabs.length;
+        else if (event.key === 'ArrowLeft') next = (index - 1 + tabs.length) % tabs.length;
+        else if (event.key === 'Home') next = 0;
+        else if (event.key === 'End') next = tabs.length - 1;
+        else return;
+        event.preventDefault();
+        selectTab(tabs[next]);
+        tabs[next].focus();
       });
     });
   }

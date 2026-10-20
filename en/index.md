@@ -1,18 +1,19 @@
 ---
 layout: index
 language: en
+translation_url: /
 ---
 
-## Featured Campus Resources
+# Featured Campus Resources
 
 <div class="featured-resources">
   <a href="https://academic.kcisec.site/" class="featured-card featured-card--academic" target="_blank" rel="noopener noreferrer">
-    <div class="featured-icon"><i class="fas fa-school"></i></div>
+    <div class="featured-icon"><i class="fas fa-school" aria-hidden="true"></i></div>
     <div class="featured-title">A-level Homepage</div>
     <div class="featured-desc">A-level courses and learning resources</div>
   </a>
   <a href="/en/app/" class="featured-card featured-card--support" target="_blank" rel="noopener noreferrer">
-    <div class="featured-icon"><i class="fas fa-comments"></i></div>
+    <div class="featured-icon"><i class="fas fa-comments" aria-hidden="true"></i></div>
     <div class="featured-title">Voice of Support</div>
     <div class="featured-desc">Student support and campus song requests</div>
   </a>
@@ -22,59 +23,8 @@ language: en
 
 ## Frequently Used Links
 
-### Only accessible through school network
+{% include quick-links.html %}
 
-<div class="button-grid">
-  <a href="https://ordering.kcisec.com/chaxun.asp" class="button-link" target="_blank" rel="noopener noreferrer">
-    <i class="fas fa-utensils"></i>
-    <span>Meal Querying</span>
-  </a>
-  <a href="https://ordering.kcisec.com/index.asp" class="button-link" target="_blank" rel="noopener noreferrer">
-    <i class="fas fa-shopping-cart"></i>
-    <span>Meal Ordering</span>
-  </a>
-</div>
+### Login Help
 
-### HTTP websites
-
-<p>These websites below are marked unsafe by modern browsers. You would need to click "Advanced" and then "Proceed to unsafe" to access them.</p>
-
-<div class="button-grid">
-  <a href="https://192.168.80.60/" class="button-link" target="_blank" rel="noopener noreferrer">
-    <i class="fas fa-print"></i>
-    <span>Printing (Building 1 & 2)</span>
-  </a>
-  <a href="http://192.168.80.68/" class="button-link" target="_blank" rel="noopener noreferrer">
-    <i class="fas fa-print"></i>
-    <span>Printing (Building 3)</span>
-  </a>
-</div>
-
-### Accessible anywhere
-
-<div class="button-grid">
-  <a href="https://ordering.kcisec.com/ordering" class="button-link" target="_blank" rel="noopener noreferrer">
-    <i class="fas fa-globe"></i>
-    <span>Meal Ordering</span>
-  </a>
-  <a href="https://portal.kcisec.com/China" class="button-link" target="_blank" rel="noopener noreferrer">
-    <i class="fas fa-school"></i>
-    <span>Student Dashboard</span>
-  </a>
-  <a href="https://kcisec.managebac.cn" class="button-link" target="_blank" rel="noopener noreferrer">
-    <i class="fas fa-book"></i>
-    <span>ManageBac</span>
-  </a>
-  <a href="https://powerschool.kcisec.org.cn/public/" class="button-link" target="_blank" rel="noopener noreferrer">
-    <i class="fas fa-user-graduate"></i>
-    <span>PowerSchool</span>
-  </a>
-  <a href="https://mail.kcisg.com" class="button-link" target="_blank" rel="noopener noreferrer">
-    <i class="fas fa-envelope"></i>
-    <span>School Email (@kcisg.com)</span>
-  </a>
-  <a href="https://portal.kcisec.com/login/Account/LogHC" class="button-link" target="_blank" rel="noopener noreferrer">
-    <i class="fas fa-lungs"></i>
-    <span>Tuberculosis Self-screening</span>
-  </a>
-</div>
+Use the account recovery or password reset option provided by the relevant system. If you still cannot sign in, contact school IT.

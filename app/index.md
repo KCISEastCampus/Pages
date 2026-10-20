@@ -1,6 +1,7 @@
 ---
 layout: index
 language: zh_CN
+translation_url: /en/app/
 ---
 <div class="app-container">
   <h1>心辅之声平台</h1>

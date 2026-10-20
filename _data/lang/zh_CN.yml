@@ -6,6 +6,13 @@ navibar:
   button_alevel: A-level主页
   button_log: 更新日志
   switch_language: English
+  menu: 菜单
+  skip_content: 跳转到正文
+  theme_toggle: 切换暗黑/日间模式
+  dark: 暗黑
+  light: 日间
+
+description: "KCISEC 校园网站提供校园服务、A-level 学习资源和学生支持入口。"
 
 footer:
   copyright_org: "KCISEastCampus"
@@ -14,6 +21,9 @@ footer:
   collaboration_log: "网站协作记录"
   feedback: "问题反馈"
   all_rights_reserved: "版权所有"
+  commit_history: "查看提交历史"
+  about: "关于"
+  visits: "访问统计"
 
 hero:
   title: "探索校园资源"

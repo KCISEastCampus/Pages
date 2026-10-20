@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="{{ page.language | default: 'zh_CN' }}" data-bs-theme="dark">
+<html lang="{{ page.language | default: 'zh_CN' | replace: '_', '-' }}" data-bs-theme="dark">
 
 <head>
   {% include head.html %}
-  <link rel="stylesheet" href="/assets/css/werewolf.css">
+  <link rel="stylesheet" href="/assets/css/werewolf.css?v=20261020-wolf">
 </head>
 
 <body class="werewolf-page">
@@ -21,17 +21,29 @@
       </div>
     </header>
 
-    <div class="wolf-container">
+    <main class="wolf-container" id="main-content">
+      <p class="wf-save-status" id="wolf-save-status" role="status">进度仅在当前标签页内保存，刷新后可继续；恢复时计时暂停，结束并重置会清除记录。</p>
       <!-- 三个视图（配置 / 发牌 / 对局）由 JS 渲染在此 -->
       <div id="wolf-view"></div>
-    </div>
+    </main>
   </div>
+
+  <dialog id="wolf-confirm" class="wf-confirm" aria-labelledby="wolf-confirm-title" aria-describedby="wolf-confirm-message">
+    <form method="dialog">
+      <h2 id="wolf-confirm-title">请确认操作</h2>
+      <p id="wolf-confirm-message"></p>
+      <div class="wf-actions">
+        <button class="wolf-btn ghost" value="cancel" autofocus>取消</button>
+        <button class="wolf-btn danger" value="confirm">确认</button>
+      </div>
+    </form>
+  </dialog>
 
   <script>
     // 由 Jekyll 注入玩法配置（唯一数据源：_data/werewolf.yml）
     window.WEREWOLF_DATA = {{ site.data.werewolf | jsonify }};
   </script>
-  <script src="/assets/js/werewolf.js"></script>
+  <script src="/assets/js/werewolf.js?v=20261020-wolf"></script>
 </body>
 
 </html>

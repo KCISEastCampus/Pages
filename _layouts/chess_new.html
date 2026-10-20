@@ -1881,7 +1881,7 @@
       </div>
     </div>
 
-    <script src="/assets/js/main.js"></script>
+    <script src="/assets/js/main.js?v=20261020"></script>
     <script>
       // 页面加载时确保规则初始收起
       document.addEventListener('DOMContentLoaded', function() {
@@ -2769,14 +2769,8 @@
       
           // 加载语言切换和UI按钮
           try {
-      if (typeof load_switch_language_btn === 'function') {
-        load_switch_language_btn('{{ page.language }}');
-      }
       if (typeof load_ui_toggle_btn === 'function') {
         load_ui_toggle_btn('{{ page.language }}');
-      }
-      if (typeof bind_onclick_btn === 'function') {
-        bind_onclick_btn();
       }
           } catch (e) {
       console.log('Optional UI functions not available:', e);

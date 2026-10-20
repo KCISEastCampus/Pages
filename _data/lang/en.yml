@@ -6,6 +6,13 @@ navibar:
   button_alevel: A-level Homepage
   button_log: Update Log
   switch_language: 简体中文
+  menu: Menu
+  skip_content: Skip to content
+  theme_toggle: Switch light/dark mode
+  dark: Dark
+  light: Light
+
+description: "Campus services, A-level learning resources and student support for KCISEC students."
 
 footer:
   copyright_org: "KCISEastCampus"
@@ -14,6 +21,9 @@ footer:
   collaboration_log: "Collaboration Log"
   feedback: "Feedback"
   all_rights_reserved: "All rights reserved"
+  commit_history: "View commit history"
+  about: "About"
+  visits: "Visit statistics"
 
 hero:
   title: "Explore Campus Resources"

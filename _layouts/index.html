@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ page.language }}">
+<html lang="{{ page.language | replace: '_', '-' }}">
 
 <head>
   {% include head.html %}
@@ -7,20 +7,18 @@
 
 <body>
   <!-- Floating particles background -->
-  <div id="particles-container"></div>
+  <div id="particles-container" aria-hidden="true"></div>
   
   {% include header.html %}
-  <div class="page-content">
+  <main class="page-content" id="main-content" tabindex="-1">
     {{ content }}
-  </div>
+  </main>
 
   {% include footer.html %}
 
-  <script src="/assets/js/main.js"></script>
-  <script src="/assets/js/particles.js"></script>
+  <script src="{{ '/assets/js/main.js' | relative_url }}?v=20261020"></script>
+  <script src="{{ '/assets/js/particles.js' | relative_url }}?v=20261020"></script>
   <script>
-    load_switch_language_btn('{{ page.language }}');
-    bind_onclick_btn();
     initParticles();
   </script>
 </body>

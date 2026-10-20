@@ -1,6 +1,7 @@
 ---
 layout: index
 language: en
+translation_url: /app/
 ---
 <div class="app-container">
   <h1>Voice of Support</h1>
