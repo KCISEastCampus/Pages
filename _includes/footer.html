@@ -8,17 +8,17 @@
     </div>
     <div class="footer-section">
       <h3>{{ footer.collaboration_log }}</h3>
-      <p><a href="https://github.com/KCISEastCampus/Pages/commits/main/">查看提交历史</a></p>
+      <p><a href="https://github.com/KCISEastCampus/Pages/commits/main/">{{ footer.commit_history }}</a></p>
     </div>
     <div class="footer-section">
-      <h3>关于</h3>
+      <h3>{{ footer.about }}</h3>
       <p>{{ footer.school_rights }}</p>
     </div>
     <div class="footer-stats">
-      <img src="https://hitscounter.dev/api/hit?url=kcisec.site&label=KCISEC%E6%A0%A1%E5%9B%AD%E7%BD%91%E7%AB%99&icon=broadcast-pin&color=%23198754&message=&style=flat&tz=localtime" alt="访问统计">
+      <img src="https://hitscounter.dev/api/hit?url=kcisec.site&label={{ navibar.title | url_encode }}&icon=broadcast-pin&color=%23198754&message=&style=flat&tz=localtime" alt="{{ footer.visits }}" loading="lazy" height="22">
     </div>
   </div>
   <div class="footer-bottom">
-    <p>&copy; 2025 {{ footer.copyright_org }}. {{ footer.all_rights_reserved }}.</p>
+    <p>&copy; {{ site.time | date: '%Y' }} {{ footer.copyright_org }}. {{ footer.all_rights_reserved }}.</p>
   </div>
 </footer>

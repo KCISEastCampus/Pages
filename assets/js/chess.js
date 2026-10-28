@@ -45,7 +45,7 @@
   function formatDate(date) {
     const months = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'];
     const days = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
-    return `${months[date.getMonth()]}${date.getDate()}日 ${days[date.getDay()]}`;
+    return `${date.getFullYear()}年${months[date.getMonth()]}${date.getDate()}日 ${days[date.getDay()]}`;
   }
 
   function formatTime(date) {
@@ -77,6 +77,11 @@
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;');
+  }
+
+  function historyScheduleLink() {
+    const season = SEASON_IDS.find((id) => id < CURRENT_SEASON);
+    return season === undefined ? '' : `<button type="button" class="chess-lb-btn" data-show-season="${season}">查看历史赛程</button>`;
   }
 
   // 简单的 markdown 转 HTML（用于 match.description）
@@ -292,9 +297,9 @@
           .map(
             (g) => `
           <button class="chess-lb-btn ${g.id === activeSeasonFilter ? 'active' : ''}"
-                  data-season="${g.id}">
+                  data-season="${g.id}" aria-pressed="${g.id === activeSeasonFilter}">
             ${g.label}${g.isCurrent ? ' <span class="chess-season-current">●</span>' : ''}
-            ${!g.hasMatches ? ' <span class="chess-season-empty">(待开赛)</span>' : ''}
+            ${!g.hasMatches ? ' <span class="chess-season-empty">(赛程待发布)</span>' : ''}
           </button>`
           )
           .join('')}
@@ -305,6 +310,7 @@
         activeSeasonFilter = Number(btn.getAttribute('data-season'));
         container.querySelectorAll('[data-season]').forEach((b) => {
           b.classList.toggle('active', Number(b.getAttribute('data-season')) === activeSeasonFilter);
+          b.setAttribute('aria-pressed', String(Number(b.getAttribute('data-season')) === activeSeasonFilter));
         });
         onSelect(activeSeasonFilter);
       });
@@ -382,7 +388,8 @@
         <div class="chess-empty">
           <div class="chess-empty-icon">🗓️</div>
           <p>${label} 暂无比赛安排</p>
-          <p style="font-size: 0.85em; opacity: 0.7;">新比赛发布后将在此显示</p>
+          <p>赛程尚未发布，新比赛发布后将在此显示。</p>
+          ${historyScheduleLink()}
         </div>`;
     }
 
@@ -472,6 +479,17 @@
 
   function renderLeaderboard(container, matches, now, seasonId) {
     if (!container) return;
+    const season = seasonId === undefined ? CURRENT_SEASON : seasonId;
+    const seasonMeta = SEASONS.find((s) => Number(s.id) === season);
+    const seasonTag = seasonMeta ? seasonMeta.label : `S${season}`;
+    if (!matches.some((m) => m.ssn === season)) {
+      container.innerHTML = `<div class="chess-empty">
+        <p>${escapeHtml(seasonTag)} 尚无已发布赛程</p>
+        <p>积分与胜场将在赛果录入后显示。</p>
+        ${historyScheduleLink()}
+      </div>`;
+      return;
+    }
     const { countsWins, points } = computeLeaderboard(matches, now, seasonId);
     const seriesLabelMap = { all: '全部', ec: 'E.C.', pro: 'PRO LEAGUE', champions: 'Champions' };
     const availableSeries = ['all', 'ec', 'pro', 'champions'].filter(
@@ -487,7 +505,7 @@
 
     const buildList = (map, unit) => {
       const arr = Array.from(map.entries()).sort((a, b) => b[1] - a[1]).slice(0, topN);
-      if (arr.length === 0) return '<div class="chess-lb-empty">暂无数据</div>';
+      if (arr.length === 0) return '<div class="chess-lb-empty">暂无已录入赛果，赛果录入后将显示排行。</div>';
       return arr
         .map(([name, c], idx) => {
           const rank = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : idx + 1;
@@ -517,9 +535,6 @@
     const winsLists = availableSeries
       .map((k) => `<div class="chess-lb-list" data-mode="wins" data-series="${k}">${buildList(countsWins[k], 'wins')}</div>`)
       .join('');
-
-    const seasonMeta = SEASONS.find((s) => Number(s.id) === (seasonId === undefined ? CURRENT_SEASON : seasonId));
-    const seasonTag = seasonMeta ? seasonMeta.label : `S${seasonId === undefined ? CURRENT_SEASON : seasonId}`;
 
     // 标题行：标题 + 赛季标签 + 模式切换，并排更紧凑
     container.innerHTML = `
@@ -585,7 +600,10 @@
     const icon = document.querySelector('[data-quick-icon]');
 
     if (top.length === 0) {
-      container.innerHTML = '<div class="chess-quick-empty">暂无即将开始的比赛</div>';
+      container.innerHTML = hasCurrentMatches
+        ? `<div class="chess-quick-empty"><p>未来 7 天暂无比赛，后续场次可在赛程中查看。</p>
+            <button type="button" class="chess-lb-btn" data-show-season="${CURRENT_SEASON}">查看本赛季赛程</button></div>`
+        : `<div class="chess-quick-empty"><p>${escapeHtml(CONFIG.season_label || `S${CURRENT_SEASON}`)} 尚无已发布赛程</p>${historyScheduleLink()}</div>`;
       if (title) title.textContent = '近期比赛';
       if (icon) icon.textContent = '📅';
       return;
@@ -652,9 +670,12 @@
     }
     const copyBtn = document.querySelector('[data-copy-password]');
     if (copyBtn) {
-      copyBtn.addEventListener('click', () => {
+      copyBtn.addEventListener('click', async () => {
         const password = CONFIG.password || '';
-        navigator.clipboard.writeText(password).then(() => {
+        const status = document.querySelector('[data-copy-status]');
+        try {
+          await navigator.clipboard.writeText(password);
+          if (status) status.textContent = '密码已复制。';
           const original = copyBtn.textContent;
           copyBtn.textContent = '✓ 已复制';
           copyBtn.classList.add('copied');
@@ -664,21 +685,54 @@
             copyBtn.classList.remove('copied');
             copyBtn.disabled = false;
           }, 3000);
-        });
+        } catch (error) {
+          if (status) status.textContent = '复制失败，请选中页面中的密码并手动复制。';
+        }
       });
     }
   }
 
   /* ---------- 渲染：Tab 切换 ---------- */
   function initTabs(root) {
-    const tabs = root.querySelectorAll('.chess-tab');
+    const tabs = Array.from(root.querySelectorAll('.chess-tab'));
     const panels = root.querySelectorAll('.chess-tab-panel');
-    tabs.forEach((tab) => {
-      tab.addEventListener('click', () => {
-        const target = tab.getAttribute('data-tab');
-        tabs.forEach((t) => t.classList.toggle('active', t === tab));
-        panels.forEach((p) => p.classList.toggle('active', p.id === `panel-${target}`));
+    const selectTab = (tab) => {
+      const target = tab.getAttribute('data-tab');
+      tabs.forEach((t) => {
+        t.classList.toggle('active', t === tab);
+        t.setAttribute('aria-selected', String(t === tab));
+        t.tabIndex = t === tab ? 0 : -1;
       });
+      panels.forEach((p) => {
+        p.hidden = p.id !== `panel-${target}`;
+        p.classList.toggle('active', !p.hidden);
+      });
+    };
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => selectTab(tab));
+      tab.addEventListener('keydown', (event) => {
+        let next;
+        if (event.key === 'ArrowRight') next = (index + 1) % tabs.length;
+        else if (event.key === 'ArrowLeft') next = (index - 1 + tabs.length) % tabs.length;
+        else if (event.key === 'Home') next = 0;
+        else if (event.key === 'End') next = tabs.length - 1;
+        else return;
+        event.preventDefault();
+        selectTab(tabs[next]);
+        tabs[next].focus();
+      });
+    });
+  }
+
+  function initScheduleLinks(root) {
+    root.addEventListener('click', (event) => {
+      const link = event.target.closest('[data-show-season]');
+      if (!link) return;
+      const season = Number(link.getAttribute('data-show-season'));
+      root.querySelector(`[data-season="${season}"]`)?.click();
+      const tab = root.querySelector('#tab-schedule');
+      tab.click();
+      tab.focus();
     });
   }
 
@@ -730,6 +784,7 @@
     renderPassword();
     initLichessTv();
     initTabs(root);
+    initScheduleLinks(root);
     initThemeSync(root);
 
     // 概览：快速信息 + 系列卡

@@ -1,20 +1,27 @@
 {% assign lang = site.data.lang[page.language] %}
 {% assign navibar = lang.navibar %}
+{% assign home_url = '/' %}
+{% assign other_home = '/en/' %}
+{% if page.language == 'en' %}
+  {% assign home_url = '/en/' %}
+  {% assign other_home = '/' %}
+{% endif %}
+<a class="skip-link" href="#main-content">{{ navibar.skip_content }}</a>
 <nav>
-  <a class="logo-container" href="/">
-    <img src="/assets/images/school-logo.svg" alt="KangChiao International School East Campus Logo" title="KangChiao International School East Campus Logo" />
+  <a class="logo-container" href="{{ home_url | relative_url }}">
+    <img src="{{ '/assets/images/school-logo.svg' | relative_url }}" alt="" width="38" height="38" />
     <span>{{ navibar.title }}</span>
   </a>
-  <div class="hamburger" onclick="toggle_hamburger_menu()">
-    <div class="line" id="line1"></div>
-    <div class="line" id="line2"></div>
-    <div class="line" id="line3"></div>
-  </div>
+  <button class="hamburger" type="button" aria-label="{{ navibar.menu }}" aria-expanded="false" aria-controls="nav-links">
+    <span class="line" aria-hidden="true"></span>
+    <span class="line" aria-hidden="true"></span>
+    <span class="line" aria-hidden="true"></span>
+  </button>
   <div class="links-container" id="nav-links">
-    <button id="theme-toggle-button" type="button" aria-label="切换暗黑/日间模式" title="切换暗黑/日间模式">
+    <button id="theme-toggle-button" type="button" aria-label="{{ navibar.theme_toggle }}" title="{{ navibar.theme_toggle }}" data-dark-label="{{ navibar.dark }}" data-light-label="{{ navibar.light }}">
       <i class="fas fa-moon" aria-hidden="true"></i>
-      <span class="theme-toggle-label">暗黑</span>
+      <span class="theme-toggle-label">{{ navibar.dark }}</span>
     </button>
-    <buttonlink id="switch-language-button" role="button" aria-label="{{ navibar.switch_language }}">{{ navibar.switch_language }}</buttonlink>
+    <a id="switch-language-button" href="{{ page.translation_url | default: other_home | relative_url }}" lang="{% if page.language == 'en' %}zh-CN{% else %}en{% endif %}">{{ navibar.switch_language }}</a>
   </div>
 </nav>

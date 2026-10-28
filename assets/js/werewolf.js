@@ -78,6 +78,113 @@
     game: null,
     ruleSettings: getDefaultRuleSettings(),  // 规则变体选项
   };
+  const SESSION_KEY = 'werewolf-session-v1';
+  let savedSession = null;
+  let dealRevealed = false;
+  const confirmDialog = document.getElementById('wolf-confirm');
+  let pendingConfirmation = null;
+  confirmDialog.addEventListener('close', () => {
+    const pending = pendingConfirmation;
+    pendingConfirmation = null;
+    if (confirmDialog.returnValue === 'confirm' && pending) handleAction(pending.action, pending.el, true);
+  });
+
+  function storageMessage(message) {
+    const status = document.getElementById('wolf-save-status');
+    if (status) status.textContent = message;
+  }
+
+  function clearSession() {
+    try { sessionStorage.removeItem(SESSION_KEY); }
+    catch (e) { storageMessage('无法清除本局记录，结束后请关闭此标签页。'); }
+  }
+
+  function saveSession() {
+    if (savedSession) return;
+    if (state.step === 'setup' || state.game?.winner) { clearSession(); return; }
+    const { step, count, optionIdx, players, dealIdx, game, ruleSettings } = state;
+    try {
+      sessionStorage.setItem(SESSION_KEY, JSON.stringify({
+        version: 1,
+        state: { step, count, boardId: state.board.id, optionIdx, players, dealIdx, game, ruleSettings },
+        timerRemain,
+      }));
+    } catch (e) {
+      storageMessage('浏览器无法保存本局，刷新或关闭页面会丢失进度。');
+    }
+  }
+
+  function validSession(snapshot) {
+    const s = snapshot?.state;
+    if (snapshot?.version !== 1 || !s || !['deal', 'game'].includes(s.step) ||
+        !Number.isInteger(s.count) || !RECOMMEND[s.count] || !Number.isInteger(s.optionIdx) ||
+        !RECOMMEND[s.count][s.optionIdx] || !Number.isInteger(s.dealIdx) || s.dealIdx < 0 || s.dealIdx > s.count ||
+        !Number.isInteger(snapshot.timerRemain) || snapshot.timerRemain < 0 || snapshot.timerRemain > 120) return false;
+    const board = s.boardId === 'auto' ? RECOMMEND[s.count][s.optionIdx] : BOARDS.find((b) => b.id === s.boardId && b.players === s.count);
+    if (!board || !Array.isArray(s.players) || s.players.length !== s.count ||
+        !s.players.every((p, i) => p && p.idx === i && p.name === `玩家${i + 1}` && ROLES[p.role] && p.camp === campOf(p.role) && typeof p.alive === 'boolean') ||
+        JSON.stringify(s.players.map((p) => p.role).sort()) !== JSON.stringify(buildRoles(board).sort()) ||
+        !s.ruleSettings || !RULE_VARIANTS.every((rv) => rv.options.some((o) => o.id === s.ruleSettings[rv.id]))) return false;
+    if (s.step === 'deal') return s.game === null && s.players.every((p) => p.alive);
+    const g = s.game, n = g?.night;
+    const playerIndex = (v) => Number.isInteger(v) && v >= 0 && v < s.count;
+    const target = (v) => v === null || playerIndex(v);
+    const pendingKinds = ['hunter', 'idiot', 'langwang', 'langwang_exile'];
+    return !!(g && n && Number.isInteger(g.round) && g.round > 0 && ['day', 'night'].includes(g.phase) &&
+      g.winner === null && typeof g.idiotRevealed === 'boolean' && typeof g.explodePick === 'boolean' &&
+      target(g.lastGuardTarget) && target(g.lastExiled) &&
+      (g.pending === null ? g.pendingIdx === null : pendingKinds.includes(g.pending) && playerIndex(g.pendingIdx)) &&
+      [null, 'day', 'night'].includes(g.pendingResume) && Array.isArray(g.pendingQueue) &&
+      g.pendingQueue.every((p) => p && pendingKinds.includes(p.kind) && playerIndex(p.idx)) &&
+      Array.isArray(g.deaths) && g.deaths.every(playerIndex) && Array.isArray(g.log) &&
+      g.log.every((l) => l && typeof l.t === 'string' && ['day', 'night'].includes(l.stage)) &&
+      g.witchGlobal && typeof g.witchGlobal.healUsed === 'boolean' && typeof g.witchGlobal.poisonUsed === 'boolean' &&
+      JSON.stringify(n.order) === JSON.stringify(nightOrderFor(board.gods || [])) &&
+      Number.isInteger(n.idx) && n.idx >= 0 && n.idx <= n.order.length &&
+      target(n.wolfTarget) && target(n.guardTarget) && ['choose', 'poison'].includes(n.witchPhase) &&
+      n.witch && target(n.witch.saveTarget) && target(n.witch.poisonTarget) && typeof n.witch.saveUsed === 'boolean' &&
+      n.seer && target(n.seer.target) && [null, 'wolf', 'good'].includes(n.seer.result) && typeof n.seerConfirmed === 'boolean');
+  }
+
+  function readSession() {
+    try {
+      const raw = sessionStorage.getItem(SESSION_KEY);
+      if (!raw) return null;
+      const snapshot = JSON.parse(raw);
+      if (!validSession(snapshot)) throw new Error('Invalid saved game');
+      return snapshot;
+    } catch (e) {
+      clearSession();
+      storageMessage('上次进度无法读取，或浏览器不允许保存进度。请重新配置，并避免刷新页面。');
+      return null;
+    }
+  }
+
+  function resumeSession() {
+    const { state: s, timerRemain: remaining } = savedSession;
+    state.count = s.count;
+    buildBoard(s.count);
+    applyOption(s.optionIdx);
+    if (s.boardId !== 'auto') selectBoard(s.boardId);
+    Object.assign(state, { step: s.step, players: s.players, dealIdx: s.dealIdx, game: s.game, ruleSettings: s.ruleSettings });
+    savedSession = null;
+    dealRevealed = false;
+    timerRemain = remaining;
+    timerPaused = true;
+    render();
+    if (state.step === 'game') startTimer(remaining, true);
+  }
+
+  function renderResume() {
+    const s = savedSession.state;
+    view.innerHTML = `<section class="wf-panel">
+      <h2 class="wf-panel-title" data-stage-title tabindex="-1">发现未完成的${s.step === 'deal' ? '发牌' : '对局'}</h2>
+      <p>${s.count} 人局 · ${s.step === 'deal' ? '发牌进度已保存，身份将保持隐藏。' : '请由主持人继续；恢复后计时暂停，可手动继续计时。'}</p>
+      <div class="wf-actions">
+        <button class="wolf-btn primary" data-action="resume">${s.step === 'deal' ? '继续发牌' : '主持人继续对局'}</button>
+        <button class="wolf-btn ghost" data-action="reset">放弃进度，重新配置</button>
+      </div></section>`;
+  }
 
   /* ---------- 配置 / 板子 ---------- */
   function buildRoles(rec) {
@@ -129,6 +236,11 @@
     state.roles = buildRoles(board);
   }
 
+  function selectBoard(id) {
+    const b = BOARDS.find((x) => x.id === id && x.players === state.count);
+    if (b) applyBoard({ id: b.id, name: b.name, wolf: b.wolf, wolves: b.wolves, gods: b.gods, villager: b.villager, nightOrder: nightOrderFor(b.gods) });
+  }
+
   /* ---------- 发牌 ---------- */
   function deal() {
     const roles = shuffle([...state.roles]);
@@ -140,6 +252,8 @@
       alive: true,
     }));
     state.dealIdx = 0;
+    dealRevealed = false;
+    state.game = null;
   }
 
   /* ---------- 游戏状态机 ---------- */
@@ -429,10 +543,10 @@
     parts.push(`</div>`);
 
     parts.push(`<div class="wf-panel">`);
-    parts.push(`<h2 class="wf-panel-title">🎯 选择本局人数</h2>`);
+    parts.push(`<h2 class="wf-panel-title" data-stage-title tabindex="-1">🎯 选择本局人数</h2>`);
     parts.push(`<div class="wf-num-grid">`);
     counts.forEach((c) => {
-      parts.push(`<button class="wf-num-pill ${c === state.count ? 'active' : ''}" data-action="count" data-count="${c}">${c} 人</button>`);
+      parts.push(`<button class="wf-num-pill ${c === state.count ? 'active' : ''}" aria-pressed="${c === state.count}" data-action="count" data-count="${c}">${c} 人</button>`);
     });
     parts.push(`</div>`);
     parts.push(`</div>`);
@@ -457,7 +571,7 @@
       parts.push(`<div class="wf-role-row">`);
       state.options.forEach((opt, i) => {
         const active = state.board.id === 'auto' && i === state.optionIdx;
-        parts.push(`<button class="wf-role-chip ${active ? 'wf-num-pill active' : ''}" data-action="option" data-idx="${i}" style="cursor:pointer;">${escapeHtml(opt.name || ('方案' + (i + 1)))}</button>`);
+        parts.push(`<button class="wf-role-chip ${active ? 'wf-num-pill active' : ''}" aria-pressed="${active}" data-action="option" data-idx="${i}" style="cursor:pointer;">${escapeHtml(opt.name || ('方案' + (i + 1)))}</button>`);
       });
       parts.push(`</div><div class="wf-divider"></div>`);
     }
@@ -469,7 +583,7 @@
       parts.push(`<div class="wf-role-row">`);
       validBoards.forEach((b) => {
         const active = state.board.id === b.id;
-        parts.push(`<button class="wf-role-chip ${active ? 'wf-num-pill active' : ''}" data-action="board" data-board="${b.id}" style="cursor:pointer;">${escapeHtml(b.name)}</button>`);
+        parts.push(`<button class="wf-role-chip ${active ? 'wf-num-pill active' : ''}" aria-pressed="${active}" data-action="board" data-board="${b.id}" style="cursor:pointer;">${escapeHtml(b.name)}</button>`);
       });
       parts.push(`</div><div class="wf-divider"></div>`);
     }
@@ -485,7 +599,7 @@
         parts.push(`<div class="wf-role-row">`);
         rv.options.forEach((opt) => {
           const active = current === opt.id;
-          parts.push(`<button class="wf-num-pill ${active ? 'active' : ''}" data-action="rule" data-variant="${rv.id}" data-option="${opt.id}" style="font-size:0.82rem;padding:0.35rem 0.8rem;">${escapeHtml(opt.name)}</button>`);
+          parts.push(`<button class="wf-num-pill ${active ? 'active' : ''}" aria-pressed="${active}" data-action="rule" data-variant="${rv.id}" data-option="${opt.id}" style="font-size:0.82rem;padding:0.35rem 0.8rem;">${escapeHtml(opt.name)}</button>`);
         });
         parts.push(`</div></div>`);
       });
@@ -547,28 +661,34 @@
     const p = state.players[state.dealIdx];
     const total = state.players.length;
     parts.push(`<div class="wf-deal-stage">`);
-    parts.push(`<div class="wf-deal-counter">${state.dealIdx + 1} / ${total} · 逐人翻牌给玩家</div>`);
+    parts.push(`<div class="wf-deal-counter">${Math.min(state.dealIdx + 1, total)} / ${total} · 逐人查看身份</div>`);
     if (p) {
-      const camp = p.camp;
       parts.push(`<div class="wf-deal-card">`);
-      parts.push(`<div class="wf-deal-player">${escapeHtml(p.name)}</div>`);
-      parts.push(`<div class="wf-deal-camp">${campBadge(camp)}</div>`);
-      parts.push(`<div class="wf-deal-role">${escapeHtml(p.role)}</div>`);
-      parts.push(`<div class="wf-deal-text">${escapeHtml(roleText(p.role))}</div>`);
+      parts.push(`<h2 class="wf-deal-player" data-stage-title tabindex="-1">${dealRevealed ? '' : '请将设备交给'}${escapeHtml(p.name)}</h2>`);
+      if (dealRevealed) {
+        parts.push(`<div class="wf-deal-camp">${campBadge(p.camp)}</div>`);
+        parts.push(`<div class="wf-deal-role">${escapeHtml(p.role)}</div>`);
+        parts.push(`<div class="wf-deal-text">${escapeHtml(roleText(p.role))}</div>`);
+      } else {
+        parts.push(`<p class="wf-deal-text">身份已隐藏。确认只有自己能看到屏幕后，再查看身份。</p>`);
+      }
       parts.push(`</div>`);
-      parts.push(`<div class="wf-deal-progress"><i style="width:${((state.dealIdx) / total) * 100}%"></i></div>`);
-    }
-    parts.push(`<div class="wf-deal-actions">`);
-    if (state.dealIdx > 0) {
-      parts.push(`<button class="wolf-btn ghost" data-action="deal-prev">⬅ 上一位</button>`);
-    }
-    if (state.dealIdx + 1 < total) {
-      parts.push(`<button class="wolf-btn primary" data-action="deal-next">下一位 ➡</button>`);
     } else {
-      parts.push(`<button class="wolf-btn primary" data-action="start">▶ 开始对局</button>`);
+      parts.push(`<h2 class="wf-panel-title" data-stage-title tabindex="-1">身份已全部隐藏，请交还主持人</h2><p>开始对局后会显示完整身份，仅主持人可查看。</p>`);
     }
-    parts.push(`<button class="wolf-btn ghost" data-action="deal">♻️ 重新发牌</button>`);
+    parts.push(`<div class="wf-deal-progress" aria-hidden="true"><i style="width:${(state.dealIdx / total) * 100}%"></i></div>`);
+    parts.push(`<div class="wf-deal-actions">`);
+    if (!p) {
+      parts.push(`<button class="wolf-btn primary" data-action="start">主持人开始对局</button>`);
+    } else if (dealRevealed) {
+      parts.push(`<button class="wolf-btn primary" data-action="deal-next">${state.dealIdx + 1 < total ? '隐藏并交给下一位' : '隐藏并交还主持人'}</button>`);
+    } else {
+      parts.push(`<button class="wolf-btn primary" data-action="deal-reveal">查看我的身份</button>`);
+    }
     parts.push(`</div>`);
+    parts.push(`<details class="wf-deal-host"><summary>主持人操作</summary><div class="wf-deal-actions">`);
+    if (state.dealIdx > 0) parts.push(`<button class="wolf-btn ghost" data-action="deal-prev">返回上一位（身份隐藏）</button>`);
+    parts.push(`<button class="wolf-btn ghost" data-action="deal">♻️ 重新发牌</button></div></details>`);
     parts.push(`</div>`);
 
     view.innerHTML = parts.join('');
@@ -591,7 +711,7 @@
     const isNight = g.phase === 'night';
     const phaseLabel = isNight ? `🌙 第 ${g.round} 夜 · 天黑请闭眼` : `☀️ 第 ${g.round} 天 · 天亮了`;
     parts.push(`<div class="wf-phase-row">`);
-    parts.push(`<div class="wf-phase-name"><span class="${isNight ? 'night' : 'day'}">${phaseLabel}</span></div>`);
+    parts.push(`<h2 class="wf-phase-name" data-stage-title tabindex="-1"><span class="${isNight ? 'night' : 'day'}">${phaseLabel}</span></h2>`);
     parts.push(`<div class="wf-phase-name" style="font-size:0.95rem;color:var(--text-muted)">${escapeHtml(state.board.name)}</div>`);
     parts.push(`</div>`);
 
@@ -627,7 +747,7 @@
     parts.push(`</div>`);
 
     parts.push(`<div class="wf-actions" style="margin-top:0.4rem;">`);
-    parts.push(`<button class="wolf-btn ghost" data-action="timer" data-op="toggle">⏯ 暂停/继续</button>`);
+    parts.push(`<button class="wolf-btn ghost" data-action="timer" data-op="toggle">${timerPaused ? '▶ 继续计时' : '⏸ 暂停计时'}</button>`);
     parts.push(`<button class="wolf-btn ghost" data-action="timer" data-op="restart">↻ 重置计时</button>`);
     parts.push(`<button class="wolf-btn danger" data-action="reset" style="margin-left:auto;">🗑 结束并重置</button>`);
     parts.push(`</div>`);
@@ -798,7 +918,7 @@
       <div class="wf-overlay">
         <div class="wf-winner-card">
           <div class="wf-winner-icon">${good ? '🎉' : '🐺'}</div>
-          <div class="wf-winner-title">${good ? '好人阵营胜利' : '狼人阵营胜利'}</div>
+          <div class="wf-winner-title" tabindex="-1">${good ? '好人阵营胜利' : '狼人阵营胜利'}</div>
           <div class="wf-winner-sub">${good ? '所有狼人已被淘汰' : '屠边成功 · 好人再无还手之力'}</div>
           <div class="wf-winner-stats">好人 ${aliveGood} 存活 · 狼人 ${aliveWolf} 存活</div>
           <div class="wf-divider"></div>
@@ -817,21 +937,23 @@
   let timerRemain = 0;
   let timerPaused = false;
 
-  function startTimer(sec) {
+  function startTimer(sec, paused = false) {
     clearTimer();
     if (state.game && (state.game.winner || state.game.pending)) return;
     timerRemain = sec;
-    timerPaused = false;
+    timerPaused = paused;
     updateTimerUI();
     timerId = setInterval(() => {
       if (timerPaused) return;
-      if (timerRemain > 0) { timerRemain--; updateTimerUI(); }
+      if (timerRemain > 0) { timerRemain--; updateTimerUI(); saveSession(); }
     }, 1000);
   }
   function clearTimer() {
     if (timerId) { clearInterval(timerId); timerId = null; }
   }
   function updateTimerUI() {
+    const toggle = view.querySelector('[data-action="timer"][data-op="toggle"]');
+    if (toggle) toggle.textContent = timerPaused ? '▶ 继续计时' : '⏸ 暂停计时';
     const el = document.getElementById('wolf-timer');
     if (!el) return;
     el.textContent = timerRemain;
@@ -854,11 +976,17 @@
 
   // UI 与事件入口同时约束合法操作，待决技能与终局禁止普通回合操作。
   function actionAllowed(action) {
+    if (savedSession) return action === 'resume' || action === 'reset';
     if (action === 'reset') return true;
     if (state.step === 'setup') {
       return ['count', 'option', 'board', 'rule', 'reset-config', 'deal'].includes(action);
     }
-    if (state.step === 'deal') return ['deal', 'deal-prev', 'deal-next', 'start'].includes(action);
+    if (state.step === 'deal') {
+      if (action === 'deal') return true;
+      if (action === 'deal-prev') return state.dealIdx > 0;
+      if (action === 'start') return state.dealIdx === state.players.length && !dealRevealed;
+      return state.dealIdx < state.players.length && (dealRevealed ? action === 'deal-next' : action === 'deal-reveal');
+    }
     const g = state.game;
     if (!g || g.winner) return false;
     if (action === 'timer') return true;
@@ -881,12 +1009,24 @@
     return false;
   }
 
-  function handleAction(action, el) {
+  function handleAction(action, el, confirmed = false) {
     if (!actionAllowed(action) || el.disabled) return;
+    const confirmation = action === 'deal' && state.step === 'deal'
+      ? '重新发牌会打乱所有身份，并从玩家1重新开始。确定重新发牌？'
+      : action === 'deal-prev' ? '请将设备交给主持人。确定返回上一位？身份将保持隐藏。'
+      : action === 'reset' && (savedSession || state.step !== 'setup') ? '将清除本局身份、进度和记录。确定重新配置？' : null;
+    if (confirmation && !confirmed) {
+      pendingConfirmation = { action, el };
+      document.getElementById('wolf-confirm-message').textContent = confirmation;
+      confirmDialog.returnValue = 'cancel';
+      confirmDialog.showModal();
+      return;
+    }
     const rawIdx = el.getAttribute('data-idx');
     const idx = rawIdx === null ? NaN : Number(rawIdx);
 
     switch (action) {
+      case 'resume': { resumeSession(); break; }
       case 'count': {
         state.count = Number(el.getAttribute('data-count'));
         buildBoard(state.count);
@@ -899,8 +1039,7 @@
         break;
       }
       case 'board': {
-        const b = BOARDS.find((x) => x.id === el.getAttribute('data-board'));
-        if (b) applyBoard({ id: b.id, name: b.name, wolf: b.wolf, wolves: b.wolves, gods: b.gods, villager: b.villager, nightOrder: nightOrderFor(b.gods) });
+        selectBoard(el.getAttribute('data-board'));
         renderSetup();
         break;
       }
@@ -915,8 +1054,9 @@
       }
       case 'reset-config': { state.count = 12; state.ruleSettings = getDefaultRuleSettings(); buildBoard(12); renderSetup(); break; }
       case 'deal': { deal(); state.step = 'deal'; renderDeal(); break; }
-      case 'deal-prev': { if (state.dealIdx > 0) state.dealIdx--; renderDeal(); break; }
-      case 'deal-next': { if (state.dealIdx + 1 < state.players.length) state.dealIdx++; renderDeal(); break; }
+      case 'deal-reveal': { dealRevealed = true; renderDeal(); break; }
+      case 'deal-prev': { state.dealIdx--; dealRevealed = false; renderDeal(); break; }
+      case 'deal-next': { state.dealIdx++; dealRevealed = false; renderDeal(); break; }
       case 'start': {
         state.step = 'game';
         state.game = newGame();
@@ -1008,8 +1148,20 @@
         else if (op === 'restart') { timerPaused = false; resetTimer(); }
         break;
       }
-      case 'reset': { state.step = 'setup'; state.game = null; state.count = 12; state.ruleSettings = getDefaultRuleSettings(); applyBoard(buildBoard(12)); clearTimer(); renderSetup(); break; }
+      case 'reset': {
+        savedSession = null; dealRevealed = false;
+        state.step = 'setup'; state.game = null; state.players = []; state.dealIdx = 0;
+        state.count = 12; state.ruleSettings = getDefaultRuleSettings(); buildBoard(12);
+        clearTimer(); timerRemain = 0; timerPaused = false; renderSetup(); break;
+      }
     }
+    saveSession();
+    if (action === 'timer') return;
+    const attributes = ['data-action', 'data-count', 'data-idx', 'data-board', 'data-variant', 'data-option'];
+    const sameControl = state.step === 'setup' && ['count', 'option', 'board', 'rule'].includes(action)
+      ? Array.from(view.querySelectorAll('[data-action]')).find((button) => attributes.every((name) => button.getAttribute(name) === el.getAttribute(name)))
+      : null;
+    (sameControl || view.querySelector('.wf-winner-title') || view.querySelector('[data-stage-title]'))?.focus();
   }
 
   /* ---------- 主题切换（页头独立按钮） ---------- */
@@ -1032,7 +1184,9 @@
   function init() {
     state.count = 12;
     applyBoard(buildBoard(12));
-    renderSetup();
+    savedSession = readSession();
+    if (savedSession) renderResume();
+    else renderSetup();
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

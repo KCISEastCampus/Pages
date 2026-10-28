@@ -6,7 +6,19 @@
 
 .werewolf-page {
   min-height: 100vh;
+  --wolf-role-color: #f87171;
+  --god-role-color: #fbbf24;
 }
+:root[data-bs-theme="light"] .werewolf-page {
+  --wolf-role-color: #a31d2b;
+  --god-role-color: #76520c;
+}
+.werewolf-page :is(button, a, summary, [tabindex]):focus-visible { outline: 3px solid var(--brand); outline-offset: 3px; }
+.wf-save-status { color: var(--text-muted); font-size: 0.85rem; line-height: 1.6; margin: 0 0 1.2rem; }
+.wf-confirm { width: min(420px, calc(100% - 2rem)); padding: 1.5rem; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--surface-strong); color: var(--text); }
+.wf-confirm::backdrop { background: rgba(3, 6, 18, 0.72); }
+.wf-confirm h2 { margin-top: 0; font-size: 1.2rem; }
+.wf-confirm p { line-height: 1.6; }
 
 /* ---------- 通用 ---------- */
 .wolf-btn {
@@ -32,7 +44,7 @@
 .wolf-btn.primary:hover { filter: brightness(1.06); color: var(--brand-contrast); }
 
 .wolf-btn.ghost { background: transparent; }
-.wolf-btn.danger { background: rgba(239, 68, 68, 0.12); border-color: rgba(239, 68, 68, 0.4); color: #f87171; }
+.wolf-btn.danger { background: rgba(239, 68, 68, 0.12); border-color: rgba(239, 68, 68, 0.4); color: var(--wolf-role-color); }
 .wolf-btn.danger:hover { background: rgba(239, 68, 68, 0.2); }
 
 .wolf-btn.small { padding: 0.35rem 0.8rem; font-size: 0.82rem; border-radius: 8px; }
@@ -57,6 +69,8 @@
   gap: 1rem;
 }
 .wolf-header-left { display: flex; align-items: center; gap: 0.9rem; min-width: 0; }
+.wolf-header-right { flex-shrink: 0; }
+#wolf-theme { white-space: nowrap; }
 .wolf-back-link {
   color: var(--text-muted);
   text-decoration: none;
@@ -164,8 +178,8 @@
   color: var(--text-soft);
 }
 .wf-badge { font-size: 0.72rem; padding: 1px 7px; border-radius: 999px; }
-.wf-badge.wolf { background: rgba(239, 68, 68, 0.18); color: #f87171; }
-.wf-badge.god { background: rgba(251, 191, 36, 0.16); color: #fbbf24; }
+.wf-badge.wolf { background: rgba(239, 68, 68, 0.18); color: var(--wolf-role-color); }
+.wf-badge.god { background: rgba(251, 191, 36, 0.16); color: var(--god-role-color); }
 .wf-badge.villager { background: rgba(109, 120, 255, 0.16); color: var(--brand); }
 
 .wf-actions { display: flex; gap: 0.7rem; flex-wrap: wrap; margin-top: 1rem; }
@@ -190,12 +204,14 @@
 .wf-deal-progress { max-width: 420px; margin: 1.2rem auto 0; height: 6px; border-radius: 6px; background: var(--surface-row); overflow: hidden; }
 .wf-deal-progress i { display: block; height: 100%; background: linear-gradient(90deg, var(--brand), var(--brand-strong)); transition: width 0.3s var(--ease); }
 .wf-deal-actions { display: flex; justify-content: center; gap: 0.7rem; flex-wrap: wrap; margin-top: 1.4rem; }
+.wf-deal-host { margin: 2rem auto 0; max-width: 420px; color: var(--text-muted); }
+.wf-deal-host summary { cursor: pointer; padding: 0.6rem; }
 
 /* ---------- 对局视图 ---------- */
 .wf-phase-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
-.wf-phase-name { font-size: 1.2rem; font-weight: 800; color: var(--text); display: flex; align-items: center; gap: 0.6rem; }
+.wf-phase-name { margin: 0; font-size: 1.2rem; font-weight: 800; color: var(--text); display: flex; align-items: center; gap: 0.6rem; }
 .wf-phase-name .day { color: var(--brand); }
-.wf-phase-name .night { color: #a78bfa; }
+.wf-phase-name .night { color: var(--brand); }
 .wf-timer { font-variant-numeric: tabular-nums; font-size: 1.5rem; font-weight: 800; color: var(--brand); min-width: 70px; text-align: center; }
 .wf-timer.warn { color: #f59e0b; }
 .wf-timer.danger { color: #ef4444; }
@@ -249,8 +265,8 @@
 }
 .wf-player.dead { opacity: 0.5; text-decoration: line-through; background: rgba(239, 68, 68, 0.06); border-color: rgba(239, 68, 68, 0.25); }
 .wf-player-role { font-weight: 700; font-size: 0.88em; margin-left: 4px; }
-.wf-player-role.wolf { color: #f87171; }
-.wf-player-role.god { color: #fbbf24; }
+.wf-player-role.wolf { color: var(--wolf-role-color); }
+.wf-player-role.god { color: var(--god-role-color); }
 .wf-player-role.villager { color: var(--brand); }
 .wf-player .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--brand); flex-shrink: 0; }
 .wf-player.dead .dot { background: #ef4444; }
@@ -334,6 +350,10 @@
 }
 
 @media (max-width: 600px) {
+  .wolf-header-inner { padding: 0.65rem 1rem; gap: 0.5rem; }
+  .wolf-header-left { flex-direction: column; align-items: flex-start; gap: 0.35rem; }
+  .wolf-title { font-size: 1.05rem; }
+  #wolf-theme { padding: 0.6rem 0.75rem; }
   .wf-deal-role { font-size: 1.7rem; }
   .wf-action-text { font-size: 1.2rem; }
   .wolf-container { padding: 1.2rem 1rem 2.4rem; }

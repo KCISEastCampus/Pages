@@ -1,41 +1,59 @@
-- title: 仅校内能访问
-  description:
-  buttons:
-    - name: 查餐系统
-      url: "https://ordering.kcisec.com/chaxun.asp"
-      icon: "fas fa-utensils"
-    - name: 订餐系统
-      url: "https://ordering.kcisec.com/index.asp"
-      icon: "fas fa-shopping-cart"
-
-- title: HTTP 网站
-  description: "下述这些网站通常会被浏览器标记为不安全<br>点击“高级”->“访问不安全网站”以访问这些网站"
-  buttons:
-    - name: 云打印(教一&教二)
-      url: "https://192.168.80.60/"
-      icon: "fas fa-print"
-    - name: 云打印(教三)
-      url: "http://192.168.80.68/"
-      icon: "fas fa-print"
-
 - title: 校内外均可访问
-  description:
+  title_en: Accessible anywhere
   buttons:
-    - name: 校外订餐系统
-      url: "https://ordering.kcisec.com/ordering"
-      icon: "fas fa-globe"
-    - name: 校务系统
-      url: "https://portal.kcisec.com/China"
-      icon: "fas fa-school"
     - name: ManageBac
+      name_en: ManageBac
       url: "https://kcisec.managebac.cn"
       icon: "fas fa-book"
     - name: PowerSchool
+      name_en: PowerSchool
       url: "https://powerschool.kcisec.org.cn/public/"
       icon: "fas fa-user-graduate"
+    - name: 同桌传 · 文件直传
+      name_en: LAN File Transfer (Chinese)
+      url: "https://link.kcisec.site/"
+      icon: "fas fa-exchange-alt"
+    - name: 校务系统
+      name_en: Student Dashboard
+      url: "https://portal.kcisec.com/China"
+      icon: "fas fa-school"
     - name: 网易企业邮箱
+      name_en: School Email (@kcisg.com)
       url: "https://mail.kcisg.com"
       icon: "fas fa-envelope"
+    - name: 校外订餐系统
+      name_en: Meal Ordering (off campus)
+      url: "https://ordering.kcisec.com/ordering"
+      icon: "fas fa-globe"
     - name: 肺结核自我筛查系统
+      name_en: Tuberculosis Self-screening
       url: "https://portal.kcisec.com/login/Account/LogHC"
       icon: "fas fa-lungs"
+
+- title: 仅校内能访问
+  title_en: Only accessible through school network
+  buttons:
+    - name: 查餐系统
+      name_en: Meal Querying
+      url: "https://ordering.kcisec.com/chaxun.asp"
+      icon: "fas fa-utensils"
+    - name: 订餐系统
+      name_en: Meal Ordering (on campus)
+      url: "https://ordering.kcisec.com/index.asp"
+      icon: "fas fa-shopping-cart"
+
+- title: 校园打印
+  title_en: Campus Printing
+  anchor: http-网站
+  anchor_en: http-websites
+  description: "需连接校园网络。若出现连接或证书错误，请联系学校 IT 人员确认打印地址及访问方式。"
+  description_en: "Connect to the school network. If you see a connection or certificate error, contact school IT to confirm the printer address and access instructions."
+  buttons:
+    - name: 云打印(教一&教二)
+      name_en: Printing (Building 1 & 2)
+      url: "https://192.168.80.60/"
+      icon: "fas fa-print"
+    - name: 云打印(教三)
+      name_en: Printing (Building 3)
+      url: "http://192.168.80.68/"
+      icon: "fas fa-print"

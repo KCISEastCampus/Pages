@@ -23,6 +23,19 @@ KCISEC Navigator 是为昆山康桥学校初中部设计的学生网站。本网
 
 ---
 
+## 变更记录 | Changes
+
+### 2026-10-20
+
+- 修复手机导航、键盘操作、语言切换和英文界面标签，统一双语首页的服务链接。
+- 在中英文首页加入“同桌传 · 文件直传”，更新登录与校园打印说明。
+- 使用系统字体并尊重减少动画的设置，改善手机布局和浅色主题文字。
+- 狼人杀增加隐藏身份交接、当前标签页刷新恢复、重置确认和键盘焦点恢复；恢复时暂停计时，结束或重置后清除进度。
+- 棋赛日期显示年份，概览注明历届统计范围和常规频率的适用条件；空赛程、空榜说明发布状态，并可跳转历史赛程。
+- 棋赛复制失败时提示手动复制；404 增加中英文说明及无历史返回首页的兜底；旧版入口提供与首页同步的简版服务导航。
+
+---
+
 ## ✨ Features | 功能特点
 
 - **📱 App Download Center** - Campus mobile application downloads
@@ -105,10 +118,26 @@ for Jekyll. Ruby's standard YAML library reads the actual game configuration;
 no npm dependencies are needed. The tests cover victory rules, night actions,
 death skills, and phase transitions.
 
+Werewolf also checks hidden identity handoffs, refresh recovery, reset confirmation,
+storage failures, and keyboard focus. Progress is kept in the current tab's session
+storage; recovery starts with the timer paused, and finishing or resetting clears it.
+
 狼人杀中控台的规则回归测试需要 Node.js 18 或更高版本及已有的 Ruby 环境，无需安装 npm 依赖：
 
 ```bash
 node --test tests/werewolf.test.cjs
+```
+
+Navigation, keyboard tabs and reduced-motion regression checks:
+
+```bash
+node --test tests/navigation.test.cjs
+```
+
+Chess date, season status and history navigation checks:
+
+```bash
+node --test tests/chess.test.cjs
 ```
 
 Ensure `ruby` is on `PATH`, or set `RUBY` to its executable path.

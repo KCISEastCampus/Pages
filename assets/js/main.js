@@ -1,36 +1,28 @@
-function bind_onclick_btn() {
-  let buttons = Array.from(document.querySelectorAll('buttonlink'));
-  buttons.forEach(function (button) {
-    let href = button.getAttribute('href');
-    button.addEventListener('click', function () {
-      if (href == null) return;
-      window.location.href = href;
-    });
-  });
-}
-function load_switch_language_btn(current_language) {
-  let button = document.getElementById('switch-language-button');
-  let title = document.querySelector('nav a');
-  if (button == null) return;
-  if (title == null) return;
-  let path = window.location.pathname;
-  if (current_language == 'en') {
-    button.innerHTML = "中文";
-    button.setAttribute('href', path.replace(/\/en(.*?)$/g, "$1"));
-    title.href = "/en/";
-  }
-  else if (current_language == 'zh_CN') {
-    button.innerHTML = "English";
-    button.setAttribute('href', '/en' + path);
-    title.href = "/";
-  }
-}
-
-function toggle_hamburger_menu() {
-  const nav_links = document.getElementById('nav-links');
+function initNavigation() {
   const hamburger = document.querySelector('.hamburger');
-  nav_links.classList.toggle('active');
-  hamburger.classList.toggle('active');
+  const links = document.getElementById('nav-links');
+  if (!hamburger || !links) return;
+  const nav = hamburger.closest('nav');
+  const setExpanded = (expanded) => {
+    hamburger.setAttribute('aria-expanded', String(expanded));
+    links.classList.toggle('active', expanded);
+  };
+  hamburger.addEventListener('click', () => {
+    setExpanded(hamburger.getAttribute('aria-expanded') !== 'true');
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && hamburger.getAttribute('aria-expanded') === 'true') {
+      setExpanded(false);
+      hamburger.focus();
+    }
+  });
+  document.addEventListener('click', (event) => {
+    if (!nav.contains(event.target)) setExpanded(false);
+  });
+  links.addEventListener('click', (event) => {
+    if (event.target.closest('a')) setExpanded(false);
+  });
+  window.matchMedia('(max-width: 768px)').addEventListener('change', () => setExpanded(false));
 }
 
 function load_ui_toggle_btn(current_language) {
@@ -68,11 +60,11 @@ function init_theme_toggle_btn() {
     if (is_dark_theme()) {
       theme_icon.classList.remove('fa-sun');
       theme_icon.classList.add('fa-moon');
-      theme_label.textContent = '暗黑';
+      theme_label.textContent = theme_button.dataset.darkLabel;
     } else {
       theme_icon.classList.remove('fa-moon');
       theme_icon.classList.add('fa-sun');
-      theme_label.textContent = '日间';
+      theme_label.textContent = theme_button.dataset.lightLabel;
     }
   }
 
@@ -106,41 +98,15 @@ function initHeroAutoHide() {
 }
 
 /* ========================================
-   Scroll-Reveal: IntersectionObserver-based
-   ======================================== */
-function initScrollReveal() {
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-  const sections = document.querySelectorAll('.featured-resources, .button-grid');
-  if (sections.length === 0) return;
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('scroll-reveal', 'revealed');
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
-  );
-
-  sections.forEach((section) => {
-    section.classList.add('scroll-reveal');
-    observer.observe(section);
-  });
-}
-
-/* ========================================
    Scroll-to-Top Button
    ======================================== */
 function initScrollToTop() {
   const btn = document.createElement('button');
   btn.className = 'scroll-top-btn';
-  btn.setAttribute('aria-label', '回到顶部');
-  btn.setAttribute('title', '回到顶部');
-  btn.innerHTML = '<i class="fas fa-arrow-up"></i>';
+  const label = document.documentElement.lang.startsWith('en') ? 'Back to top' : '回到顶部';
+  btn.setAttribute('aria-label', label);
+  btn.setAttribute('title', label);
+  btn.innerHTML = '<i class="fas fa-arrow-up" aria-hidden="true"></i>';
   document.body.appendChild(btn);
 
   // 页面内容不足一屏时（无滚动空间）不显示“回到顶部”
@@ -162,7 +128,8 @@ function initScrollToTop() {
   update();
 
   btn.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: 0, behavior: reduceMotion ? 'instant' : 'smooth' });
   });
 }
 
@@ -170,6 +137,6 @@ function initScrollToTop() {
 
 document.addEventListener('DOMContentLoaded', function () {
   init_theme_toggle_btn();
-  initScrollReveal();
+  initNavigation();
   initScrollToTop();
 });
