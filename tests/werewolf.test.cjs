@@ -72,7 +72,8 @@ function setup(roles, options = {}) {
   };
   const context = {
     window: { WEREWOLF_DATA: structuredClone(data) },
-    document: { readyState: 'complete', getElementById: (id) => ({ 'wolf-view': view, 'wolf-save-status': status, 'wolf-confirm': dialog, 'wolf-confirm-message': confirmMessage })[id] || null },
+    document: { readyState: 'complete', documentElement: options.themeRoot, getElementById: (id) => ({ 'wolf-view': view, 'wolf-save-status': status, 'wolf-confirm': dialog, 'wolf-confirm-message': confirmMessage, 'wolf-theme': options.themeButton })[id] || null },
+    localStorage: options.themeStorage,
     sessionStorage: storage,
     setInterval: (fn) => { tick = fn; return 1; },
     clearInterval() { tick = () => {}; },
@@ -113,6 +114,28 @@ function finishDeal(game) {
 
 const standardRoles = ['狼人', '狼人', '女巫', '预言家', '猎人', '平民', '平民', '平民'];
 const kingRoles = ['白狼王', ...standardRoles.slice(1)];
+
+test('werewolf theme names the next action consistently and preserves the shared preference', () => {
+  let theme = 'light';
+  const attrs = {}, listeners = {};
+  const themeButton = {
+    setAttribute(name, value) { attrs[name] = value; },
+    addEventListener(type, listener) { listeners[type] = listener; },
+  };
+  const themeRoot = {
+    getAttribute: () => theme,
+    setAttribute(name, value) { assert.equal(name, 'data-bs-theme'); theme = value; },
+  };
+  const themeStorage = memoryStorage();
+  setup(null, { themeRoot, themeButton, themeStorage });
+  assert.equal(attrs['aria-label'], '切换为深色模式');
+  listeners.click();
+  assert.equal(theme, 'dark');
+  assert.equal(themeButton.textContent, '☀️ 浅色');
+  assert.equal(attrs['aria-label'], '切换为浅色模式');
+  assert.equal(attrs.title, '切换为浅色模式');
+  assert.equal(themeStorage.getItem('site-theme'), 'dark');
+});
 
 test('dealing hides each identity until revealed and hands a hidden screen back to the host', () => {
   const game = setup();

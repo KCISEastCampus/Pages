@@ -34,7 +34,11 @@ function element(attrs = {}) {
   const listeners = {};
   return {
     attrs, listeners, dataset: {},
-    classList: { toggle(name, on) { on ? classes.add(name) : classes.delete(name); }, contains: (name) => classes.has(name) },
+    classList: {
+      toggle(name, on) { on ? classes.add(name) : classes.delete(name); },
+      add: (name) => classes.add(name), remove: (name) => classes.delete(name),
+      contains: (name) => classes.has(name),
+    },
     setAttribute(name, value) { attrs[name] = value; },
     getAttribute(name) { return attrs[name] ?? null; },
     addEventListener(name, fn) { listeners[name] = fn; },
@@ -98,10 +102,68 @@ test('chess tabs expose one selected panel and support arrow wrapping, Home and 
   };
   tabs[1].listeners.click();
   selected(1);
+  for (const modifier of ['ctrlKey', 'altKey', 'metaKey', 'shiftKey']) {
+    tabs[1].listeners.keydown({ key: 'Home', [modifier]: true, preventDefault() { assert.fail('Browser shortcut was intercepted'); } });
+    selected(1);
+  }
   press(1, 'End'); selected(3); assert.equal(tabs[3].focused, true);
   press(3, 'ArrowRight'); selected(0);
   press(0, 'ArrowLeft'); selected(3);
   press(3, 'Home'); selected(0);
+});
+
+test('portal theme names the next action in both languages and tolerates unavailable storage', () => {
+  for (const language of ['zh', 'en']) {
+    for (const blocked of [false, true]) {
+      const html = element({ 'data-bs-theme': 'dark' });
+      const button = element(), icon = element(), label = element();
+      button.dataset = language === 'zh'
+        ? { darkLabel: '深色', lightLabel: '浅色', darkAction: '切换为深色模式', lightAction: '切换为浅色模式' }
+        : { darkLabel: 'Dark', lightLabel: 'Light', darkAction: 'Switch to dark mode', lightAction: 'Switch to light mode' };
+      button.querySelector = (selector) => selector === 'i' ? icon : label;
+      const document = { ...element(), documentElement: html, getElementById: () => button };
+      let saved;
+      const localStorage = { setItem(key, value) {
+        assert.equal(key, 'site-theme');
+        if (blocked) throw new Error('Storage denied');
+        saved = value;
+      } };
+      const context = vm.createContext({ document, localStorage });
+      vm.runInContext(read('assets/js/main.js'), context);
+      context.init_theme_toggle_btn();
+      assert.equal(label.textContent, button.dataset.lightLabel);
+      assert.equal(button.getAttribute('aria-label'), button.dataset.lightAction);
+      assert.equal(icon.classList.contains('fa-sun'), true);
+      button.listeners.click();
+      assert.equal(html.getAttribute('data-bs-theme'), 'light');
+      assert.equal(label.textContent, button.dataset.darkLabel);
+      assert.equal(button.getAttribute('aria-label'), button.dataset.darkAction);
+      assert.equal(button.getAttribute('title'), button.dataset.darkAction);
+      assert.equal(icon.classList.contains('fa-moon'), true);
+      assert.equal(saved, blocked ? undefined : 'light');
+    }
+  }
+});
+
+test('chess theme uses the same next-action labels and saves the selected theme', () => {
+  const html = element({ 'data-bs-theme': 'light' });
+  const button = element();
+  const document = { readyState: 'loading', addEventListener() {}, documentElement: html };
+  const window = {};
+  let saved;
+  const source = read('assets/js/chess.js').replace(/\}\)\(\);\s*$/, 'window.testTheme = initThemeSync; })();');
+  vm.runInNewContext(source, {
+    window, document,
+    localStorage: { setItem(key, value) { assert.equal(key, 'site-theme'); saved = value; } },
+    MutationObserver: class { observe() {} },
+  });
+  window.testTheme({ querySelector: () => button });
+  assert.equal(button.getAttribute('aria-label'), '切换为深色模式');
+  button.listeners.click();
+  assert.equal(html.getAttribute('data-bs-theme'), 'dark');
+  assert.equal(button.textContent, '☀️ 浅色');
+  assert.equal(button.getAttribute('aria-label'), '切换为浅色模式');
+  assert.equal(saved, 'dark');
 });
 
 test('back-to-top uses the page language and rechecks reduced motion on click', () => {

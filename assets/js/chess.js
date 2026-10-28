@@ -17,10 +17,9 @@
   const CURRENT_SEASON = CONFIG.current_season || Math.max(0, ...MATCHES.map((m) => m.ssn || 0));
   // 可选赛季列表（去重排序）
   const SEASON_IDS = Array.from(new Set(MATCHES.map((m) => m.ssn || 0))).sort((a, b) => b - a);
-  // 选中的赛季筛选状态（赛程 tab 用）
-  // 默认显示当前赛季；若当前赛季无比赛，则回退到最近的有比赛的赛季（如历史 S1）
   const hasCurrentMatches = MATCHES.some((m) => m.ssn === CURRENT_SEASON);
-  let activeSeasonFilter = hasCurrentMatches ? CURRENT_SEASON : (SEASON_IDS[0] !== undefined ? SEASON_IDS[0] : CURRENT_SEASON);
+  // 赛程与排行共用选中的赛季，默认显示当前赛季。
+  let activeSeasonFilter = CURRENT_SEASON;
 
   // 系列索引
   const seriesMap = {};
@@ -711,6 +710,7 @@
     tabs.forEach((tab, index) => {
       tab.addEventListener('click', () => selectTab(tab));
       tab.addEventListener('keydown', (event) => {
+        if (event.ctrlKey || event.altKey || event.metaKey || event.shiftKey) return;
         let next;
         if (event.key === 'ArrowRight') next = (index + 1) % tabs.length;
         else if (event.key === 'ArrowLeft') next = (index - 1 + tabs.length) % tabs.length;
@@ -744,6 +744,9 @@
     const isDark = () => html.getAttribute('data-bs-theme') !== 'light';
     const update = () => {
       btn.textContent = isDark() ? '☀️ 浅色' : '🌙 深色';
+      const action = isDark() ? '切换为浅色模式' : '切换为深色模式';
+      btn.setAttribute('aria-label', action);
+      btn.setAttribute('title', action);
     };
     btn.addEventListener('click', () => {
       html.setAttribute('data-bs-theme', isDark() ? 'light' : 'dark');
@@ -796,19 +799,19 @@
 
     // 赛程：赛季筛选 + 时间轴
     const timeline = root.querySelector('[data-timeline]');
+    const lb = root.querySelector('[data-leaderboard]');
     if (timeline) {
       const filter = root.querySelector('[data-season-filter]');
       if (filter) {
         renderSeasonFilter(filter, () => {
           renderTimeline(timeline, normalized, new Date(), activeSeasonFilter);
+          if (lb) renderLeaderboard(lb, normalized, new Date(), activeSeasonFilter);
         });
       }
       renderTimeline(timeline, normalized, now, activeSeasonFilter);
     }
 
-    // 排行（只统计当前赛季）
-    const lb = root.querySelector('[data-leaderboard]');
-    if (lb) renderLeaderboard(lb, normalized, now, CURRENT_SEASON);
+    if (lb) renderLeaderboard(lb, normalized, now, activeSeasonFilter);
 
     // 规则：由 Jekyll 服务端直接渲染，JS 无需处理
 

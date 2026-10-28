@@ -11,6 +11,10 @@ navibar:
   theme_toggle: Switch light/dark mode
   dark: Dark
   light: Light
+  dark_action: Switch to dark mode
+  light_action: Switch to light mode
+
+links_details: Printing access and troubleshooting
 
 description: "Campus services, A-level learning resources and student support for KCISEC students."
 

@@ -275,6 +275,10 @@ nav .links-container {
 .page-content p { color: var(--text-muted); line-height: 1.7; }
 .page-content > p { margin: 0.8rem 0; }
 
+.link-help { margin-top: 0.75rem; }
+.link-help summary { min-height: 44px; padding: 0.65rem 0; color: var(--text-soft); cursor: pointer; }
+.link-help summary:focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; }
+
 .page-content > hr {
   border: none;
   height: 1px;
@@ -360,13 +364,14 @@ nav .links-container {
   pointer-events: none;
 }
 .featured-card::after {
-  content: '\2197';
+  content: '\2192';
   position: absolute;
   top: 1.5rem;
   right: 1.5rem;
   font-size: 1.3rem;
   color: rgba(255, 255, 255, 0.8);
 }
+.featured-card[target="_blank"]::after { content: '\2197'; }
 .featured-card:hover {
   transform: translateY(-3px);
   border-color: rgba(255, 255, 255, 0.4);

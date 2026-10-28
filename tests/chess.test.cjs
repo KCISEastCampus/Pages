@@ -6,7 +6,7 @@ const vm = require('node:vm');
 
 const script = readFileSync(path.join(__dirname, '..', 'assets/js/chess.js'), 'utf8');
 const source = script.replace(/\}\)\(\);\s*$/, `
-  window.testChess = { normalizeMatch, formatDate, renderQuickInfo, renderTimeline, renderLeaderboard, initScheduleLinks, renderPassword };
+  window.testChess = { normalizeMatch, formatDate, renderQuickInfo, renderTimeline, renderLeaderboard, initScheduleLinks, renderPassword, init };
 })();`);
 const historical = { ssn: 1, series: 'ec', date: '2025-11-25', winners: [{ rank: 1, name: 'Past player' }] };
 const scheduled = { ssn: 2, series: 'ec', date: '2026-12-01' };
@@ -133,4 +133,58 @@ test('history navigation selects the season, opens the schedule and moves focus'
   assert.deepEqual(actions, []);
   onClick({ target: { closest: () => ({ getAttribute: () => '1' }) } });
   assert.deepEqual(actions, ['season', 'tab', 'focus']);
+});
+
+test('initialization and history selection keep schedule and rankings on the same season', () => {
+  const node = (attrs = {}) => {
+    const listeners = {};
+    return {
+      ...container(), listeners,
+      getAttribute: (name) => attrs[name] ?? null,
+      setAttribute(name, value) { attrs[name] = value; },
+      classList: { toggle() {} },
+      addEventListener(type, listener) { listeners[type] = listener; },
+      click() { listeners.click?.(); }, focus() {},
+    };
+  };
+  const timeline = node(), rankings = node(), filter = node();
+  const seasons = [node({ 'data-season': '2' }), node({ 'data-season': '1' })];
+  filter.querySelectorAll = () => seasons;
+  const names = ['overview', 'schedule', 'rankings', 'rules'];
+  const tabs = names.map((name) => node({ 'data-tab': name }));
+  const panels = names.map((name) => ({ ...node(), id: `panel-${name}` }));
+  const root = node();
+  root.querySelectorAll = (selector) => selector === '.chess-tab' ? tabs : panels;
+  root.querySelector = (selector) => ({
+    '[data-timeline]': timeline, '[data-leaderboard]': rankings, '[data-season-filter]': filter,
+    '[data-season="1"]': seasons[1], '#tab-schedule': tabs[1],
+  })[selector] || null;
+  const window = { CHESS_DATA: {
+    config: { current_season: 2, season_label: 'S2' },
+    seasons: [{ id: 1, label: 'S1 · 2025-2026' }, { id: 2, label: 'S2 · 当前赛季' }],
+    series: [{ id: 'ec', full_name: 'E.C. {season}' }], matches: [historical],
+  } };
+  const document = {
+    readyState: 'loading', addEventListener() {}, querySelector: () => null,
+    getElementById: (id) => id === 'chess-app' ? root : null,
+  };
+  vm.runInNewContext(source, {
+    window, document, setInterval() {},
+    Date: class extends Date { constructor(...args) { super(...(args.length ? args : [2026, 9, 20])); } },
+  });
+  window.testChess.init();
+  assert.match(filter.innerHTML, /data-season="2" aria-pressed="true"/);
+  assert.match(timeline.innerHTML, /赛程尚未发布/);
+  assert.match(rankings.innerHTML, /S2.*尚无已发布赛程/);
+
+  root.listeners.click({ target: { closest: () => ({ getAttribute: () => '1' }) } });
+  tabs[2].click();
+  assert.match(timeline.innerHTML, /2025年11月25日/);
+  assert.match(rankings.innerHTML, /S1 · 2025-2026/);
+  assert.match(rankings.innerHTML, /Past player/);
+  assert.doesNotMatch(rankings.innerHTML, /S2 · 当前赛季/);
+
+  seasons[0].click();
+  assert.match(rankings.innerHTML, /S2.*尚无已发布赛程/);
+  assert.doesNotMatch(rankings.innerHTML, /Past player/);
 });

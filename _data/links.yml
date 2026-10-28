@@ -46,6 +46,8 @@
   title_en: Campus Printing
   anchor: http-网站
   anchor_en: http-websites
+  summary: "需连接校园网络，请按楼栋选择打印入口。"
+  summary_en: "Connect to the school network and choose your building."
   description: "请先连接校园网络。学校云打印证书尚未更新，教一、教二打印页可能提示“连接不是私密连接”或证书错误。确认地址为 https://192.168.80.60/ 后，点击“高级”→“继续前往 192.168.80.60（不安全）”（不同浏览器措辞可能不同）即可进入。教三使用 http://192.168.80.68/，可能显示“不安全”标记。以上说明仅适用于这里列出的校内打印地址；若没有继续访问选项或仍无法打开，请联系学校 IT 人员。"
   description_en: "Connect to the school network first. The school's printing certificate has not yet been updated, so the Building 1 & 2 page may show a privacy or certificate warning. Check that the address is https://192.168.80.60/, then choose Advanced → Proceed to 192.168.80.60 (unsafe); wording varies by browser. Building 3 uses http://192.168.80.68/ and may show a Not secure label. These instructions apply only to the school printing addresses listed here. If there is no option to proceed or the page still will not open, contact school IT."
   buttons:

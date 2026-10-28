@@ -9,8 +9,12 @@ navibar:
   menu: 菜单
   skip_content: 跳转到正文
   theme_toggle: 切换暗黑/日间模式
-  dark: 暗黑
-  light: 日间
+  dark: 深色
+  light: 浅色
+  dark_action: 切换为深色模式
+  light_action: 切换为浅色模式
+
+links_details: 打印访问与故障说明
 
 description: "KCISEC 校园网站提供校园服务、A-level 学习资源和学生支持入口。"
 
