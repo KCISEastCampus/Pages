@@ -1,14 +1,16 @@
 {% for section in site.data.links %}
 {% assign section_title = section.title %}
 {% assign section_description = section.description %}
+{% assign section_summary = section.summary %}
 {% assign section_anchor = section.anchor %}
 {% if page.language == 'en' %}
   {% assign section_title = section.title_en %}
   {% assign section_description = section.description_en %}
+  {% assign section_summary = section.summary_en %}
   {% assign section_anchor = section.anchor_en %}
 {% endif %}
 <h3 id="{{ section_anchor | default: section_title | slugify }}">{{ section_title | escape }}</h3>
-{% if section_description %}<p>{{ section_description | escape }}</p>{% endif %}
+{% if section_summary %}<p>{{ section_summary | escape }}</p>{% elsif section_description %}<p>{{ section_description | escape }}</p>{% endif %}
 <div class="button-grid">
   {% for button in section.buttons %}
   <a href="{{ button.url | escape }}" class="button-link" target="_blank" rel="noopener noreferrer">
@@ -17,4 +19,10 @@
   </a>
   {% endfor %}
 </div>
+{% if section_summary and section_description %}
+<details class="link-help">
+  <summary>{{ site.data.lang[page.language].links_details }}</summary>
+  <p>{{ section_description | escape }}</p>
+</details>
+{% endif %}
 {% endfor %}

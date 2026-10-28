@@ -2,17 +2,19 @@
 layout: index
 language: en
 translation_url: /
+title: Campus Resources
+description: "Find ManageBac, PowerSchool, campus services, A-level learning resources and Voice of Support."
 ---
 
 # Featured Campus Resources
 
 <div class="featured-resources">
-  <a href="https://academic.kcisec.site/" class="featured-card featured-card--academic" target="_blank" rel="noopener noreferrer">
+  <a href="https://academic.kcisec.site/" class="featured-card featured-card--academic" target="_blank" rel="noopener noreferrer" aria-label="A-level Homepage: A-level courses and learning resources (new tab)">
     <div class="featured-icon"><i class="fas fa-school" aria-hidden="true"></i></div>
     <div class="featured-title">A-level Homepage</div>
     <div class="featured-desc">A-level courses and learning resources</div>
   </a>
-  <a href="/en/app/" class="featured-card featured-card--support" target="_blank" rel="noopener noreferrer">
+  <a href="/en/app/" class="featured-card featured-card--support">
     <div class="featured-icon"><i class="fas fa-comments" aria-hidden="true"></i></div>
     <div class="featured-title">Voice of Support</div>
     <div class="featured-desc">Student support and campus song requests</div>

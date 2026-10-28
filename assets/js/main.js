@@ -58,14 +58,17 @@ function init_theme_toggle_btn() {
   function update_theme_button_status() {
     if (!theme_icon || !theme_label) return;
     if (is_dark_theme()) {
-      theme_icon.classList.remove('fa-sun');
-      theme_icon.classList.add('fa-moon');
-      theme_label.textContent = theme_button.dataset.darkLabel;
-    } else {
       theme_icon.classList.remove('fa-moon');
       theme_icon.classList.add('fa-sun');
       theme_label.textContent = theme_button.dataset.lightLabel;
+    } else {
+      theme_icon.classList.remove('fa-sun');
+      theme_icon.classList.add('fa-moon');
+      theme_label.textContent = theme_button.dataset.darkLabel;
     }
+    const action = is_dark_theme() ? theme_button.dataset.lightAction : theme_button.dataset.darkAction;
+    theme_button.setAttribute('aria-label', action);
+    theme_button.setAttribute('title', action);
   }
 
   function apply_theme(theme) {

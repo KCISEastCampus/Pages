@@ -1169,7 +1169,10 @@
   if (themeBtn) {
     const sync = () => {
       const dark = document.documentElement.getAttribute('data-bs-theme') !== 'light';
-      themeBtn.textContent = dark ? '🌙 深色' : '☀️ 浅色';
+      themeBtn.textContent = dark ? '☀️ 浅色' : '🌙 深色';
+      const action = dark ? '切换为浅色模式' : '切换为深色模式';
+      themeBtn.setAttribute('aria-label', action);
+      themeBtn.setAttribute('title', action);
     };
     themeBtn.addEventListener('click', () => {
       const cur = document.documentElement.getAttribute('data-bs-theme') !== 'light';
